@@ -822,6 +822,13 @@
             margin: 20px;
             border-radius: 8px;
         }
+        
+        .empty-message {
+            text-align: center;
+            padding: 20px;
+            color: #808080;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -1019,6 +1026,7 @@
         let examAnswers = [];
         let examResults = [];
         let reviewCurrentIdx = 0;
+        let answeredQuestionsCount = 0;
 
         let answerStates = new Map();
 
@@ -1115,6 +1123,8 @@
 
         function showError(message) {
             const menuScreen = document.getElementById('menu-screen');
+            if (!menuScreen) return;
+            
             const errorDiv = document.createElement('div');
             errorDiv.className = 'error-message';
             errorDiv.innerHTML = `
@@ -1184,7 +1194,8 @@
         }
 
         function saveTrainingState() {
-            if (activeQuestions.length > 0 && document.getElementById('quiz-screen').style.display === 'block') {
+            if (activeQuestions.length > 0 && document.getElementById('quiz-screen') && 
+                document.getElementById('quiz-screen').style.display === 'block') {
                 const restoredQuestions = activeQuestions.map(q => restoreOriginalOptions(q));
                 
                 const questionStates = restoredQuestions.map(q => ({
@@ -1285,12 +1296,18 @@
                 return;
             }
             
+            if (examTimer) {
+                clearInterval(examTimer);
+                examTimer = null;
+            }
+            
             examQuestions = [...fullBase].sort(() => Math.random() - 0.5).slice(0, 20).map(q => shuffleQuestionOptions(q));
             examCurrentIdx = 0;
             examErrors = 0;
             examTimeLeft = 1200;
             examAnswers = new Array(20).fill(null);
             examResults = new Array(20).fill(null);
+            answeredQuestionsCount = 0;
             
             document.getElementById('menu-screen').style.display = 'none';
             document.getElementById('quiz-screen').style.display = 'none';
@@ -1302,9 +1319,14 @@
             
             document.getElementById('exam-question-container').style.display = 'block';
             document.getElementById('exam-options-box').style.display = 'flex';
-            document.querySelector('.timer-container').style.display = 'inline-flex';
-            document.querySelector('.stats').style.display = 'flex';
-            document.querySelector('.progress-container').style.display = 'block';
+            
+            const timerContainer = document.querySelector('.timer-container');
+            const stats = document.querySelector('.stats');
+            const progressContainer = document.querySelector('.progress-container');
+            
+            if (timerContainer) timerContainer.style.display = 'inline-flex';
+            if (stats) stats.style.display = 'flex';
+            if (progressContainer) progressContainer.style.display = 'block';
             
             startExamTimer();
             loadExamQuestion();
@@ -1322,30 +1344,40 @@
             examTimeLeft = 1200;
             examAnswers = new Array(20).fill(null);
             examResults = new Array(20).fill(null);
+            answeredQuestionsCount = 0;
             
             document.getElementById('exam-result').style.display = 'none';
             document.getElementById('exam-next-btn').style.display = 'none';
             
             document.getElementById('exam-question-container').style.display = 'block';
             document.getElementById('exam-options-box').style.display = 'flex';
-            document.querySelector('.timer-container').style.display = 'inline-flex';
-            document.querySelector('.stats').style.display = 'flex';
-            document.querySelector('.progress-container').style.display = 'block';
+            
+            const timerContainer = document.querySelector('.timer-container');
+            const stats = document.querySelector('.stats');
+            const progressContainer = document.querySelector('.progress-container');
+            
+            if (timerContainer) timerContainer.style.display = 'inline-flex';
+            if (stats) stats.style.display = 'flex';
+            if (progressContainer) progressContainer.style.display = 'block';
             
             startExamTimer();
             loadExamQuestion();
         }
 
         function startExamTimer() {
-            if (examTimer) clearInterval(examTimer);
+            if (examTimer) {
+                clearInterval(examTimer);
+                examTimer = null;
+            }
             
             examTimer = setInterval(() => {
                 if (examTimeLeft > 0) {
                     examTimeLeft--;
                     updateExamTimerDisplay();
                     
-                    if (examTimeLeft <= 60) {
-                        document.getElementById('timer').classList.add('timer-warning');
+                    const timerElement = document.getElementById('timer');
+                    if (timerElement && examTimeLeft <= 60) {
+                        timerElement.classList.add('timer-warning');
                     }
                     
                     if (examTimeLeft <= 0) {
@@ -1358,8 +1390,11 @@
         function updateExamTimerDisplay() {
             const minutes = Math.floor(examTimeLeft / 60);
             const seconds = examTimeLeft % 60;
-            document.getElementById('timer-display').textContent = 
-                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            const timerDisplay = document.getElementById('timer-display');
+            if (timerDisplay) {
+                timerDisplay.textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
         }
 
         function loadExamQuestion() {
@@ -1369,12 +1404,19 @@
             }
 
             const q = examQuestions[examCurrentIdx];
+            if (!q) return;
             
-            document.getElementById('exam-q-text').innerText = q.q;
-            document.getElementById('exam-counter').innerText = `${examCurrentIdx + 1}/20`;
-            document.getElementById('exam-errors').innerText = examErrors;
+            const qText = document.getElementById('exam-q-text');
+            if (qText) qText.innerText = q.q;
+            
+            const counter = document.getElementById('exam-counter');
+            if (counter) counter.innerText = `${examCurrentIdx + 1}/20`;
+            
+            const errors = document.getElementById('exam-errors');
+            if (errors) errors.innerText = examErrors;
             
             const box = document.getElementById('exam-options-box');
+            if (!box) return;
             box.innerHTML = '';
             
             const savedAnswer = examAnswers[examCurrentIdx];
@@ -1385,7 +1427,7 @@
                 btn.className = 'option-btn';
                 btn.innerText = opt;
                 
-                if (savedAnswer !== null) {
+                if (savedAnswer !== null && savedAnswer !== undefined) {
                     if (isMultiple) {
                         if (Array.isArray(savedAnswer) && savedAnswer.includes(i)) {
                             btn.classList.add('selected');
@@ -1403,12 +1445,16 @@
 
             updateExamProgress();
             
-            document.getElementById('exam-next-btn').style.display = 
-                savedAnswer !== null ? 'block' : 'none';
+            const nextBtn = document.getElementById('exam-next-btn');
+            if (nextBtn) {
+                nextBtn.style.display = savedAnswer !== null ? 'block' : 'none';
+            }
         }
 
         function selectExamOption(idx, btn) {
             const q = examQuestions[examCurrentIdx];
+            if (!q) return;
+            
             const isMultiple = q.c.length > 1;
             let currentAnswer = examAnswers[examCurrentIdx];
             
@@ -1425,20 +1471,28 @@
                 
                 examAnswers[examCurrentIdx] = currentAnswer;
             } else {
-                document.querySelectorAll('#exam-options-box .option-btn').forEach(b => {
-                    b.classList.remove('selected');
-                });
+                const box = document.getElementById('exam-options-box');
+                if (box) {
+                    box.querySelectorAll('.option-btn').forEach(b => {
+                        b.classList.remove('selected');
+                    });
+                }
                 
                 btn.classList.add('selected');
                 examAnswers[examCurrentIdx] = idx;
             }
             
-            document.getElementById('exam-next-btn').style.display = 'block';
+            const nextBtn = document.getElementById('exam-next-btn');
+            if (nextBtn) {
+                nextBtn.style.display = 'block';
+            }
         }
 
         function nextExamQuestion() {
             const selectedAnswer = examAnswers[examCurrentIdx];
             const q = examQuestions[examCurrentIdx];
+            if (!q) return;
+            
             const isMultiple = q.c.length > 1;
             
             if (isMultiple) {
@@ -1466,10 +1520,12 @@
                 selectedAnswer: selectedAnswer,
                 isCorrect: isCorrect
             };
+            answeredQuestionsCount++;
             
             if (!isCorrect) {
                 examErrors++;
-                document.getElementById('exam-errors').innerText = examErrors;
+                const errorsElement = document.getElementById('exam-errors');
+                if (errorsElement) errorsElement.innerText = examErrors;
                 
                 if (examErrors > 2) {
                     finishExam(false);
@@ -1497,30 +1553,40 @@
             const percentage = (correctAnswers / totalQuestions) * 100;
             const passed = completed && examErrors <= 2 && examTimeLeft > 0;
             
-            document.getElementById('exam-question-container').style.display = 'none';
-            document.getElementById('exam-options-box').style.display = 'none';
-            document.getElementById('exam-next-btn').style.display = 'none';
-            document.querySelector('.timer-container').style.display = 'none';
-            document.querySelector('.stats').style.display = 'none';
-            document.querySelector('.progress-container').style.display = 'none';
+            const questionContainer = document.getElementById('exam-question-container');
+            const optionsBox = document.getElementById('exam-options-box');
+            const nextBtn = document.getElementById('exam-next-btn');
+            const timerContainer = document.querySelector('.timer-container');
+            const stats = document.querySelector('.stats');
+            const progressContainer = document.querySelector('.progress-container');
+            
+            if (questionContainer) questionContainer.style.display = 'none';
+            if (optionsBox) optionsBox.style.display = 'none';
+            if (nextBtn) nextBtn.style.display = 'none';
+            if (timerContainer) timerContainer.style.display = 'none';
+            if (stats) stats.style.display = 'none';
+            if (progressContainer) progressContainer.style.display = 'none';
             
             const resultDiv = document.getElementById('exam-result');
-            resultDiv.style.display = 'block';
+            if (resultDiv) resultDiv.style.display = 'block';
             
             const resultTitle = document.getElementById('exam-result-title');
             const resultScore = document.getElementById('exam-result-score');
             const resultDetails = document.getElementById('exam-result-details');
             
-            if (passed) {
-                resultTitle.innerHTML = 'РЕЗУЛЬТАТ: СДАНО';
-                resultTitle.className = 'result-title result-pass';
+            if (resultTitle) {
+                if (passed) {
+                    resultTitle.innerHTML = 'РЕЗУЛЬТАТ: СДАНО';
+                    resultTitle.className = 'result-title result-pass';
+                } else {
+                    resultTitle.innerHTML = 'РЕЗУЛЬТАТ: НЕ СДАНО';
+                    resultTitle.className = 'result-title result-fail';
+                }
+            }
+            
+            if (resultScore) {
                 resultScore.innerHTML = `${correctAnswers}/20`;
-                resultScore.className = 'result-score result-pass';
-            } else {
-                resultTitle.innerHTML = 'РЕЗУЛЬТАТ: НЕ СДАНО';
-                resultTitle.className = 'result-title result-fail';
-                resultScore.innerHTML = `${correctAnswers}/20`;
-                resultScore.className = 'result-score result-fail';
+                resultScore.className = passed ? 'result-score result-pass' : 'result-score result-fail';
             }
             
             let reason = '';
@@ -1530,12 +1596,14 @@
                 reason = 'Истекло время экзамена';
             }
             
-            resultDetails.innerHTML = `
-                Правильных ответов: ${correctAnswers} из 20<br>
-                Ошибок: ${examErrors}<br>
-                Процент правильных: ${percentage.toFixed(1)}%<br>
-                ${reason ? '<br>Причина: ' + reason : ''}
-            `;
+            if (resultDetails) {
+                resultDetails.innerHTML = `
+                    Правильных ответов: ${correctAnswers} из 20<br>
+                    Ошибок: ${examErrors}<br>
+                    Процент правильных: ${percentage.toFixed(1)}%<br>
+                    ${reason ? '<br>Причина: ' + reason : ''}
+                `;
+            }
             
             renderExamResultQuestions();
         }
@@ -1546,13 +1614,21 @@
             
             container.innerHTML = '';
             
+            if (answeredQuestionsCount === 0) {
+                const emptyMessage = document.createElement('div');
+                emptyMessage.className = 'empty-message';
+                emptyMessage.innerText = 'Нет отвеченных вопросов';
+                container.appendChild(emptyMessage);
+                return;
+            }
+            
             for (let i = 0; i < 20; i++) {
                 const result = examResults[i];
                 
-                const item = document.createElement('div');
-                item.className = 'result-question-item';
-                
-                if (result) {
+                if (result && result.question) {
+                    const item = document.createElement('div');
+                    item.className = 'result-question-item';
+                    
                     const isHard = hardQuestions.includes(result.question.id);
                     
                     item.innerHTML = `
@@ -1563,21 +1639,14 @@
                         </div>
                         <button class="result-star-btn ${isHard ? 'active' : ''}" onclick="toggleExamHard(${result.question.id}, event)">★</button>
                     `;
-                } else {
-                    item.innerHTML = `
-                        <div class="result-question-info">
-                            <span class="result-question-number">Вопрос ${i + 1}</span>
-                            <span class="result-question-text">Нет данных</span>
-                        </div>
-                    `;
+                    
+                    container.appendChild(item);
                 }
-                
-                container.appendChild(item);
             }
         }
 
         function startReview() {
-            if (!examResults || examResults.length === 0) {
+            if (!examResults || examResults.length === 0 || !examResults.some(r => r && r.question)) {
                 alert('Нет данных для просмотра');
                 return;
             }
@@ -1598,9 +1667,15 @@
         }
 
         function jumpToReview(index) {
-            if (index >= 0 && index < 20 && examResults[index]) {
+            if (index >= 0 && index < 20 && examResults[index] && examResults[index].question) {
                 reviewCurrentIdx = index;
-                startReview();
+                
+                document.getElementById('exam-screen').style.display = 'none';
+                document.getElementById('exam-review-screen').style.display = 'block';
+                
+                loadReviewQuestion();
+                updateReviewPagination();
+                updateReviewNavigationButtons();
             }
         }
 
@@ -1610,14 +1685,22 @@
             
             const q = result.question;
             
-            document.getElementById('review-q-text').innerText = q.q;
-            document.getElementById('review-counter').innerText = `${reviewCurrentIdx + 1}/20`;
-            document.getElementById('review-hard-count').innerText = hardQuestions.length;
+            const qText = document.getElementById('review-q-text');
+            if (qText) qText.innerText = q.q;
+            
+            const counter = document.getElementById('review-counter');
+            if (counter) counter.innerText = `${reviewCurrentIdx + 1}/20`;
+            
+            const hardCount = document.getElementById('review-hard-count');
+            if (hardCount) hardCount.innerText = hardQuestions.length;
             
             const starBtn = document.getElementById('review-star-btn');
-            starBtn.classList.toggle('active', hardQuestions.includes(q.id));
+            if (starBtn) {
+                starBtn.classList.toggle('active', hardQuestions.includes(q.id));
+            }
             
             const box = document.getElementById('review-options-box');
+            if (!box) return;
             box.innerHTML = '';
             
             const isMultiple = q.c.length > 1;
@@ -1632,18 +1715,20 @@
                     btn.classList.add('review-correct');
                 }
                 
-                if (isMultiple) {
-                    if (result.selectedAnswer && Array.isArray(result.selectedAnswer) && result.selectedAnswer.includes(i)) {
-                        btn.classList.add('review-selected');
-                        if (!q.c.includes(i)) {
-                            btn.classList.add('review-wrong');
+                if (result.selectedAnswer !== null && result.selectedAnswer !== undefined) {
+                    if (isMultiple) {
+                        if (Array.isArray(result.selectedAnswer) && result.selectedAnswer.includes(i)) {
+                            btn.classList.add('review-selected');
+                            if (!q.c.includes(i)) {
+                                btn.classList.add('review-wrong');
+                            }
                         }
-                    }
-                } else {
-                    if (result.selectedAnswer === i) {
-                        btn.classList.add('review-selected');
-                        if (!q.c.includes(i)) {
-                            btn.classList.add('review-wrong');
+                    } else {
+                        if (result.selectedAnswer === i) {
+                            btn.classList.add('review-selected');
+                            if (!q.c.includes(i)) {
+                                btn.classList.add('review-wrong');
+                            }
                         }
                     }
                 }
@@ -1651,7 +1736,8 @@
                 box.appendChild(btn);
             });
 
-            document.getElementById('review-exp-box').innerText = q.e;
+            const expBox = document.getElementById('review-exp-box');
+            if (expBox) expBox.innerText = q.e;
             
             updateReviewProgress();
             updateReviewPaginationActive();
@@ -1664,21 +1750,24 @@
             pagination.innerHTML = '';
             
             for (let i = 0; i < 20; i++) {
-                const btn = document.createElement('button');
-                btn.className = 'page-btn';
-                btn.innerText = i + 1;
-                
                 const result = examResults[i];
-                if (result && result.isCorrect !== undefined) {
-                    btn.classList.add(result.isCorrect ? 'correct' : 'wrong');
-                }
                 
-                if (i === reviewCurrentIdx) {
-                    btn.classList.add('active');
+                if (result && result.question) {
+                    const btn = document.createElement('button');
+                    btn.className = 'page-btn';
+                    btn.innerText = i + 1;
+                    
+                    if (result.isCorrect !== undefined) {
+                        btn.classList.add(result.isCorrect ? 'correct' : 'wrong');
+                    }
+                    
+                    if (i === reviewCurrentIdx) {
+                        btn.classList.add('active');
+                    }
+                    
+                    btn.onclick = () => jumpToReview(i);
+                    pagination.appendChild(btn);
                 }
-                
-                btn.onclick = () => jumpToReview(i);
-                pagination.appendChild(btn);
             }
         }
 
@@ -1686,7 +1775,9 @@
             const buttons = document.querySelectorAll('#review-pagination .page-btn');
             buttons.forEach((btn, index) => {
                 btn.classList.remove('active');
-                if (index === reviewCurrentIdx) {
+                
+                const result = examResults[index];
+                if (result && result.question && index === reviewCurrentIdx) {
                     btn.classList.add('active');
                 }
             });
@@ -1696,25 +1787,48 @@
             const prevBtn = document.getElementById('review-prev-btn');
             const nextBtn = document.getElementById('review-next-btn');
             
-            if (prevBtn) prevBtn.disabled = reviewCurrentIdx <= 0;
-            if (nextBtn) nextBtn.disabled = reviewCurrentIdx >= 19;
+            if (prevBtn) {
+                prevBtn.disabled = true;
+                for (let i = reviewCurrentIdx - 1; i >= 0; i--) {
+                    if (examResults[i] && examResults[i].question) {
+                        prevBtn.disabled = false;
+                        break;
+                    }
+                }
+            }
+            
+            if (nextBtn) {
+                nextBtn.disabled = true;
+                for (let i = reviewCurrentIdx + 1; i < 20; i++) {
+                    if (examResults[i] && examResults[i].question) {
+                        nextBtn.disabled = false;
+                        break;
+                    }
+                }
+            }
         }
 
         function prevReviewQuestion() {
-            if (reviewCurrentIdx > 0) {
-                reviewCurrentIdx--;
-                loadReviewQuestion();
-                updateReviewPaginationActive();
-                updateReviewNavigationButtons();
+            for (let i = reviewCurrentIdx - 1; i >= 0; i--) {
+                if (examResults[i] && examResults[i].question) {
+                    reviewCurrentIdx = i;
+                    loadReviewQuestion();
+                    updateReviewPaginationActive();
+                    updateReviewNavigationButtons();
+                    break;
+                }
             }
         }
 
         function nextReviewQuestion() {
-            if (reviewCurrentIdx < 19) {
-                reviewCurrentIdx++;
-                loadReviewQuestion();
-                updateReviewPaginationActive();
-                updateReviewNavigationButtons();
+            for (let i = reviewCurrentIdx + 1; i < 20; i++) {
+                if (examResults[i] && examResults[i].question) {
+                    reviewCurrentIdx = i;
+                    loadReviewQuestion();
+                    updateReviewPaginationActive();
+                    updateReviewNavigationButtons();
+                    break;
+                }
             }
         }
 
@@ -1730,10 +1844,14 @@
             }
 
             localStorage.setItem('hardQuestions', JSON.stringify(hardQuestions));
-            document.getElementById('review-star-btn').classList.toggle('active');
-            document.getElementById('review-hard-count').innerText = hardQuestions.length;
-            updateHardCount();
             
+            const starBtn = document.getElementById('review-star-btn');
+            if (starBtn) starBtn.classList.toggle('active');
+            
+            const hardCount = document.getElementById('review-hard-count');
+            if (hardCount) hardCount.innerText = hardQuestions.length;
+            
+            updateHardCount();
             renderExamResultQuestions();
         }
 
@@ -1771,6 +1889,7 @@
 
         function renderPagination() {
             const pagination = document.getElementById('pagination');
+            if (!pagination) return;
             pagination.innerHTML = '';
             
             activeQuestions.forEach((q, index) => {
@@ -1818,7 +1937,12 @@
             const prevBtn = document.getElementById('prev-btn');
             const nextBtn = document.getElementById('next-btn');
             const checkBtn = document.getElementById('check-btn');
+            
+            if (!prevBtn || !nextBtn || !checkBtn) return;
+            
             const q = activeQuestions[currentIdx];
+            if (!q) return;
+            
             const savedState = answerStates.get(q.id);
             
             prevBtn.disabled = currentIdx <= 0;
@@ -1850,14 +1974,22 @@
                 selectedOptions = [];
             }
 
-            document.getElementById('q-text').innerText = q.q;
-            document.getElementById('q-counter').innerText = `${currentIdx + 1}/${activeQuestions.length}`;
-            document.getElementById('score-display').innerText = `${score}`;
+            const qText = document.getElementById('q-text');
+            if (qText) qText.innerText = q.q;
+            
+            const counter = document.getElementById('q-counter');
+            if (counter) counter.innerText = `${currentIdx + 1}/${activeQuestions.length}`;
+            
+            const scoreDisplay = document.getElementById('score-display');
+            if (scoreDisplay) scoreDisplay.innerText = `${score}`;
             
             const starBtn = document.getElementById('star-btn');
-            starBtn.classList.toggle('active', hardQuestions.includes(q.id));
+            if (starBtn) {
+                starBtn.classList.toggle('active', hardQuestions.includes(q.id));
+            }
 
             const box = document.getElementById('options-box');
+            if (!box) return;
             box.innerHTML = '';
             
             q.o.forEach((opt, i) => {
@@ -1883,12 +2015,13 @@
             });
 
             const expBox = document.getElementById('exp-box');
-            
-            if (savedState && savedState.isChecked) {
-                expBox.innerText = q.e;
-                expBox.style.display = 'block';
-            } else {
-                expBox.style.display = 'none';
+            if (expBox) {
+                if (savedState && savedState.isChecked) {
+                    expBox.innerText = q.e;
+                    expBox.style.display = 'block';
+                } else {
+                    expBox.style.display = 'none';
+                }
             }
 
             updateNavigationButtons();
@@ -1898,6 +2031,8 @@
 
         function selectOption(idx, btn) {
             const q = activeQuestions[currentIdx];
+            if (!q) return;
+            
             const isMultiple = q.c.length > 1;
 
             if (isMultiple) {
@@ -1920,13 +2055,19 @@
                 isCorrect: false
             });
 
-            document.getElementById('check-btn').disabled = selectedOptions.length !== q.c.length;
+            const checkBtn = document.getElementById('check-btn');
+            if (checkBtn) {
+                checkBtn.disabled = selectedOptions.length !== q.c.length;
+            }
+            
             renderPagination();
             saveTrainingState();
         }
 
         function checkAnswer() {
             const q = activeQuestions[currentIdx];
+            if (!q) return;
+            
             const btns = document.querySelectorAll('.option-btn');
             
             const isCorrect = q.c.every(v => selectedOptions.includes(v)) && 
@@ -1949,11 +2090,15 @@
 
             if (isCorrect) {
                 score++;
-                document.getElementById('score-display').innerText = `${score}`;
+                const scoreDisplay = document.getElementById('score-display');
+                if (scoreDisplay) scoreDisplay.innerText = `${score}`;
             }
 
-            document.getElementById('exp-box').innerText = q.e;
-            document.getElementById('exp-box').style.display = 'block';
+            const expBox = document.getElementById('exp-box');
+            if (expBox) {
+                expBox.innerText = q.e;
+                expBox.style.display = 'block';
+            }
             
             updateNavigationButtons();
             renderPagination();
@@ -1969,22 +2114,22 @@
             }
 
             localStorage.setItem('hardQuestions', JSON.stringify(hardQuestions));
-            document.getElementById('star-btn').classList.toggle('active');
+            
+            const starBtn = document.getElementById('star-btn');
+            if (starBtn) starBtn.classList.toggle('active');
+            
             updateHardCount();
             saveTrainingState();
         }
 
         function updateHardCount() {
             const count = hardQuestions.length;
+            
             const hardCountElement = document.getElementById('hard-count');
-            if (hardCountElement) {
-                hardCountElement.innerText = count;
-            }
+            if (hardCountElement) hardCountElement.innerText = count;
             
             const reviewHardCountElement = document.getElementById('review-hard-count');
-            if (reviewHardCountElement) {
-                reviewHardCountElement.innerText = count;
-            }
+            if (reviewHardCountElement) reviewHardCountElement.innerText = count;
         }
 
         function resetHardQuestions(event) {
@@ -2035,20 +2180,21 @@
 
         function updateProgress() {
             const progress = ((currentIdx + 1) / activeQuestions.length) * 100;
-            document.getElementById('progress-fill').style.width = progress + '%';
+            const fillElement = document.getElementById('progress-fill');
+            if (fillElement) fillElement.style.width = progress + '%';
         }
 
         function updateReviewProgress() {
-            const progress = ((reviewCurrentIdx + 1) / 20) * 100;
+            const answeredCount = examResults.filter(r => r && r.question).length;
+            const progress = (answeredCount > 0 ? ((reviewCurrentIdx + 1) / answeredCount) * 100 : 0);
             const fillElement = document.getElementById('review-progress-fill');
-            if (fillElement) {
-                fillElement.style.width = progress + '%';
-            }
+            if (fillElement) fillElement.style.width = progress + '%';
         }
 
         function updateExamProgress() {
             const progress = ((examCurrentIdx + 1) / 20) * 100;
-            document.getElementById('exam-progress-fill').style.width = progress + '%';
+            const fillElement = document.getElementById('exam-progress-fill');
+            if (fillElement) fillElement.style.width = progress + '%';
         }
 
         window.addEventListener('beforeunload', function() {
