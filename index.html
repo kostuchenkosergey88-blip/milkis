@@ -1652,6 +1652,9 @@
             }
             
             reviewCurrentIdx = 0;
+            while (reviewCurrentIdx < 20 && (!examResults[reviewCurrentIdx] || !examResults[reviewCurrentIdx].question)) {
+                reviewCurrentIdx++;
+            }
             
             document.getElementById('exam-screen').style.display = 'none';
             document.getElementById('exam-review-screen').style.display = 'block';
@@ -1659,6 +1662,7 @@
             loadReviewQuestion();
             updateReviewPagination();
             updateReviewNavigationButtons();
+            updateReviewProgress();
         }
 
         function showExamResults() {
@@ -1676,6 +1680,7 @@
                 loadReviewQuestion();
                 updateReviewPagination();
                 updateReviewNavigationButtons();
+                updateReviewProgress();
             }
         }
 
@@ -1775,7 +1780,6 @@
             const buttons = document.querySelectorAll('#review-pagination .page-btn');
             buttons.forEach((btn, index) => {
                 btn.classList.remove('active');
-                
                 const result = examResults[index];
                 if (result && result.question && index === reviewCurrentIdx) {
                     btn.classList.add('active');
@@ -1815,6 +1819,7 @@
                     loadReviewQuestion();
                     updateReviewPaginationActive();
                     updateReviewNavigationButtons();
+                    updateReviewProgress();
                     break;
                 }
             }
@@ -1827,6 +1832,7 @@
                     loadReviewQuestion();
                     updateReviewPaginationActive();
                     updateReviewNavigationButtons();
+                    updateReviewProgress();
                     break;
                 }
             }
@@ -2186,7 +2192,8 @@
 
         function updateReviewProgress() {
             const answeredCount = examResults.filter(r => r && r.question).length;
-            const progress = (answeredCount > 0 ? ((reviewCurrentIdx + 1) / answeredCount) * 100 : 0);
+            const currentPosition = examResults.slice(0, reviewCurrentIdx + 1).filter(r => r && r.question).length;
+            const progress = (answeredCount > 0 ? (currentPosition / answeredCount) * 100 : 0);
             const fillElement = document.getElementById('review-progress-fill');
             if (fillElement) fillElement.style.width = progress + '%';
         }
