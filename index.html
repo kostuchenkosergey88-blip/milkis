@@ -806,43 +806,49 @@
         }
 
         // Загрузить вопросы
-        async function loadQuestions(testId) {
-            const config = TEST_CONFIGS[testId];
-            
+async function loadQuestions(testId) {
+    const config = TEST_CONFIGS[testId];
+    
+    try {
+        const response = await fetch(config.jsonFile);
+        if (!response.ok) {
+            throw new Error('Файл не найден');
+        }
+        const data = await response.json();
+        
+        // ПРОСТО И ПОНЯТНО: для b211 берём data.b211, иначе весь data
+        if (testId === 'b211') {
+            fullBase = data.b211;
+        } else {
+            fullBase = data;
+        }
+        
+        // Проверка что массив
+        if (!fullBase || !Array.isArray(fullBase)) {
+            console.error('Данные не являются массивом:', fullBase);
+            fullBase = [];
+        }
+        
+        console.log(`Вопросы для ${testId} загружены:`, fullBase.length);
+        
+        const saved = localStorage.getItem(`hardQuestions_${testId}`);
+        if (saved) {
             try {
-                const response = await fetch(config.jsonFile);
-                if (!response.ok) {
-                    throw new Error('Файл не найден');
+                hardQuestions = JSON.parse(saved);
+                if (!Array.isArray(hardQuestions)) {
+                    hardQuestions = [];
                 }
-                const data = await response.json();
-                
-                // ⚠️ Для b211 данные лежат в data.b211
-                if (testId === 'b211') {
-                    fullBase = data.b211 || [];
-                } else {
-                    fullBase = data || [];
-                }
-                
-                console.log(`Вопросы для ${testId} загружены:`, fullBase.length);
-                
-                const saved = localStorage.getItem(`hardQuestions_${testId}`);
-                if (saved) {
-                    try {
-                        hardQuestions = JSON.parse(saved);
-                        if (!Array.isArray(hardQuestions)) {
-                            hardQuestions = [];
-                        }
-                    } catch (e) {
-                        hardQuestions = [];
-                    }
-                }
-                
-                updateHardCount();
-            } catch (error) {
-                console.error('Ошибка загрузки вопросов:', error);
-                showNotification(`База "${config.name}" появится в скором времени`);
+            } catch (e) {
+                hardQuestions = [];
             }
         }
+        
+        updateHardCount();
+    } catch (error) {
+        console.error('Ошибка загрузки вопросов:', error);
+        showNotification(`База "${config.name}" появится в скором времени`);
+    }
+}
 
         // Обновить счетчик трудных вопросов
         function updateHardCount() {
