@@ -805,51 +805,33 @@
             loadQuestions(testId);
         }
 
-        // Загрузить вопросы
+        // ВРЕМЕННАЯ функция для проверки
 async function loadQuestions(testId) {
     const config = TEST_CONFIGS[testId];
     
     try {
         const response = await fetch(config.jsonFile);
-        if (!response.ok) {
-            throw new Error('Файл не найден');
-        }
         const data = await response.json();
         
-        // ПРОСТО И ПОНЯТНО: для b211 берём data.b211, иначе весь data
-        if (testId === 'b211') {
+        alert(`Файл загружен! Тип данных: ${typeof data}\nЕсть ключ b211? ${data.b211 ? 'ДА' : 'НЕТ'}`);
+        
+        if (data.b211) {
             fullBase = data.b211;
-        } else {
+            alert(`Найдено ${data.b211.length} вопросов в data.b211`);
+        } else if (Array.isArray(data)) {
             fullBase = data;
-        }
-        
-        // Проверка что массив
-        if (!fullBase || !Array.isArray(fullBase)) {
-            console.error('Данные не являются массивом:', fullBase);
+            alert(`Найдено ${data.length} вопросов в прямом массиве`);
+        } else {
+            alert('Непонятный формат данных: ' + JSON.stringify(data).substring(0, 200));
             fullBase = [];
-        }
-        
-        console.log(`Вопросы для ${testId} загружены:`, fullBase.length);
-        
-        const saved = localStorage.getItem(`hardQuestions_${testId}`);
-        if (saved) {
-            try {
-                hardQuestions = JSON.parse(saved);
-                if (!Array.isArray(hardQuestions)) {
-                    hardQuestions = [];
-                }
-            } catch (e) {
-                hardQuestions = [];
-            }
         }
         
         updateHardCount();
     } catch (error) {
-        console.error('Ошибка загрузки вопросов:', error);
-        showNotification(`База "${config.name}" появится в скором времени`);
+        alert('Ошибка: ' + error.message);
     }
 }
-
+Скажи, что покажет alert? Тогда поймём в чём дело!
         // Обновить счетчик трудных вопросов
         function updateHardCount() {
             const count = hardQuestions.length;
