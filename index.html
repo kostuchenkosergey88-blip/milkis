@@ -779,7 +779,7 @@
             }
             
             currentTest = testId;
-            localStorage.setItem('selectedTest', testId); // ← ЗАПОМИНАЕМ ТЕСТ
+            localStorage.setItem('selectedTest', testId);
             
             const config = TEST_CONFIGS[testId];
             
@@ -802,7 +802,7 @@
             localStorage.setItem(`hardQuestions_${testId}`, JSON.stringify(hardQuestions));
             updateHardCount();
             
-            loadQuestions(testId); // ← ЗАГРУЖАЕМ JSON
+            loadQuestions(testId);
         }
 
         // Загрузить вопросы
@@ -810,14 +810,18 @@
             const config = TEST_CONFIGS[testId];
             
             try {
-                const response = await fetch(config.jsonFile); // ← ПОДГРУЖАЕМ НУЖНЫЙ JSON
+                const response = await fetch(config.jsonFile);
                 if (!response.ok) {
                     throw new Error('Файл не найден');
                 }
                 const data = await response.json();
                 
-                // Для отдельных файлов - data это массив вопросов
-                fullBase = data || [];
+                // ⚠️ Для b211 данные лежат в data.b211
+                if (testId === 'b211') {
+                    fullBase = data.b211 || [];
+                } else {
+                    fullBase = data || [];
+                }
                 
                 console.log(`Вопросы для ${testId} загружены:`, fullBase.length);
                 
@@ -879,7 +883,7 @@
         // Инициализация
         document.addEventListener('DOMContentLoaded', function() {
             const savedTest = loadSavedTest();
-            selectTest(savedTest); // ← ЗАГРУЖАЕТ СОХРАНЕННЫЙ ТЕСТ
+            selectTest(savedTest);
         });
     </script>
 </body>
