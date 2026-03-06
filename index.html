@@ -519,13 +519,14 @@
     <div id="notificationContainer"></div>
 
     <script>
+        // Конфигурация тестов с правильными путями к файлам
         const TEST_CONFIGS = {
+            // А.1 Основы промышленной безопасности
             a1: {
                 code: 'А.1',
                 name: 'Основы промышленной безопасности',
                 fullName: 'А.1 Основы промышленной безопасности',
-                jsonFile: 'questions.json',
-                jsonKey: 'a1', // если будет отдельный файл с ключом a1
+                jsonFile: 'questions_a1.json',  // отдельный файл
                 totalQuestions: 211,
                 blocks: [
                     { num: 1, start: 0, end: 53, desc: 'Вопросы 1 - 53' },
@@ -534,12 +535,13 @@
                     { num: 4, start: 159, end: 211, desc: 'Вопросы 160 - 211' }
                 ]
             },
+            
+            // Б.2.1 Эксплуатация объектов нефтяной и газовой промышленности
             b21: {
                 code: 'Б.2.1',
                 name: 'Эксплуатация объектов нефтяной и газовой промышленности',
                 fullName: 'Б.2.1 Эксплуатация объектов нефтяной и газовой промышленности',
-                jsonFile: 'questions.json',
-                jsonKey: 'b21',
+                jsonFile: 'questions_b21.json',  // отдельный файл
                 totalQuestions: 405,
                 blocks: [
                     { num: 1, start: 0, end: 68, desc: 'Вопросы 1 - 68' },
@@ -550,12 +552,13 @@
                     { num: 6, start: 340, end: 405, desc: 'Вопросы 341 - 405' }
                 ]
             },
+            
+            // Б.2.3 Проектирование, строительство, реконструкция и капремонт
             b23: {
                 code: 'Б.2.3',
                 name: 'Проектирование, строительство, реконструкция и капремонт',
                 fullName: 'Б.2.3 Проектирование, строительство, реконструкция и капитальный ремонт объектов нефтяной и газовой промышленности',
-                jsonFile: 'questions.json',
-                jsonKey: 'b23',
+                jsonFile: 'questions_b23.json',  // отдельный файл
                 totalQuestions: 228,
                 blocks: [
                     { num: 1, start: 0, end: 57, desc: 'Вопросы 1 - 57' },
@@ -564,12 +567,13 @@
                     { num: 4, start: 171, end: 228, desc: 'Вопросы 172 - 228' }
                 ]
             },
+            
+            // Б.2.6 Разведка и разработка морских месторождений
             'b26-marine': {
                 code: 'Б.2.6',
                 name: 'Разведка и разработка морских месторождений',
                 fullName: 'Б.2.6 Разведка и разработка морских месторождений углеводородного сырья',
-                jsonFile: 'questions.json',
-                jsonKey: 'b26-marine',
+                jsonFile: 'questions_b26_marine.json',  // отдельный файл
                 totalQuestions: 187,
                 blocks: [
                     { num: 1, start: 0, end: 47, desc: 'Вопросы 1 - 47' },
@@ -578,12 +582,13 @@
                     { num: 4, start: 141, end: 187, desc: 'Вопросы 142 - 187' }
                 ]
             },
+            
+            // Б.2.7 Магистральные нефтепроводы и нефтепродуктопроводы
             b27: {
                 code: 'Б.2.7',
                 name: 'Магистральные нефтепроводы и нефтепродуктопроводы',
                 fullName: 'Б.2.7 Магистральные нефтепроводы и нефтепродуктопроводы',
-                jsonFile: 'questions.json',
-                jsonKey: 'b27',
+                jsonFile: 'questions_b27.json',  // отдельный файл
                 totalQuestions: 155,
                 blocks: [
                     { num: 1, start: 0, end: 39, desc: 'Вопросы 1 - 39' },
@@ -592,12 +597,13 @@
                     { num: 4, start: 117, end: 155, desc: 'Вопросы 118 - 155' }
                 ]
             },
+            
+            // Б.2.8 Магистральные газопроводы
             b28: {
                 code: 'Б.2.8',
                 name: 'Магистральные газопроводы',
                 fullName: 'Б.2.8 Магистральные газопроводы',
-                jsonFile: 'questions.json',
-                jsonKey: 'b28',
+                jsonFile: 'questions_b28.json',  // отдельный файл
                 totalQuestions: 132,
                 blocks: [
                     { num: 1, start: 0, end: 33, desc: 'Вопросы 1 - 33' },
@@ -606,12 +612,13 @@
                     { num: 4, start: 99, end: 132, desc: 'Вопросы 100 - 132' }
                 ]
             },
+            
+            // Б.2.11 Ремонтные, монтажные и пусконаладочные работы
             b211: {
                 code: 'Б.2.11',
                 name: 'Ремонтные, монтажные и пусконаладочные работы',
                 fullName: 'Б.2.11 Ремонтные, монтажные и пусконаладочные работы на опасных производственных объектах нефтегазодобычи',
-                jsonFile: 'questions.json',
-                jsonKey: 'b211', // ← вот здесь ключ "b211" из твоего JSON
+                jsonFile: 'questions_b211.json',  // отдельный файл (твой)
                 totalQuestions: 160,
                 blocks: [
                     { num: 1, start: 0, end: 40, desc: 'Вопросы 1 - 40' },
@@ -622,6 +629,7 @@
             }
         };
 
+        // Тесты по электробезопасности (отдельные файлы)
         const electroTests = {
             electro2: {
                 code: '2 гр.',
@@ -677,6 +685,7 @@
             }
         };
 
+        // Добавляем электробезопасность в общую конфигурацию
         Object.assign(TEST_CONFIGS, electroTests);
 
         let currentTest = 'a1';
@@ -687,6 +696,7 @@
         let selectedOptions = [];
         let hardQuestions = [];
 
+        // Загружаем сохраненный тест при старте
         function loadSavedTest() {
             const savedTest = localStorage.getItem('selectedTest');
             if (savedTest && TEST_CONFIGS[savedTest]) {
@@ -695,6 +705,7 @@
             return 'a1';
         }
 
+        // Показать уведомление
         function showNotification(message) {
             const container = document.getElementById('notificationContainer');
             const notification = document.createElement('div');
@@ -714,6 +725,7 @@
             }, 3000);
         }
 
+        // Открыть/закрыть дропдаун
         function toggleTestDropdown() {
             const menu = document.getElementById('testDropdown');
             const btn = document.getElementById('testSelectorBtn');
@@ -721,6 +733,7 @@
             btn.classList.toggle('active');
         }
 
+        // Закрыть дропдаун при клике вне
         document.addEventListener('click', function(event) {
             const selector = document.querySelector('.test-selector');
             const menu = document.getElementById('testDropdown');
@@ -732,6 +745,7 @@
             }
         });
 
+        // Отрендерить блоки
         function renderBlocks(config) {
             const container = document.getElementById('blocksContainer');
             container.innerHTML = '';
@@ -757,6 +771,7 @@
             container.appendChild(examCard);
         }
 
+        // Выбрать тест
         function selectTest(testId) {
             if (!TEST_CONFIGS[testId]) {
                 showNotification('Тест появится в скором времени');
@@ -790,6 +805,7 @@
             loadQuestions(testId);
         }
 
+        // Загрузить вопросы
         async function loadQuestions(testId) {
             const config = TEST_CONFIGS[testId];
             
@@ -800,12 +816,8 @@
                 }
                 const data = await response.json();
                 
-                // Если есть jsonKey, используем его, иначе весь массив
-                if (config.jsonKey) {
-                    fullBase = data[config.jsonKey] || [];
-                } else {
-                    fullBase = data || [];
-                }
+                // Для отдельных файлов - data это массив вопросов
+                fullBase = data || [];
                 
                 console.log(`Вопросы для ${testId} загружены:`, fullBase.length);
                 
@@ -828,11 +840,13 @@
             }
         }
 
+        // Обновить счетчик трудных вопросов
         function updateHardCount() {
             const count = hardQuestions.length;
             document.getElementById('hard-count').innerText = count;
         }
 
+        // Сбросить трудные вопросы
         function resetHardQuestions(event) {
             event.stopPropagation();
             hardQuestions = [];
@@ -845,6 +859,7 @@
             localStorage.removeItem(`trainingState_${currentTest}`);
         }
 
+        // Заглушки для функций
         function startBlock(num, start, end) {
             showNotification(`Блок ${num} запущен (вопросы ${start+1}-${end})`);
         }
@@ -861,6 +876,7 @@
             showNotification('Режим трудных вопросов');
         }
 
+        // Инициализация
         document.addEventListener('DOMContentLoaded', function() {
             const savedTest = loadSavedTest();
             selectTest(savedTest);
