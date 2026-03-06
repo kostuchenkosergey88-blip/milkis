@@ -693,13 +693,22 @@
         // Объединяем все тесты
         Object.assign(TEST_CONFIGS, electroTests);
 
-        let currentTest = 'a1';
+        let currentTest = 'a1'; // По умолчанию А.1
         let fullBase = [];
         let activeQuestions = [];
         let currentIdx = 0;
         let score = 0;
         let selectedOptions = [];
         let hardQuestions = [];
+
+        // Загружаем сохраненный тест при старте
+        function loadSavedTest() {
+            const savedTest = localStorage.getItem('selectedTest');
+            if (savedTest && TEST_CONFIGS[savedTest]) {
+                return savedTest;
+            }
+            return 'a1'; // Если нет сохраненного или он недействителен, возвращаем А.1
+        }
 
         // Функция показа уведомления
         function showNotification(message) {
@@ -781,6 +790,10 @@
             }
             
             currentTest = testId;
+            
+            // Сохраняем выбранный тест в localStorage
+            localStorage.setItem('selectedTest', testId);
+            
             const config = TEST_CONFIGS[testId];
             
             // Обновляем отображение
@@ -879,9 +892,10 @@
             showNotification('Режим трудных вопросов');
         }
 
-        // Инициализация при загрузке
+        // Инициализация при загрузке - используем сохраненный тест
         document.addEventListener('DOMContentLoaded', function() {
-            selectTest('a1');
+            const savedTest = loadSavedTest();
+            selectTest(savedTest);
         });
     </script>
 </body>
