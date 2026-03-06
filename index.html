@@ -2272,6 +2272,90 @@
             }
             changeTest(savedTest);
         });
-    </script>
+ </script>
+    <script>
+    // ДОБАВЛЕНО: Функция переключения тестов
+    function switchTest(testId, fileName) {
+        // Сохраняем выбранный тест
+        localStorage.setItem('currentTestFile', fileName);
+        
+        // Загружаем новый файл с вопросами
+        fetch(fileName)
+            .then(response => {
+                if (!response.ok) throw new Error('Файл не найден');
+                return response.json();
+            })
+            .then(data => {
+                fullBase = data.b211 || data || [];
+                console.log(`Тест ${testId} загружен:`, fullBase.length);
+                
+                // Обновляем заголовок
+                const titles = {
+                    'b211': 'Б.2.11 Промышленная безопасность',
+                    'b206': 'Б.2.6 Эксплуатация ОПО',
+                    'electro2': 'Электробезопасность 2 гр.',
+                    'electro3': 'Электробезопасность 3 гр.',
+                    'electro4': 'Электробезопасность 4 гр.',
+                    'electro5': 'Электробезопасность 5 гр.'
+                };
+                
+                const h2 = document.querySelector('h2');
+                if (h2 && titles[testId]) {
+                    h2.innerHTML = titles[testId];
+                }
+                
+                // Очищаем прогресс
+                clearTrainingState();
+                hardQuestions = [];
+                answerStates.clear();
+                updateHardCount();
+                
+                alert(`Тест переключен на ${titles[testId]}`);
+            })
+            .catch(error => {
+                console.error('Ошибка загрузки:', error);
+                alert('База уехала на шашлыки, будет завтра');
+            });
+    }
+
+    // Кнопки для переключения (добавь их в меню)
+    function showTestSelector() {
+        const testList = [
+            { id: 'b211', name: 'Б.2.11 Промбезопасность', file: 'questions_b211.json' },
+            { id: 'b206', name: 'Б.2.6 Эксплуатация ОПО', file: 'questions_b206.json' },
+            { id: 'electro2', name: 'Электробезопасность 2 гр.', file: 'questions_electro2.json' },
+            { id: 'electro3', name: 'Электробезопасность 3 гр.', file: 'questions_electro3.json' },
+            { id: 'electro4', name: 'Электробезопасность 4 гр.', file: 'questions_electro4.json' },
+            { id: 'electro5', name: 'Электробезопасность 5 гр.', file: 'questions_electro5.json' }
+        ];
+        
+        let menu = '<div style="margin-bottom:20px; text-align:center;">';
+        menu += '<select onchange="switchTest(this.value, this.options[this.selectedIndex].dataset.file)" style="padding:10px; width:300px;">';
+        
+        testList.forEach(test => {
+            menu += `<option value="${test.id}" data-file="${test.file}">${test.name}</option>`;
+        });
+        
+        menu += '</select></div>';
+        
+        document.querySelector('h2').insertAdjacentHTML('beforebegin', menu);
+        
+        // Восстанавливаем последний выбранный тест
+        const savedFile = localStorage.getItem('currentTestFile');
+        if (savedFile) {
+            const select = document.querySelector('select');
+            for(let opt of select.options) {
+                if(opt.dataset.file === savedFile) {
+                    select.value = opt.value;
+                    switchTest(opt.value, savedFile);
+                    break;
+                }
+            }
+        }
+    }
+
+    // Показываем селектор при загрузке
+    document.addEventListener('DOMContentLoaded', showTestSelector);
+</script>
 </body>
 </html>
