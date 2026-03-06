@@ -526,7 +526,7 @@
                 code: 'А.1',
                 name: 'Основы промышленной безопасности',
                 fullName: 'А.1 Основы промышленной безопасности',
-                jsonFile: 'questions_a1.json',  // отдельный файл
+                jsonFile: 'questions_a1.json',
                 totalQuestions: 211,
                 blocks: [
                     { num: 1, start: 0, end: 53, desc: 'Вопросы 1 - 53' },
@@ -541,7 +541,7 @@
                 code: 'Б.2.1',
                 name: 'Эксплуатация объектов нефтяной и газовой промышленности',
                 fullName: 'Б.2.1 Эксплуатация объектов нефтяной и газовой промышленности',
-                jsonFile: 'questions_b21.json',  // отдельный файл
+                jsonFile: 'questions_b21.json',
                 totalQuestions: 405,
                 blocks: [
                     { num: 1, start: 0, end: 68, desc: 'Вопросы 1 - 68' },
@@ -558,7 +558,7 @@
                 code: 'Б.2.3',
                 name: 'Проектирование, строительство, реконструкция и капремонт',
                 fullName: 'Б.2.3 Проектирование, строительство, реконструкция и капитальный ремонт объектов нефтяной и газовой промышленности',
-                jsonFile: 'questions_b23.json',  // отдельный файл
+                jsonFile: 'questions_b23.json',
                 totalQuestions: 228,
                 blocks: [
                     { num: 1, start: 0, end: 57, desc: 'Вопросы 1 - 57' },
@@ -573,7 +573,7 @@
                 code: 'Б.2.6',
                 name: 'Разведка и разработка морских месторождений',
                 fullName: 'Б.2.6 Разведка и разработка морских месторождений углеводородного сырья',
-                jsonFile: 'questions_b26_marine.json',  // отдельный файл
+                jsonFile: 'questions_b26_marine.json',
                 totalQuestions: 187,
                 blocks: [
                     { num: 1, start: 0, end: 47, desc: 'Вопросы 1 - 47' },
@@ -588,7 +588,7 @@
                 code: 'Б.2.7',
                 name: 'Магистральные нефтепроводы и нефтепродуктопроводы',
                 fullName: 'Б.2.7 Магистральные нефтепроводы и нефтепродуктопроводы',
-                jsonFile: 'questions_b27.json',  // отдельный файл
+                jsonFile: 'questions_b27.json',
                 totalQuestions: 155,
                 blocks: [
                     { num: 1, start: 0, end: 39, desc: 'Вопросы 1 - 39' },
@@ -603,7 +603,7 @@
                 code: 'Б.2.8',
                 name: 'Магистральные газопроводы',
                 fullName: 'Б.2.8 Магистральные газопроводы',
-                jsonFile: 'questions_b28.json',  // отдельный файл
+                jsonFile: 'questions_b28.json',
                 totalQuestions: 132,
                 blocks: [
                     { num: 1, start: 0, end: 33, desc: 'Вопросы 1 - 33' },
@@ -618,7 +618,7 @@
                 code: 'Б.2.11',
                 name: 'Ремонтные, монтажные и пусконаладочные работы',
                 fullName: 'Б.2.11 Ремонтные, монтажные и пусконаладочные работы на опасных производственных объектах нефтегазодобычи',
-                jsonFile: 'questions_b211.json',  // отдельный файл (твой)
+                jsonFile: 'questions_b211.json',
                 totalQuestions: 160,
                 blocks: [
                     { num: 1, start: 0, end: 40, desc: 'Вопросы 1 - 40' },
@@ -816,8 +816,14 @@
                 }
                 const data = await response.json();
                 
-                // Для отдельных файлов - data это массив вопросов
-                fullBase = data || [];
+                // Для Б.2.11 данные лежат в data.b211
+                if (testId === 'b211') {
+                    fullBase = data.b211 || [];
+                } 
+                // Для остальных - просто массив
+                else {
+                    fullBase = data || [];
+                }
                 
                 console.log(`Вопросы для ${testId} загружены:`, fullBase.length);
                 
@@ -859,7 +865,7 @@
             localStorage.removeItem(`trainingState_${currentTest}`);
         }
 
-        // Заглушки для функций
+        // Заглушки для функций (замени на свои реальные функции)
         function startBlock(num, start, end) {
             showNotification(`Блок ${num} запущен (вопросы ${start+1}-${end})`);
         }
