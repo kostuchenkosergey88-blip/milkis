@@ -879,6 +879,218 @@
             showNotification('Режим трудных вопросов');
         }
 
+        
+function startBlock(blockNum, startIdx, endIdx) {
+    console.log(`Запуск блока ${blockNum}, вопросы ${startIdx+1}-${endIdx}`);
+    
+    if (!fullBase || fullBase.length === 0) {
+        showNotification('Вопросы не загружены');
+        return;
+    }
+    
+    // Берем вопросы для этого блока
+    activeQuestions = fullBase.slice(startIdx, endIdx);
+    currentIdx = 0;
+    score = 0;
+    selectedOptions = [];
+    
+    // Прячем меню, показываем экран тестирования
+    document.getElementById('menu-screen').style.display = 'none';
+    
+    // Создаем экран тестирования, если его нет
+    if (!document.getElementById('quiz-screen')) {
+        createQuizScreen();
+    }
+    
+    document.getElementById('quiz-screen').style.display = 'block';
+    
+    // Отображаем первый вопрос
+    displayQuestion();
+}
+
+function startExam() {
+    console.log('Запуск итогового тестирования');
+    
+    if (!fullBase || fullBase.length === 0) {
+        showNotification('Вопросы не загружены');
+        return;
+    }
+    
+    // Перемешиваем и берем 20 случайных вопросов
+    const shuffled = [...fullBase].sort(() => 0.5 - Math.random());
+    activeQuestions = shuffled.slice(0, 20);
+    currentIdx = 0;
+    score = 0;
+    selectedOptions = [];
+    
+    document.getElementById('menu-screen').style.display = 'none';
+    
+    if (!document.getElementById('quiz-screen')) {
+        createQuizScreen();
+    }
+    
+    document.getElementById('quiz-screen').style.display = 'block';
+    displayQuestion();
+}
+
+function startHardMode() {
+    if (hardQuestions.length === 0) {
+        showNotification('Нет отмеченных вопросов');
+        return;
+    }
+    
+    console.log('Запуск режима трудных вопросов');
+    
+    // Загружаем трудные вопросы из fullBase по их id
+    activeQuestions = fullBase.filter(q => hardQuestions.includes(q.id));
+    
+    if (activeQuestions.length === 0) {
+        showNotification('Трудные вопросы не найдены');
+        return;
+    }
+    
+    currentIdx = 0;
+    score = 0;
+    selectedOptions = [];
+    
+    document.getElementById('menu-screen').style.display = 'none';
+    
+    if (!document.getElementById('quiz-screen')) {
+        createQuizScreen();
+    }
+    
+    document.getElementById('quiz-screen').style.display = 'block';
+    displayQuestion();
+}
+
+function createQuizScreen() {
+    const mainContent = document.querySelector('.main-content');
+    
+    const quizScreen = document.createElement('div');
+    quizScreen.id = 'quiz-screen';
+    quizScreen.innerHTML = `
+        <div class="quiz-header">
+            <h3 id="quiz-title">Тестирование</h3>
+            <div class="quiz-progress">
+                Вопрос <span id="current-question-num">1</span> из <span id="total-questions">0</span>
+            </div>
+        </div>
+        <div class="quiz-question" id="question-text"></div>
+        <div class="quiz-options" id="options-container"></div>
+        <div class="quiz-controls">
+            <button id="prev-btn" onclick="prevQuestion()">Предыдущий</button>
+            <button id="next-btn" onclick="nextQuestion()">Следующий</button>
+            <button id="hard-btn" onclick="toggleHard()">★</button>
+            <button id="finish-btn" onclick="finishQuiz()">Завершить</button>
+        </div>
+    `;
+    
+    mainContent.appendChild(quizScreen);
+}
+
+function displayQuestion() {
+    if (!activeQuestions || activeQuestions.length === 0) return;
+    
+    const q = activeQuestions[currentIdx];
+    document.getElementById('quiz-title').innerText = `Блок тестирования`;
+    document.getElementById('current-question-num').innerText = currentIdx + 1;
+    document.getElementById('total-questions').innerText = activeQuestions.length;
+    document.getElementById('question-text').innerHTML = q.q;
+    
+    const optionsContainer = document.getElementById('options-container');
+    optionsContainer.innerHTML = '';
+    
+    q.o.forEach((option, idx) => {
+        const div = document.createElement('div');
+        div.className = 'option';
+        div.innerHTML = `
+            <input type="checkbox" id="opt${idx}" value="${idx}">
+            <label for="opt${idx}">${option}</label>
+        `;
+        optionsContainer.appendChild(div);
+    });
+    
+    // Отмечаем сохраненные ответы
+    if (selectedOptions[currentIdx]) {
+        selectedOptions[currentIdx].forEach(val => {
+            const cb = document.getElementById(`opt${val}`);
+            if (cb) cb.checked = true;
+        });
+    }
+    
+    // Обновляем кнопку трудных вопросов
+    const hardBtn = document.getElementById('hard-btn');
+    if (hardQuestions.includes(q.id)) {
+        hardBtn.style.backgroundColor = 'gold';
+    } else {
+        hardBtn.style.backgroundColor = '';
+    }
+}
+
+function prevQuestion() {
+    saveCurrentAnswers();
+    if (currentIdx > 0) {
+        currentIdx--;
+        displayQuestion();
+    }
+}
+
+function nextQuestion() {
+    saveCurrentAnswers();
+    if (currentIdx < activeQuestions.length - 1) {
+        currentIdx++;
+        displayQuestion();
+    } else {
+        // Если это последний вопрос, показываем результаты
+        finishQuiz();
+    }
+}
+
+function saveCurrentAnswers() {
+    const checkboxes = document.querySelectorAll('#options-container input[type="checkbox"]:checked');
+    const answers = Array.from(checkboxes).map(cb => parseInt(cb.value));
+    selectedOptions[currentIdx] = answers;
+}
+
+function toggleHard() {
+    const q = activeQuestions[currentIdx];
+    const index = hardQuestions.indexOf(q.id);
+    
+    if (index === -1) {
+        hardQuestions.push(q.id);
+    } else {
+        hardQuestions.splice(index, 1);
+    }
+    
+    localStorage.setItem(`hardQuestions_${currentTest}`, JSON.stringify(hardQuestions));
+    updateHardCount();
+    displayQuestion(); // обновляем кнопку
+}
+
+function finishQuiz() {
+    saveCurrentAnswers();
+    
+    // Подсчет правильных ответов
+    let correct = 0;
+    activeQuestions.forEach((q, idx) => {
+        const userAnswers = selectedOptions[idx] || [];
+        const correctAnswers = q.c || [];
+        
+        // Сортируем для сравнения
+        const userSorted = [...userAnswers].sort((a,b) => a-b);
+        const correctSorted = [...correctAnswers].sort((a,b) => a-b);
+        
+        if (JSON.stringify(userSorted) === JSON.stringify(correctSorted)) {
+            correct++;
+        }
+    });
+    
+    alert(`Тест завершен!\nПравильных ответов: ${correct} из ${activeQuestions.length}`);
+    
+    // Возвращаемся в меню
+    document.getElementById('quiz-screen').style.display = 'none';
+    document.getElementById('menu-screen').style.display = 'block';
+}
         // Инициализация при загрузке
         document.addEventListener('DOMContentLoaded', function() {
             selectTest('a1');
