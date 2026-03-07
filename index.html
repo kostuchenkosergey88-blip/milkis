@@ -35,6 +35,7 @@
             position: relative;
         }
 
+        /* Верхняя панель */
         .top-panel {
             background: linear-gradient(180deg, #1e3c5c 0%, #152f48 100%);
             border-bottom: 2px solid #0a1a2a;
@@ -65,6 +66,7 @@
             padding-right: 20px;
         }
 
+        /* Селектор тестов */
         .test-selector {
             position: relative;
             min-width: 500px;
@@ -169,6 +171,7 @@
             margin-top: 2px;
         }
 
+        /* Всплывающее уведомление */
         .notification {
             position: fixed;
             top: 20px;
@@ -351,7 +354,7 @@
             font-size: 1.2em;
             margin-left: 5px;
         }
-
+        
         .hard-star {
             color: #f4b400;
             font-size: 1.2em;
@@ -363,12 +366,12 @@
                 flex-direction: column;
                 align-items: stretch;
             }
-
+            
             .panel-left {
                 flex-direction: column;
                 align-items: stretch;
             }
-
+            
             .panel-left h3 {
                 border-right: none;
                 border-bottom: 2px solid #2a4a70;
@@ -376,7 +379,7 @@
                 padding-bottom: 10px;
                 text-align: center;
             }
-
+            
             .test-selector {
                 width: 100%;
                 max-width: none;
@@ -406,7 +409,7 @@
                 max-width: none;
             }
         }
-
+        
         #quiz-screen, #exam-screen, #exam-review-screen {
             padding: 25px 30px;
             display: none;
@@ -415,60 +418,64 @@
 </head>
 <body>
     <div class="container">
+        <!-- Верхняя панель -->
         <div class="top-panel">
             <div class="panel-left">
                 <h3>PRO100 TEST</h3>
-
+                
+                <!-- Селектор тестов -->
                 <div class="test-selector">
                     <div class="test-selector-btn" id="testSelectorBtn" onclick="toggleTestDropdown()">
                         <span id="selectedTestDisplay">А.1 Основы промышленной безопасности</span>
                         <span class="arrow">▼</span>
                     </div>
                     <div class="test-dropdown" id="testDropdown">
+                        <!-- Промышленная безопасность (все в одной группе) -->
                         <div class="test-group">Промышленная безопасность</div>
-
+                        
                         <div class="test-item selected" data-test="a1" onclick="selectTest('a1')">
                             <span class="test-code">А.1</span>
                             <span class="test-name">Основы промышленной безопасности</span>
                             <div class="test-desc">211 вопросов</div>
                         </div>
-
+                        
                         <div class="test-item" data-test="b21" onclick="selectTest('b21')">
                             <span class="test-code">Б.2.1</span>
                             <span class="test-name">Эксплуатация объектов нефтяной и газовой промышленности</span>
                             <div class="test-desc">405 вопросов</div>
                         </div>
-
+                        
                         <div class="test-item" data-test="b23" onclick="selectTest('b23')">
                             <span class="test-code">Б.2.3</span>
                             <span class="test-name">Проектирование, строительство, реконструкция и капремонт</span>
                             <div class="test-desc">228 вопросов</div>
                         </div>
-
+                        
                         <div class="test-item" data-test="b26-marine" onclick="selectTest('b26-marine')">
                             <span class="test-code">Б.2.6</span>
                             <span class="test-name">Разведка и разработка морских месторождений</span>
                             <div class="test-desc">187 вопросов</div>
                         </div>
-
+                        
                         <div class="test-item" data-test="b27" onclick="selectTest('b27')">
                             <span class="test-code">Б.2.7</span>
                             <span class="test-name">Магистральные нефтепроводы и нефтепродуктопроводы</span>
                             <div class="test-desc">155 вопросов</div>
                         </div>
-
+                        
                         <div class="test-item" data-test="b28" onclick="selectTest('b28')">
                             <span class="test-code">Б.2.8</span>
                             <span class="test-name">Магистральные газопроводы</span>
                             <div class="test-desc">132 вопроса</div>
                         </div>
-
+                        
                         <div class="test-item" data-test="b211" onclick="selectTest('b211')">
                             <span class="test-code">Б.2.11</span>
                             <span class="test-name">Ремонтные, монтажные и пусконаладочные работы</span>
                             <div class="test-desc">160 вопросов</div>
                         </div>
-
+                        
+                        <!-- Электробезопасность (отдельная группа) -->
                         <div class="test-group">Электробезопасность</div>
                         <div class="test-item" data-test="electro2" onclick="selectTest('electro2')">
                             <span class="test-code">2 гр.</span>
@@ -495,12 +502,15 @@
             </div>
         </div>
 
+        <!-- Основной контент -->
         <div class="main-content">
             <div id="menu-screen">
                 <h2 id="testTitle">А.1 Основы промышленной безопасности</h2>
-
-                <div class="menu-grid" id="blocksContainer"></div>
-
+                
+                <div class="menu-grid" id="blocksContainer">
+                    <!-- Блоки будут обновляться через JS -->
+                </div>
+                
                 <div class="block-card hard-mode-card" onclick="startHardMode()">
                     <h3>ТРУДНЫЕ ВОПРОСЫ</h3>
                     <p>
@@ -508,7 +518,7 @@
                         <span class="hard-star">★</span>
                     </p>
                 </div>
-
+                
                 <div class="footer-note">
                     Система тестирования МилиSiLовская | Версия 1.3
                 </div>
@@ -516,12 +526,13 @@
         </div>
     </div>
 
+    <!-- Контейнер для уведомлений -->
     <div id="notificationContainer"></div>
 
     <script>
-        // Конфигурация тестов с правильными путями к файлам
+        // Конфигурация тестов - все в правильном порядке
         const TEST_CONFIGS = {
-            // А.1 Основы промышленной безопасности
+            // А.1 Основы - 211 вопросов / 4 блока (53 + 53 + 53 + 52)
             a1: {
                 code: 'А.1',
                 name: 'Основы промышленной безопасности',
@@ -535,8 +546,7 @@
                     { num: 4, start: 159, end: 211, desc: 'Вопросы 160 - 211' }
                 ]
             },
-
-            // Б.2.1 Эксплуатация объектов нефтяной и газовой промышленности
+            // Б.2.1 - 405 вопросов / 6 блоков (68 + 68 + 68 + 68 + 68 + 65)
             b21: {
                 code: 'Б.2.1',
                 name: 'Эксплуатация объектов нефтяной и газовой промышленности',
@@ -552,8 +562,7 @@
                     { num: 6, start: 340, end: 405, desc: 'Вопросы 341 - 405' }
                 ]
             },
-
-            // Б.2.3 Проектирование, строительство, реконструкция и капремонт
+            // Б.2.3 - 228 вопросов / 4 блока (57 + 57 + 57 + 57)
             b23: {
                 code: 'Б.2.3',
                 name: 'Проектирование, строительство, реконструкция и капремонт',
@@ -567,8 +576,7 @@
                     { num: 4, start: 171, end: 228, desc: 'Вопросы 172 - 228' }
                 ]
             },
-
-            // Б.2.6 Разведка и разработка морских месторождений
+            // Б.2.6 Морские - 187 вопросов / 4 блока (47 + 47 + 47 + 46)
             'b26-marine': {
                 code: 'Б.2.6',
                 name: 'Разведка и разработка морских месторождений',
@@ -582,8 +590,7 @@
                     { num: 4, start: 141, end: 187, desc: 'Вопросы 142 - 187' }
                 ]
             },
-
-            // Б.2.7 Магистральные нефтепроводы и нефтепродуктопроводы
+            // Б.2.7 - 155 вопросов / 4 блока (39 + 39 + 39 + 38)
             b27: {
                 code: 'Б.2.7',
                 name: 'Магистральные нефтепроводы и нефтепродуктопроводы',
@@ -597,8 +604,7 @@
                     { num: 4, start: 117, end: 155, desc: 'Вопросы 118 - 155' }
                 ]
             },
-
-            // Б.2.8 Магистральные газопроводы
+            // Б.2.8 - 132 вопроса / 4 блока (33 + 33 + 33 + 33)
             b28: {
                 code: 'Б.2.8',
                 name: 'Магистральные газопроводы',
@@ -612,8 +618,7 @@
                     { num: 4, start: 99, end: 132, desc: 'Вопросы 100 - 132' }
                 ]
             },
-
-            // Б.2.11 Ремонтные, монтажные и пусконаладочные работы
+            // Б.2.11 - 160 вопросов / 4 блока
             b211: {
                 code: 'Б.2.11',
                 name: 'Ремонтные, монтажные и пусконаладочные работы',
@@ -629,7 +634,7 @@
             }
         };
 
-        // Тесты по электробезопасности (отдельные файлы)
+        // Добавляем тесты по электробезопасности
         const electroTests = {
             electro2: {
                 code: '2 гр.',
@@ -685,7 +690,7 @@
             }
         };
 
-        // Добавляем электробезопасность в общую конфигурацию
+        // Объединяем все тесты
         Object.assign(TEST_CONFIGS, electroTests);
 
         let currentTest = 'a1';
@@ -696,18 +701,10 @@
         let selectedOptions = [];
         let hardQuestions = [];
 
-        // Загружаем сохраненный тест при старте
-        function loadSavedTest() {
-            const savedTest = localStorage.getItem('selectedTest');
-            if (savedTest && TEST_CONFIGS[savedTest]) {
-                return savedTest;
-            }
-            return 'a1';
-        }
-
-        // Показать уведомление
+        // Функция показа уведомления
         function showNotification(message) {
             const container = document.getElementById('notificationContainer');
+            
             const notification = document.createElement('div');
             notification.className = 'notification';
             notification.innerHTML = `
@@ -717,7 +714,10 @@
                 </div>
                 <button class="notification-close" onclick="this.parentElement.remove()">×</button>
             `;
+            
             container.appendChild(notification);
+            
+            // Автоматически удаляем через 3 секунды
             setTimeout(() => {
                 if (notification.parentNode) {
                     notification.remove();
@@ -725,7 +725,7 @@
             }, 3000);
         }
 
-        // Открыть/закрыть дропдаун
+        // Функции для дропдауна
         function toggleTestDropdown() {
             const menu = document.getElementById('testDropdown');
             const btn = document.getElementById('testSelectorBtn');
@@ -733,23 +733,24 @@
             btn.classList.toggle('active');
         }
 
-        // Закрыть дропдаун при клике вне
+        // Закрытие дропдауна при клике вне его
         document.addEventListener('click', function(event) {
             const selector = document.querySelector('.test-selector');
             const menu = document.getElementById('testDropdown');
             const btn = document.getElementById('testSelectorBtn');
-
+            
             if (selector && !selector.contains(event.target)) {
                 if (menu) menu.classList.remove('show');
                 if (btn) btn.classList.remove('active');
             }
         });
 
-        // Отрендерить блоки
+        // Функция для создания блоков
         function renderBlocks(config) {
             const container = document.getElementById('blocksContainer');
             container.innerHTML = '';
-
+            
+            // Создаем блоки
             config.blocks.forEach(block => {
                 const blockCard = document.createElement('div');
                 blockCard.className = 'block-card';
@@ -760,7 +761,8 @@
                 `;
                 container.appendChild(blockCard);
             });
-
+            
+            // Добавляем итоговое тестирование
             const examCard = document.createElement('div');
             examCard.className = 'block-card exam-card';
             examCard.setAttribute('onclick', 'startExam()');
@@ -771,103 +773,83 @@
             container.appendChild(examCard);
         }
 
-        // Выбрать тест
+        // Выбор теста
         function selectTest(testId) {
             if (!TEST_CONFIGS[testId]) {
                 showNotification('Тест появится в скором времени');
                 return;
             }
-
+            
             currentTest = testId;
-            localStorage.setItem('selectedTest', testId);
-
             const config = TEST_CONFIGS[testId];
-
+            
+            // Обновляем отображение
             document.getElementById('selectedTestDisplay').innerText = `${config.code} ${config.name}`;
             document.getElementById('testTitle').innerHTML = config.fullName;
-
+            
+            // Рендерим блоки
             renderBlocks(config);
-
+            
+            // Обновляем выделение в дропдауне
             document.querySelectorAll('.test-item').forEach(item => {
                 item.classList.remove('selected');
             });
             const selectedItem = document.querySelector(`.test-item[data-test="${testId}"]`);
             if (selectedItem) selectedItem.classList.add('selected');
-
+            
+            // Закрываем дропдаун
             document.getElementById('testDropdown').classList.remove('show');
             document.getElementById('testSelectorBtn').classList.remove('active');
-
+            
+            // Очищаем старые данные
             clearTrainingState();
             hardQuestions = [];
             localStorage.setItem(`hardQuestions_${testId}`, JSON.stringify(hardQuestions));
             updateHardCount();
-
+            
+            // Загружаем вопросы нового теста
             loadQuestions(testId);
         }
 
-        // Загрузить вопросы
-        // ВРЕМЕННАЯ функция для проверки
-async function loadQuestions(testId) {
-    const config = TEST_CONFIGS[testId];
-
-    try {
-        const response = await fetch(config.jsonFile);
-        if (!response.ok) {
-            throw new Error('Файл не найден');
-        }
-        const data = await response.json();
-
-        // ПРОСТО И ПОНЯТНО: для b211 берём data.b211, иначе весь data
-        if (testId === 'b211') {
-        alert(`Файл загружен! Тип данных: ${typeof data}\nЕсть ключ b211? ${data.b211 ? 'ДА' : 'НЕТ'}`);
-        
-        if (data.b211) {
-            fullBase = data.b211;
-        } else {
-            alert(`Найдено ${data.b211.length} вопросов в data.b211`);
-        } else if (Array.isArray(data)) {
-            fullBase = data;
-        }
-        
-        // Проверка что массив
-        if (!fullBase || !Array.isArray(fullBase)) {
-            console.error('Данные не являются массивом:', fullBase);
-            alert(`Найдено ${data.length} вопросов в прямом массиве`);
-        } else {
-            alert('Непонятный формат данных: ' + JSON.stringify(data).substring(0, 200));
-            fullBase = [];
-        }
-
-        console.log(`Вопросы для ${testId} загружены:`, fullBase.length);
-        
-        const saved = localStorage.getItem(`hardQuestions_${testId}`);
-        if (saved) {
+        // Загрузка вопросов
+        async function loadQuestions(testId) {
+            const config = TEST_CONFIGS[testId];
+            
             try {
-                hardQuestions = JSON.parse(saved);
-                if (!Array.isArray(hardQuestions)) {
-                    hardQuestions = [];
+                const response = await fetch(config.jsonFile);
+                if (!response.ok) {
+                    throw new Error('Файл не найден');
                 }
-            } catch (e) {
-                hardQuestions = [];
+                const data = await response.json();
+                fullBase = data[testId] || [];
+                console.log(`Вопросы для ${testId} загружены:`, fullBase.length);
+                
+                const saved = localStorage.getItem(`hardQuestions_${testId}`);
+                if (saved) {
+                    try {
+                        hardQuestions = JSON.parse(saved);
+                        if (!Array.isArray(hardQuestions)) {
+                            hardQuestions = [];
+                        }
+                    } catch (e) {
+                        hardQuestions = [];
+                    }
+                }
+                
+                updateHardCount();
+            } catch (error) {
+                console.error('Ошибка загрузки вопросов:', error);
+                showNotification(`База "${config.name}" появится в скором времени`);
             }
         }
-        
-        updateHardCount();
-    } catch (error) {
-        console.error('Ошибка загрузки вопросов:', error);
-        showNotification(`База "${config.name}" появится в скором времени`);
-        alert('Ошибка: ' + error.message);
-    }
-}
 
-Скажи, что покажет alert? Тогда поймём в чём дело!
-        // Обновить счетчик трудных вопросов
+        // Обновление счетчика трудных вопросов
         function updateHardCount() {
             const count = hardQuestions.length;
             document.getElementById('hard-count').innerText = count;
         }
 
-        // Сбросить трудные вопросы
+        // Сброс трудных вопросов
         function resetHardQuestions(event) {
             event.stopPropagation();
             hardQuestions = [];
@@ -880,15 +862,15 @@ async function loadQuestions(testId) {
             localStorage.removeItem(`trainingState_${currentTest}`);
         }
 
-        // Заглушки для функций
+        // Заглушки для функций (замени на свои реальные функции)
         function startBlock(num, start, end) {
-            showNotification(`Блок ${num} запущен (вопросы ${start+1}-${end})`);
+            showNotification(`Блок ${num} запущен`);
         }
-
+        
         function startExam() {
             showNotification('Экзамен запущен');
         }
-
+        
         function startHardMode() {
             if (hardQuestions.length === 0) {
                 showNotification('Нет отмеченных вопросов');
@@ -897,10 +879,9 @@ async function loadQuestions(testId) {
             showNotification('Режим трудных вопросов');
         }
 
-        // Инициализация
+        // Инициализация при загрузке
         document.addEventListener('DOMContentLoaded', function() {
-            const savedTest = loadSavedTest();
-            selectTest(savedTest);
+            selectTest('a1');
         });
     </script>
 </body>
