@@ -1597,6 +1597,82 @@
             }
         });
 
+        // Функция для полной очистки всех экранов при переключении теста
+        function resetAllScreens() {
+            // Скрываем все экраны кроме меню
+            document.getElementById('menu-screen').style.display = 'block';
+            document.getElementById('quiz-screen').style.display = 'none';
+            document.getElementById('exam-screen').style.display = 'none';
+            document.getElementById('exam-review-screen').style.display = 'none';
+            
+            // Сбрасываем отображение элементов экзамена
+            const examQuestionContainer = document.getElementById('exam-question-container');
+            const examOptionsBox = document.getElementById('exam-options-box');
+            const examNextBtn = document.getElementById('exam-next-btn');
+            const examResult = document.getElementById('exam-result');
+            
+            if (examQuestionContainer) examQuestionContainer.style.display = 'block';
+            if (examOptionsBox) examOptionsBox.style.display = 'flex';
+            if (examNextBtn) examNextBtn.style.display = 'none';
+            if (examResult) examResult.style.display = 'none';
+            
+            // Очищаем содержимое
+            const qText = document.getElementById('q-text');
+            const optionsBox = document.getElementById('options-box');
+            const expBox = document.getElementById('exp-box');
+            const examQText = document.getElementById('exam-q-text');
+            const examOptionsBox_ = document.getElementById('exam-options-box');
+            const reviewQText = document.getElementById('review-q-text');
+            const reviewOptionsBox = document.getElementById('review-options-box');
+            const reviewExpBox = document.getElementById('review-exp-box');
+            
+            if (qText) qText.innerHTML = '';
+            if (optionsBox) optionsBox.innerHTML = '';
+            if (expBox) {
+                expBox.innerHTML = '';
+                expBox.style.display = 'none';
+            }
+            if (examQText) examQText.innerHTML = '';
+            if (examOptionsBox_) examOptionsBox_.innerHTML = '';
+            if (reviewQText) reviewQText.innerHTML = '';
+            if (reviewOptionsBox) reviewOptionsBox.innerHTML = '';
+            if (reviewExpBox) reviewExpBox.innerHTML = '';
+            
+            // Сбрасываем счетчики
+            const qCounter = document.getElementById('q-counter');
+            const scoreDisplay = document.getElementById('score-display');
+            const examCounter = document.getElementById('exam-counter');
+            const examErrors_ = document.getElementById('exam-errors');
+            const reviewCounter = document.getElementById('review-counter');
+            const reviewHardCount = document.getElementById('review-hard-count');
+            
+            if (qCounter) qCounter.innerText = '0/0';
+            if (scoreDisplay) scoreDisplay.innerText = '0';
+            if (examCounter) examCounter.innerText = '0/20';
+            if (examErrors_) examErrors_.innerText = '0';
+            if (reviewCounter) reviewCounter.innerText = '0/20';
+            if (reviewHardCount) reviewHardCount.innerText = '0';
+            
+            // Сбрасываем прогресс-бары
+            const progressFill = document.getElementById('progress-fill');
+            const examProgressFill = document.getElementById('exam-progress-fill');
+            const reviewProgressFill = document.getElementById('review-progress-fill');
+            
+            if (progressFill) progressFill.style.width = '0%';
+            if (examProgressFill) examProgressFill.style.width = '0%';
+            if (reviewProgressFill) reviewProgressFill.style.width = '0%';
+            
+            // Сбрасываем таймер
+            const timerDisplay = document.getElementById('timer-display');
+            if (timerDisplay) {
+                timerDisplay.innerText = '20:00';
+            }
+            const timerContainer = document.querySelector('.timer-container');
+            if (timerContainer) {
+                timerContainer.classList.remove('timer-warning');
+            }
+        }
+
         // Функция для создания блоков
         function renderBlocks(config) {
             const container = document.getElementById('blocksContainer');
@@ -1627,7 +1703,7 @@
             container.appendChild(examCard);
         }
 
-        // Выбор теста
+        // Выбор теста (исправленная версия с полной очисткой)
         function selectTest(testId) {
             if (!TEST_CONFIGS[testId]) {
                 showNotification('Тест появится в скором времени');
@@ -1640,9 +1716,42 @@
                 return;
             }
             
-            // Очищаем старые данные
-            clearTrainingState();
+            console.log('Переключение на тест:', testId);
+            
+            // Принудительно сбрасываем все экраны
+            resetAllScreens();
+            
+            // ПОЛНАЯ ОЧИСТКА ВСЕХ ДАННЫХ
+            fullBase = [];
+            activeQuestions = [];
             hardQuestions = [];
+            examQuestions = [];
+            examAnswers = [];
+            examResults = [];
+            
+            // Сбрасываем индексы и счетчики
+            currentIdx = 0;
+            score = 0;
+            examCurrentIdx = 0;
+            examErrors = 0;
+            examTimeLeft = 1200;
+            answeredQuestionsCount = 0;
+            reviewCurrentIdx = 0;
+            
+            // Очищаем Map с состояниями ответов
+            answerStates.clear();
+            
+            // Очищаем выбранные опции
+            selectedOptions = [];
+            
+            // Останавливаем таймер если он запущен
+            if (examTimer) {
+                clearInterval(examTimer);
+                examTimer = null;
+            }
+            
+            // Очищаем состояние тренировки для предыдущего теста
+            clearTrainingState();
             
             currentTest = testId;
             const config = TEST_CONFIGS[testId];
@@ -1651,7 +1760,7 @@
             document.getElementById('selectedTestDisplay').innerText = `${config.code} ${config.name}`;
             document.getElementById('testTitle').innerHTML = config.fullName;
             
-            // Обновляем блоки (если они динамические)
+            // Очищаем меню и создаем новые блоки
             const menuGrid = document.querySelector('.menu-grid');
             if (menuGrid) {
                 menuGrid.innerHTML = '';
@@ -1692,13 +1801,15 @@
             loadQuestions(testId);
         }
 
-        // Загрузка вопросов
+        // Загрузка вопросов (исправленная версия с анти-кешированием)
         async function loadQuestions(testId) {
             const config = TEST_CONFIGS[testId];
             
             try {
                 console.log(`Загрузка вопросов для ${testId} из файла ${config.jsonFile}`);
-                const response = await fetch(config.jsonFile);
+                
+                // Добавляем параметр для избежания кеширования браузером
+                const response = await fetch(`${config.jsonFile}?t=${Date.now()}`);
                 
                 if (!response.ok) {
                     throw new Error(`Ошибка загрузки: ${response.status}`);
