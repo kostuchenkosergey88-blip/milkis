@@ -67,7 +67,7 @@
             border-radius: 16px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
             overflow: hidden;
             animation: slideInUp 0.5s ease;
         }
@@ -104,8 +104,47 @@
             opacity: 0.9;
         }
 
+        .login-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 5px;
+        }
+
+        .login-tab {
+            flex: 1;
+            padding: 10px;
+            background: none;
+            border: none;
+            font-size: 1em;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 6px 6px 0 0;
+        }
+
+        .login-tab:hover {
+            color: #1e3c5c;
+            background: #f0f0f0;
+        }
+
+        .login-tab.active {
+            color: #1e3c5c;
+            border-bottom: 3px solid #1e3c5c;
+        }
+
+        .login-tab-content {
+            display: none;
+        }
+
+        .login-tab-content.active {
+            display: block;
+        }
+
         .login-form {
-            padding: 30px 25px;
+            padding: 0 25px 30px 25px;
         }
 
         .input-group {
@@ -120,7 +159,8 @@
             font-size: 0.95em;
         }
 
-        .input-group input {
+        .input-group input,
+        .input-group textarea {
             width: 100%;
             padding: 12px 15px;
             border: 2px solid #e0e0e0;
@@ -128,9 +168,16 @@
             font-size: 1em;
             transition: all 0.3s;
             outline: none;
+            font-family: inherit;
         }
 
-        .input-group input:focus {
+        .input-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .input-group input:focus,
+        .input-group textarea:focus {
             border-color: #1e3c5c;
             box-shadow: 0 0 0 3px rgba(30, 60, 92, 0.1);
         }
@@ -164,12 +211,16 @@
             transform: translateY(0);
         }
 
-        .login-error {
+        .login-message {
             color: #b22222;
             font-size: 0.9em;
             margin-top: 15px;
             text-align: center;
             min-height: 20px;
+        }
+
+        .login-success {
+            color: #2e7d32;
         }
 
         .login-footer {
@@ -182,6 +233,190 @@
         .login-footer p {
             color: #666;
             font-size: 0.9em;
+        }
+
+        /* Панель администратора */
+        #admin-panel {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .admin-header {
+            background: linear-gradient(135deg, #1e3c5c 0%, #152f48 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .admin-header h2 {
+            color: #ffd700;
+            margin-bottom: 5px;
+        }
+
+        .pending-list, .users-list {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .pending-list h3, .users-list h3 {
+            color: #1e3c5c;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pending-item, .user-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pending-item:last-child, .user-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .pending-info, .user-info {
+            flex: 1;
+        }
+
+        .pending-username {
+            font-weight: 700;
+            color: #1e3c5c;
+            font-size: 1.1em;
+        }
+
+        .pending-name {
+            color: #666;
+            font-size: 0.9em;
+            margin: 3px 0;
+        }
+
+        .pending-reason {
+            color: #999;
+            font-size: 0.85em;
+            font-style: italic;
+            background: #f5f5f5;
+            padding: 5px;
+            border-radius: 4px;
+            margin: 5px 0;
+        }
+
+        .pending-date {
+            color: #999;
+            font-size: 0.8em;
+            margin-top: 5px;
+        }
+
+        .pending-actions {
+            display: flex;
+            gap: 8px;
+            margin-left: 15px;
+        }
+
+        .approve-btn {
+            background: #2e7d32;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s;
+        }
+
+        .approve-btn:hover {
+            background: #1b5e20;
+            transform: translateY(-2px);
+        }
+
+        .reject-btn {
+            background: #b22222;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s;
+        }
+
+        .reject-btn:hover {
+            background: #8b0000;
+            transform: translateY(-2px);
+        }
+
+        .delete-btn {
+            background: #b22222;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: all 0.2s;
+        }
+
+        .delete-btn:hover {
+            background: #8b0000;
+        }
+
+        .user-username {
+            font-weight: 700;
+            color: #1e3c5c;
+        }
+
+        .user-meta {
+            color: #666;
+            font-size: 0.85em;
+            margin-top: 3px;
+        }
+
+        .user-badge {
+            background: #f4b400;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7em;
+            margin-left: 8px;
+        }
+
+        .user-actions {
+            margin-left: 15px;
+        }
+
+        .admin-logout-btn {
+            background: #b22222;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.2s;
+        }
+
+        .admin-logout-btn:hover {
+            background: #8b0000;
+            transform: translateY(-2px);
         }
 
         /* Скрываем основной контент до авторизации */
@@ -1741,8 +1976,23 @@
                 padding: 25px 20px;
             }
             
-            .input-group input {
+            .input-group input,
+            .input-group textarea {
                 padding: 10px 12px;
+            }
+            
+            .pending-item {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .pending-actions {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .approve-btn, .reject-btn {
+                flex: 1;
             }
         }
 
@@ -1868,25 +2118,94 @@
         <div class="login-box">
             <div class="login-header">
                 <h2>PRO100 TEST</h2>
-                <p>Вход в систему тестирования</p>
+                <p>Система тестирования по промышленной безопасности</p>
             </div>
-            <div class="login-form">
-                <div class="input-group">
-                    <label for="username">Логин</label>
-                    <input type="text" id="username" placeholder="Введите логин" autocomplete="off">
-                </div>
-                <div class="input-group">
-                    <label for="password">Пароль</label>
-                    <input type="password" id="password" placeholder="Введите пароль">
-                </div>
-                <button class="login-btn" onclick="login()">Войти</button>
-                <div id="login-error" class="login-error"></div>
+            
+            <div class="login-tabs">
+                <button class="login-tab active" onclick="showLoginTab('login')">Вход</button>
+                <button class="login-tab" onclick="showLoginTab('register')">Регистрация</button>
+                <button class="login-tab" onclick="showLoginTab('admin')">Админ</button>
             </div>
+
+            <!-- Форма входа -->
+            <div id="login-form" class="login-tab-content active">
+                <div class="login-form">
+                    <div class="input-group">
+                        <label for="username">Логин</label>
+                        <input type="text" id="username" placeholder="Введите логин" autocomplete="off">
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Пароль</label>
+                        <input type="password" id="password" placeholder="Введите пароль">
+                    </div>
+                    <button class="login-btn" onclick="login()">Войти</button>
+                    <div id="login-error" class="login-message"></div>
+                </div>
+            </div>
+
+            <!-- Форма регистрации -->
+            <div id="register-form" class="login-tab-content">
+                <div class="login-form">
+                    <div class="input-group">
+                        <label for="reg-username">Желаемый логин *</label>
+                        <input type="text" id="reg-username" placeholder="Введите логин">
+                    </div>
+                    <div class="input-group">
+                        <label for="reg-password">Пароль *</label>
+                        <input type="password" id="reg-password" placeholder="Введите пароль">
+                    </div>
+                    <div class="input-group">
+                        <label for="reg-name">Ваше имя</label>
+                        <input type="text" id="reg-name" placeholder="Как к вам обращаться">
+                    </div>
+                    <div class="input-group">
+                        <label for="reg-reason">Причина доступа</label>
+                        <textarea id="reg-reason" placeholder="Опишите, зачем вам нужен доступ (например: подготовка к экзамену, повышение квалификации)" rows="3"></textarea>
+                    </div>
+                    <button class="login-btn" onclick="register()">Отправить заявку</button>
+                    <div id="register-message" class="login-message"></div>
+                </div>
+            </div>
+
+            <!-- Форма входа администратора -->
+            <div id="admin-form" class="login-tab-content">
+                <div class="login-form">
+                    <div class="input-group">
+                        <label for="admin-username">Логин администратора</label>
+                        <input type="text" id="admin-username" placeholder="admin">
+                    </div>
+                    <div class="input-group">
+                        <label for="admin-password">Пароль</label>
+                        <input type="password" id="admin-password" placeholder="Введите пароль">
+                    </div>
+                    <button class="login-btn" onclick="adminLogin()">Войти в панель</button>
+                    <div id="admin-message" class="login-message"></div>
+                </div>
+            </div>
+
             <div class="login-footer">
                 <p>Демо-доступ: admin / admin</p>
-                <p>user / user123</p>
-                <p>test / test123</p>
             </div>
+        </div>
+
+        <!-- Панель администратора (скрыта по умолчанию) -->
+        <div id="admin-panel" style="display: none;">
+            <div class="admin-header">
+                <h2>👨‍💼 Панель администратора</h2>
+                <p>Управление пользователями и заявками</p>
+            </div>
+
+            <div class="pending-list">
+                <h3>📋 Новые заявки</h3>
+                <div id="pending-list"></div>
+            </div>
+
+            <div class="users-list">
+                <h3>👥 Подтвержденные пользователи</h3>
+                <div id="users-list"></div>
+            </div>
+
+            <button class="admin-logout-btn" onclick="adminLogout()">🚪 Выйти из панели</button>
         </div>
     </div>
 
@@ -2034,7 +2353,7 @@
                 </p>
             </div>
             <div class="footer-note">
-                Система тестирования МилиSiLовская | Версия 1.5
+                Система тестирования МилиSiLовская | Версия 2.0
             </div>
         </div>
 
@@ -2193,26 +2512,243 @@
     </div>
 
     <script>
-        // ========== АВТОРИЗАЦИЯ ==========
-        const USERS = {
-            'admin': 'admin',
-            'user': 'user123',
-            'test': 'test123'
+        // ========== АВТОРИЗАЦИЯ С ПОДТВЕРЖДЕНИЕМ АДМИНА ==========
+
+        // Администратор (всегда есть)
+        const ADMIN = {
+            username: 'admin',
+            password: 'admin'
         };
 
-        // Проверка авторизации при загрузке
-        function checkAuth() {
-            const isAuthenticated = localStorage.getItem('authenticated') === 'true';
-            const username = localStorage.getItem('username');
-            
-            if (isAuthenticated && username) {
-                document.getElementById('login-screen').style.display = 'none';
-                document.querySelector('.container').classList.add('authenticated');
-                showNotification(`С возвращением, ${username}!`);
+        // Структура пользователей
+        let USERS = {};
+
+        // Заявки на регистрацию
+        let PENDING_USERS = {};
+
+        // Загрузка пользователей из localStorage
+        function loadUsers() {
+            const saved = localStorage.getItem('users');
+            if (saved) {
+                USERS = JSON.parse(saved);
             } else {
-                document.getElementById('login-screen').style.display = 'flex';
-                document.querySelector('.container').classList.remove('authenticated');
+                // По умолчанию только админ
+                USERS = {
+                    'admin': {
+                        password: 'admin',
+                        approved: true,
+                        isAdmin: true,
+                        registeredAt: new Date().toISOString()
+                    }
+                };
+                saveUsers();
             }
+        }
+
+        // Сохранение пользователей
+        function saveUsers() {
+            localStorage.setItem('users', JSON.stringify(USERS));
+        }
+
+        // Загрузка заявок
+        function loadPendingUsers() {
+            const saved = localStorage.getItem('pending_users');
+            if (saved) {
+                PENDING_USERS = JSON.parse(saved);
+            }
+        }
+
+        // Сохранение заявок
+        function savePendingUsers() {
+            localStorage.setItem('pending_users', JSON.stringify(PENDING_USERS));
+        }
+
+        // Инициализация
+        loadUsers();
+        loadPendingUsers();
+
+        // Переключение табов
+        function showLoginTab(tab) {
+            document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.login-tab-content').forEach(c => c.classList.remove('active'));
+            
+            if (tab === 'login') {
+                document.querySelectorAll('.login-tab')[0].classList.add('active');
+                document.getElementById('login-form').classList.add('active');
+            } else if (tab === 'register') {
+                document.querySelectorAll('.login-tab')[1].classList.add('active');
+                document.getElementById('register-form').classList.add('active');
+            } else if (tab === 'admin') {
+                document.querySelectorAll('.login-tab')[2].classList.add('active');
+                document.getElementById('admin-form').classList.add('active');
+            }
+        }
+
+        // Регистрация нового пользователя
+        function register() {
+            const username = document.getElementById('reg-username').value.trim();
+            const password = document.getElementById('reg-password').value;
+            const name = document.getElementById('reg-name').value.trim();
+            const reason = document.getElementById('reg-reason').value.trim();
+            const message = document.getElementById('register-message');
+            
+            message.textContent = '';
+            message.className = 'login-message';
+            
+            if (!username || !password) {
+                message.textContent = 'Логин и пароль обязательны';
+                return;
+            }
+            
+            if (username === 'admin') {
+                message.textContent = 'Логин admin зарезервирован';
+                return;
+            }
+            
+            if (USERS[username]) {
+                message.textContent = 'Пользователь с таким логином уже существует';
+                return;
+            }
+            
+            if (PENDING_USERS[username]) {
+                message.textContent = 'Заявка уже отправлена, ожидайте подтверждения';
+                return;
+            }
+            
+            // Создаем заявку
+            PENDING_USERS[username] = {
+                password: password,
+                name: name || username,
+                reason: reason || 'Не указана',
+                registeredAt: new Date().toISOString()
+            };
+            
+            savePendingUsers();
+            
+            message.textContent = '✅ Заявка отправлена! Ожидайте подтверждения администратора.';
+            message.classList.add('login-success');
+            
+            // Очищаем форму
+            document.getElementById('reg-username').value = '';
+            document.getElementById('reg-password').value = '';
+            document.getElementById('reg-name').value = '';
+            document.getElementById('reg-reason').value = '';
+        }
+
+        // Вход администратора
+        function adminLogin() {
+            const username = document.getElementById('admin-username').value.trim();
+            const password = document.getElementById('admin-password').value;
+            const message = document.getElementById('admin-message');
+            
+            message.textContent = '';
+            
+            if (username === ADMIN.username && password === ADMIN.password) {
+                // Показываем панель админа
+                document.querySelector('.login-box').style.display = 'none';
+                document.getElementById('admin-panel').style.display = 'block';
+                loadAdminPanel();
+            } else {
+                message.textContent = 'Неверный логин или пароль администратора';
+            }
+        }
+
+        // Загрузка панели админа
+        function loadAdminPanel() {
+            const pendingList = document.getElementById('pending-list');
+            const usersList = document.getElementById('users-list');
+            
+            // Заявки
+            pendingList.innerHTML = '';
+            if (Object.keys(PENDING_USERS).length === 0) {
+                pendingList.innerHTML = '<div class="pending-item" style="justify-content: center; color: #666;">Нет новых заявок</div>';
+            } else {
+                Object.entries(PENDING_USERS).forEach(([username, data]) => {
+                    const date = new Date(data.registeredAt).toLocaleString('ru');
+                    pendingList.innerHTML += `
+                        <div class="pending-item">
+                            <div class="pending-info">
+                                <div class="pending-username">${username}</div>
+                                <div class="pending-name">👤 ${data.name}</div>
+                                <div class="pending-reason">📝 ${data.reason}</div>
+                                <div class="pending-date">📅 ${date}</div>
+                            </div>
+                            <div class="pending-actions">
+                                <button class="approve-btn" onclick="approveUser('${username}')">✅ Подтвердить</button>
+                                <button class="reject-btn" onclick="rejectUser('${username}')">❌ Отклонить</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            // Подтвержденные пользователи
+            usersList.innerHTML = '';
+            Object.entries(USERS).forEach(([username, data]) => {
+                if (username !== 'admin') { // Не показываем админа в списке
+                    const date = new Date(data.registeredAt).toLocaleString('ru');
+                    usersList.innerHTML += `
+                        <div class="user-item">
+                            <div class="user-info">
+                                <span class="user-username">${username}</span>
+                                ${data.name ? `<span class="user-meta">(${data.name})</span>` : ''}
+                                <div class="user-meta">Зарегистрирован: ${date}</div>
+                            </div>
+                            <div class="user-actions">
+                                <button class="delete-btn" onclick="deleteUser('${username}')">🗑️ Удалить</button>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        // Подтверждение пользователя
+        function approveUser(username) {
+            const userData = PENDING_USERS[username];
+            
+            // Добавляем в список пользователей
+            USERS[username] = {
+                password: userData.password,
+                approved: true,
+                isAdmin: false,
+                name: userData.name,
+                registeredAt: userData.registeredAt
+            };
+            
+            // Удаляем из заявок
+            delete PENDING_USERS[username];
+            
+            saveUsers();
+            savePendingUsers();
+            loadAdminPanel();
+        }
+
+        // Отклонение заявки
+        function rejectUser(username) {
+            if (confirm(`Отклонить заявку пользователя ${username}?`)) {
+                delete PENDING_USERS[username];
+                savePendingUsers();
+                loadAdminPanel();
+            }
+        }
+
+        // Удаление пользователя
+        function deleteUser(username) {
+            if (confirm(`Удалить пользователя ${username}?`)) {
+                delete USERS[username];
+                saveUsers();
+                loadAdminPanel();
+            }
+        }
+
+        // Выход из админки
+        function adminLogout() {
+            document.querySelector('.login-box').style.display = 'block';
+            document.getElementById('admin-panel').style.display = 'none';
+            document.getElementById('admin-username').value = '';
+            document.getElementById('admin-password').value = '';
+            showLoginTab('login');
         }
 
         // Функция входа
@@ -2237,9 +2773,11 @@
                 return;
             }
             
-            if (USERS[username] && USERS[username] === password) {
+            // Проверка для админа
+            if (username === ADMIN.username && password === ADMIN.password) {
                 localStorage.setItem('authenticated', 'true');
-                localStorage.setItem('username', username);
+                localStorage.setItem('username', 'admin');
+                localStorage.setItem('isAdmin', 'true');
                 localStorage.setItem('loginTime', new Date().toISOString());
                 
                 const loginScreen = document.getElementById('login-screen');
@@ -2248,7 +2786,26 @@
                 setTimeout(() => {
                     loginScreen.style.display = 'none';
                     document.querySelector('.container').classList.add('authenticated');
-                    showNotification(`Добро пожаловать, ${username}!`);
+                    showNotification('Добро пожаловать, администратор!');
+                }, 300);
+                return;
+            }
+            
+            // Проверка обычных пользователей
+            const user = USERS[username];
+            if (user && user.password === password) {
+                localStorage.setItem('authenticated', 'true');
+                localStorage.setItem('username', username);
+                localStorage.setItem('userName', user.name || username);
+                localStorage.setItem('loginTime', new Date().toISOString());
+                
+                const loginScreen = document.getElementById('login-screen');
+                loginScreen.style.animation = 'fadeOut 0.3s ease forwards';
+                
+                setTimeout(() => {
+                    loginScreen.style.display = 'none';
+                    document.querySelector('.container').classList.add('authenticated');
+                    showNotification(`Добро пожаловать, ${user.name || username}!`);
                 }, 300);
             } else {
                 errorElement.textContent = 'Неверный логин или пароль';
@@ -2268,6 +2825,8 @@
             if (confirm('Вы действительно хотите выйти?')) {
                 localStorage.removeItem('authenticated');
                 localStorage.removeItem('username');
+                localStorage.removeItem('userName');
+                localStorage.removeItem('isAdmin');
                 localStorage.removeItem('loginTime');
                 
                 document.getElementById('login-screen').style.display = 'flex';
@@ -2278,6 +2837,28 @@
                 document.getElementById('password').value = '';
                 
                 showNotification('Вы вышли из системы');
+            }
+        }
+
+        // Проверка авторизации
+        function checkAuth() {
+            const isAuthenticated = localStorage.getItem('authenticated') === 'true';
+            const username = localStorage.getItem('username');
+            const isAdmin = localStorage.getItem('isAdmin') === 'true';
+            
+            if (isAuthenticated && username) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.querySelector('.container').classList.add('authenticated');
+                
+                if (isAdmin) {
+                    showNotification('Добро пожаловать, администратор!');
+                } else {
+                    const userName = localStorage.getItem('userName') || username;
+                    showNotification(`С возвращением, ${userName}!`);
+                }
+            } else {
+                document.getElementById('login-screen').style.display = 'flex';
+                document.querySelector('.container').classList.remove('authenticated');
             }
         }
 
@@ -2305,7 +2886,7 @@
         // Обновление статистики при ответе на вопрос
         function updateStats(questionId, isCorrect) {
             const username = localStorage.getItem('username');
-            if (!username) return;
+            if (!username || username === 'admin') return; // Админ не собирает статистику
             
             const stats = getUserStats(username);
             
@@ -2356,26 +2937,16 @@
             stats.worstQuestions = questionsWithErrors.slice(0, 10);
         }
 
-        // Функция для форматирования времени
-        function timeAgo(timestamp) {
-            const now = Date.now();
-            const diff = now - timestamp;
-            
-            const minutes = Math.floor(diff / 60000);
-            const hours = Math.floor(diff / 3600000);
-            const days = Math.floor(diff / 86400000);
-            
-            if (days > 0) return `${days} дн. назад`;
-            if (hours > 0) return `${hours} ч. назад`;
-            if (minutes > 0) return `${minutes} мин. назад`;
-            return 'только что';
-        }
-
         // Показать статистику
         function showStats() {
             const username = localStorage.getItem('username');
             if (!username) {
                 showNotification('Сначала войдите в систему');
+                return;
+            }
+            
+            if (username === 'admin') {
+                showNotification('У администратора нет статистики');
                 return;
             }
             
@@ -2547,13 +3118,22 @@
         // Обновление отображения статистики
         function updateStatsDisplay() {
             const username = localStorage.getItem('username');
-            if (!username) return;
+            if (!username || username === 'admin') return;
             
             const stats = getUserStats(username);
             const totalErrorsElement = document.getElementById('stats-total-errors');
             if (totalErrorsElement) {
                 totalErrorsElement.textContent = stats.wrongAnswers || 0;
             }
+        }
+
+        // ========== ОГРАНИЧЕНИЕ ВОПРОСОВ ДЛЯ ДЕМО-РЕЖИМА ==========
+        function getLimitedQuestions(questions, limit = 10) {
+            if (!questions || questions.length === 0) return [];
+            
+            // Перемешиваем и берем первые limit вопросов
+            const shuffled = [...questions].sort(() => Math.random() - 0.5);
+            return shuffled.slice(0, limit);
         }
 
         // ========== ОСНОВНЫЕ ПЕРЕМЕННЫЕ ==========
@@ -3222,10 +3802,20 @@
                 }
             }
             
-            activeQuestions = fullBase.slice(start, end).map(q => ({
+            // Берем вопросы из блока
+            let blockQuestions = fullBase.slice(start, end).map(q => ({
                 ...q,
                 c: [...q.c]
-            })).map(q => shuffleQuestionOptions(q)).sort(() => Math.random() - 0.5);
+            }));
+            
+            // Для демо-режима (admin) ограничиваем до 10 вопросов
+            const username = localStorage.getItem('username');
+            if (username === 'admin') {
+                blockQuestions = getLimitedQuestions(blockQuestions, 10);
+                showNotification(`Демо-режим: показаны 10 случайных вопросов из ${end - start}`);
+            }
+            
+            activeQuestions = blockQuestions.map(q => shuffleQuestionOptions(q)).sort(() => Math.random() - 0.5);
             
             answerStates.clear();
             trainingState.blockNum = num;
@@ -3239,10 +3829,18 @@
                 return;
             }
             
-            activeQuestions = fullBase.filter(q => hardQuestions.includes(q.id)).map(q => ({
+            let hardQuestionsList = fullBase.filter(q => hardQuestions.includes(q.id)).map(q => ({
                 ...q,
                 c: [...q.c]
-            })).map(q => shuffleQuestionOptions(q));
+            }));
+            
+            // Для демо-режима ограничиваем до 10 вопросов
+            const username = localStorage.getItem('username');
+            if (username === 'admin') {
+                hardQuestionsList = getLimitedQuestions(hardQuestionsList, 10);
+            }
+            
+            activeQuestions = hardQuestionsList.map(q => shuffleQuestionOptions(q));
             
             if (activeQuestions.length === 0) {
                 alert('Нет отмеченных вопросов. Отмечайте сложные вопросы звездочкой!');
@@ -3265,12 +3863,16 @@
                 examTimer = null;
             }
             
-            examQuestions = [...fullBase].sort(() => Math.random() - 0.5).slice(0, 20).map(q => shuffleQuestionOptions(q));
+            // Для демо-режима берем 10 вопросов вместо 20
+            const username = localStorage.getItem('username');
+            const examSize = username === 'admin' ? 10 : 20;
+            
+            examQuestions = [...fullBase].sort(() => Math.random() - 0.5).slice(0, examSize).map(q => shuffleQuestionOptions(q));
             examCurrentIdx = 0;
             examErrors = 0;
-            examTimeLeft = 1200;
-            examAnswers = new Array(20).fill(null);
-            examResults = new Array(20).fill(null);
+            examTimeLeft = username === 'admin' ? 600 : 1200; // 10 минут для демо
+            examAnswers = new Array(examSize).fill(null);
+            examResults = new Array(examSize).fill(null);
             answeredQuestionsCount = 0;
             
             document.getElementById('menu-screen').style.display = 'none';
@@ -3292,6 +3894,10 @@
             if (stats) stats.style.display = 'flex';
             if (progressContainer) progressContainer.style.display = 'block';
             
+            // Обновляем счетчик
+            const examCounter = document.getElementById('exam-counter');
+            if (examCounter) examCounter.innerText = `0/${examSize}`;
+            
             startExamTimer();
             loadExamQuestion();
         }
@@ -3302,12 +3908,15 @@
                 examTimer = null;
             }
             
-            examQuestions = [...fullBase].sort(() => Math.random() - 0.5).slice(0, 20).map(q => shuffleQuestionOptions(q));
+            const username = localStorage.getItem('username');
+            const examSize = username === 'admin' ? 10 : 20;
+            
+            examQuestions = [...fullBase].sort(() => Math.random() - 0.5).slice(0, examSize).map(q => shuffleQuestionOptions(q));
             examCurrentIdx = 0;
             examErrors = 0;
-            examTimeLeft = 1200;
-            examAnswers = new Array(20).fill(null);
-            examResults = new Array(20).fill(null);
+            examTimeLeft = username === 'admin' ? 600 : 1200;
+            examAnswers = new Array(examSize).fill(null);
+            examResults = new Array(examSize).fill(null);
             answeredQuestionsCount = 0;
             
             document.getElementById('exam-result').style.display = 'none';
@@ -3323,6 +3932,9 @@
             if (timerContainer) timerContainer.style.display = 'inline-flex';
             if (stats) stats.style.display = 'flex';
             if (progressContainer) progressContainer.style.display = 'block';
+            
+            const examCounter = document.getElementById('exam-counter');
+            if (examCounter) examCounter.innerText = `0/${examSize}`;
             
             startExamTimer();
             loadExamQuestion();
@@ -3362,7 +3974,10 @@
         }
 
         function loadExamQuestion() {
-            if (examCurrentIdx >= 20) {
+            const username = localStorage.getItem('username');
+            const examSize = username === 'admin' ? 10 : 20;
+            
+            if (examCurrentIdx >= examSize) {
                 finishExam(true);
                 return;
             }
@@ -3374,7 +3989,7 @@
             if (qText) qText.innerText = q.q;
             
             const counter = document.getElementById('exam-counter');
-            if (counter) counter.innerText = `${examCurrentIdx + 1}/20`;
+            if (counter) counter.innerText = `${examCurrentIdx + 1}/${examSize}`;
             
             const errors = document.getElementById('exam-errors');
             if (errors) errors.innerText = examErrors;
@@ -3491,6 +4106,9 @@
                 const errorsElement = document.getElementById('exam-errors');
                 if (errorsElement) errorsElement.innerText = examErrors;
                 
+                const username = localStorage.getItem('username');
+                const examSize = username === 'admin' ? 10 : 20;
+                
                 if (examErrors > 2) {
                     finishExam(false);
                     return;
@@ -3499,7 +4117,10 @@
 
             examCurrentIdx++;
             
-            if (examCurrentIdx < 20) {
+            const username = localStorage.getItem('username');
+            const examSize = username === 'admin' ? 10 : 20;
+            
+            if (examCurrentIdx < examSize) {
                 loadExamQuestion();
             } else {
                 finishExam(true);
@@ -3512,7 +4133,9 @@
                 examTimer = null;
             }
             
-            const totalQuestions = 20;
+            const username = localStorage.getItem('username');
+            const examSize = username === 'admin' ? 10 : 20;
+            const totalQuestions = examSize;
             const correctAnswers = totalQuestions - examErrors;
             const percentage = (correctAnswers / totalQuestions) * 100;
             const passed = completed && examErrors <= 2 && examTimeLeft > 0;
@@ -3549,7 +4172,7 @@
             }
             
             if (resultScore) {
-                resultScore.innerHTML = `${correctAnswers}/20`;
+                resultScore.innerHTML = `${correctAnswers}/${totalQuestions}`;
                 resultScore.className = passed ? 'result-score result-pass' : 'result-score result-fail';
             }
             
@@ -3562,7 +4185,7 @@
             
             if (resultDetails) {
                 resultDetails.innerHTML = `
-                    Правильных ответов: ${correctAnswers} из 20<br>
+                    Правильных ответов: ${correctAnswers} из ${totalQuestions}<br>
                     Ошибок: ${examErrors}<br>
                     Процент правильных: ${percentage.toFixed(1)}%<br>
                     ${reason ? '<br>Причина: ' + reason : ''}
@@ -3586,7 +4209,10 @@
                 return;
             }
             
-            for (let i = 0; i < 20; i++) {
+            const username = localStorage.getItem('username');
+            const examSize = username === 'admin' ? 10 : 20;
+            
+            for (let i = 0; i < examSize; i++) {
                 const result = examResults[i];
                 
                 if (result && result.question) {
@@ -3631,7 +4257,10 @@
         }
 
         function jumpToReview(index) {
-            if (index >= 0 && index < 20 && examResults[index] && examResults[index].question) {
+            const username = localStorage.getItem('username');
+            const examSize = username === 'admin' ? 10 : 20;
+            
+            if (index >= 0 && index < examSize && examResults[index] && examResults[index].question) {
                 reviewCurrentIdx = index;
                 
                 document.getElementById('exam-screen').style.display = 'none';
@@ -3653,7 +4282,7 @@
             if (qText) qText.innerText = q.q;
             
             const counter = document.getElementById('review-counter');
-            if (counter) counter.innerText = `${reviewCurrentIdx + 1}/20`;
+            if (counter) counter.innerText = `${reviewCurrentIdx + 1}/${examResults.length}`;
             
             const hardCount = document.getElementById('review-hard-count');
             if (hardCount) hardCount.innerText = hardQuestions.length;
@@ -3713,7 +4342,10 @@
             
             pagination.innerHTML = '';
             
-            for (let i = 0; i < 20; i++) {
+            const username = localStorage.getItem('username');
+            const examSize = username === 'admin' ? 10 : 20;
+            
+            for (let i = 0; i < examSize; i++) {
                 const result = examResults[i];
                 
                 if (result && result.question) {
@@ -3751,6 +4383,9 @@
             const prevBtn = document.getElementById('review-prev-btn');
             const nextBtn = document.getElementById('review-next-btn');
             
+            const username = localStorage.getItem('username');
+            const examSize = username === 'admin' ? 10 : 20;
+            
             if (prevBtn) {
                 prevBtn.disabled = true;
                 for (let i = reviewCurrentIdx - 1; i >= 0; i--) {
@@ -3763,7 +4398,7 @@
             
             if (nextBtn) {
                 nextBtn.disabled = true;
-                for (let i = reviewCurrentIdx + 1; i < 20; i++) {
+                for (let i = reviewCurrentIdx + 1; i < examSize; i++) {
                     if (examResults[i] && examResults[i].question) {
                         nextBtn.disabled = false;
                         break;
@@ -3785,7 +4420,10 @@
         }
 
         function nextReviewQuestion() {
-            for (let i = reviewCurrentIdx + 1; i < 20; i++) {
+            const username = localStorage.getItem('username');
+            const examSize = username === 'admin' ? 10 : 20;
+            
+            for (let i = reviewCurrentIdx + 1; i < examSize; i++) {
                 if (examResults[i] && examResults[i].question) {
                     reviewCurrentIdx = i;
                     loadReviewQuestion();
@@ -4159,7 +4797,9 @@
         }
 
         function updateExamProgress() {
-            const progress = ((examCurrentIdx + 1) / 20) * 100;
+            const username = localStorage.getItem('username');
+            const examSize = username === 'admin' ? 10 : 20;
+            const progress = ((examCurrentIdx + 1) / examSize) * 100;
             const fillElement = document.getElementById('exam-progress-fill');
             if (fillElement) fillElement.style.width = progress + '%';
         }
