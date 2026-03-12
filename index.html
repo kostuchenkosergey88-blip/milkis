@@ -521,6 +521,72 @@
             padding-right: 20px;
         }
 
+        /* Быстрая статистика в шапке */
+        .quick-stats {
+            display: flex;
+            gap: 10px;
+            margin-left: auto;
+            margin-right: 15px;
+        }
+
+        .quick-item {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quick-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #ffd700;
+            transform: translateY(-2px);
+        }
+
+        .quick-icon {
+            font-size: 1em;
+            color: #ffd700;
+        }
+
+        .quick-count {
+            color: white;
+            font-size: 0.85em;
+            font-weight: 600;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        /* Всплывающая подсказка */
+        .quick-item::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e3c5c;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75em;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s;
+            border: 1px solid #ffd700;
+            z-index: 100;
+        }
+
+        .quick-item:hover::after {
+            opacity: 1;
+            visibility: visible;
+            bottom: -35px;
+        }
+
         /* Кнопка выхода */
         .logout-btn {
             background: rgba(255, 255, 255, 0.1);
@@ -532,7 +598,6 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
-            margin-left: auto;
         }
 
         .logout-btn:hover {
@@ -831,78 +896,6 @@
             background: #2a4a70;
             border-color: #0a1a2a;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-        }
-
-        .hard-mode-card {
-            background: #4a4a4a;
-            border: 1px solid #2d2d2d;
-            margin-top: 15px;
-            position: relative;
-        }
-
-        .hard-mode-card h3 {
-            color: white;
-        }
-
-        .hard-mode-card p {
-            color: #d0d0d0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-        }
-
-        .hard-mode-card:hover {
-            background: #5a5a5a;
-            border-color: #1e3c5c;
-        }
-
-        .stats-menu-card {
-            background: #f4b400;
-            border: 2px solid #d4a000;
-            margin-top: 15px;
-            position: relative;
-        }
-
-        .stats-menu-card h3 {
-            color: white;
-        }
-
-        .stats-menu-card p {
-            color: #fff5e0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-        }
-
-        .stats-menu-card:hover {
-            background: #ffc107;
-            border-color: #1e3c5c;
-        }
-
-        .reset-hard-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            width: 24px;
-            height: 24px;
-            border-radius: 4px;
-            font-size: 16px;
-            line-height: 1;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-
-        .reset-hard-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.1);
         }
 
         #quiz-screen, #exam-screen, #exam-review-screen {
@@ -1839,6 +1832,12 @@
                 width: 100%;
             }
             
+            .quick-stats {
+                margin: 10px 0;
+                width: 100%;
+                justify-content: center;
+            }
+            
             .admin-btn, .logout-btn {
                 margin: 5px 0;
                 width: 100%;
@@ -1939,18 +1938,8 @@
                 grid-column: span 1;
             }
 
-            .hard-mode-card, .stats-menu-card {
-                margin-top: 10px;
-            }
-
-            .hard-mode-card p, .stats-menu-card p {
-                font-size: 0.9em;
-            }
-
-            .reset-hard-btn {
-                width: 22px;
-                height: 22px;
-                font-size: 14px;
+            #quiz-screen, #exam-screen, #exam-review-screen {
+                padding: 15px;
             }
 
             .quiz-header, .review-header {
@@ -2010,6 +1999,14 @@
             .panel-left h3 {
                 font-size: 1em;
                 padding-bottom: 5px;
+            }
+            
+            .quick-item {
+                padding: 8px 15px;
+            }
+            
+            .quick-item::after {
+                display: none;
             }
             
             .test-selector-btn {
@@ -2265,7 +2262,7 @@
                     <div class="admin-stat-label">ЗАЯВОК</div>
                 </div>
                 <div class="admin-stat-card">
-                    <div class="admin-stat-number" id="stat-tests">0</div>
+                    <div class="admin-stat-number" id="stat-tests">2</div>
                     <div class="admin-stat-label">ТЕСТОВ</div>
                 </div>
             </div>
@@ -2386,6 +2383,18 @@
                     </div>
                 </div>
                 
+                <!-- Быстрая статистика -->
+                <div class="quick-stats">
+                    <div class="quick-item" onclick="startHardMode()" data-tooltip="Трудные вопросы">
+                        <span class="quick-icon">⚠️</span>
+                        <span class="quick-count" id="hard-count">0</span>
+                    </div>
+                    <div class="quick-item" onclick="showStats()" data-tooltip="Моя статистика">
+                        <span class="quick-icon">📊</span>
+                        <span class="quick-count" id="stats-total-errors">0</span>
+                    </div>
+                </div>
+                
                 <!-- Кнопка выхода -->
                 <button class="logout-btn" onclick="logout()">🚪 ВЫЙТИ</button>
             </div>
@@ -2418,21 +2427,6 @@
                     <h3>ИТОГОВОЕ ТЕСТИРОВАНИЕ</h3>
                     <p>20 вопросов | 20 минут | допуск: 2 ошибки</p>
                 </div>
-            </div>
-            <div class="block-card hard-mode-card" onclick="startHardMode()">
-                <h3>⚠️ ТРУДНЫЕ ВОПРОСЫ</h3>
-                <p>
-                    Отмеченные: <span id="hard-count" class="hard-count">0</span>
-                    <span class="hard-star">★</span>
-                </p>
-                <button class="reset-hard-btn" onclick="resetHardQuestions(event)" title="Сбросить список трудных вопросов">✕</button>
-            </div>
-            <div class="block-card stats-menu-card" onclick="showStats()">
-                <h3>📊 МОЯ СТАТИСТИКА</h3>
-                <p>
-                    Ошибки: <span id="stats-total-errors" class="hard-count">0</span>
-                    <span class="hard-star">⚠️</span>
-                </p>
             </div>
             <div class="footer-note">
                 Система тестирования | Версия 2.0
@@ -3231,12 +3225,19 @@
         function updateStatsDisplay() {
             const username = localStorage.getItem('username');
             const userType = localStorage.getItem('userType');
-            if (!username || userType === 'super' || userType === 'demo') return;
+            
+            const hardCountElement = document.getElementById('hard-count');
+            const statsErrorsElement = document.getElementById('stats-total-errors');
+            
+            if (userType === 'super' || userType === 'demo') {
+                if (hardCountElement) hardCountElement.textContent = '0';
+                if (statsErrorsElement) statsErrorsElement.textContent = '0';
+                return;
+            }
             
             const stats = getUserStats(username);
-            const totalErrorsElement = document.getElementById('stats-total-errors');
-            if (totalErrorsElement) {
-                totalErrorsElement.textContent = stats.wrongAnswers || 0;
+            if (statsErrorsElement) {
+                statsErrorsElement.textContent = stats.wrongAnswers || 0;
             }
         }
 
