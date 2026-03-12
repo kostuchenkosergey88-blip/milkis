@@ -235,6 +235,17 @@
             font-size: 0.9em;
         }
 
+        .demo-credentials {
+            background: #e8f0fe;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 5px;
+            font-size: 0.9em;
+            color: #1e3c5c;
+            font-weight: 600;
+        }
+
         /* ========== СТРОГИЙ СТИЛЬ ДЛЯ АДМИНКИ ========== */
         .admin-panel {
             background: #1a1e24;
@@ -2232,7 +2243,8 @@
             </div>
 
             <div class="login-footer">
-                <p>После регистрации ожидайте подтверждения</p>
+                <p>Демо-доступ: <span class="demo-credentials">test / test</span></p>
+                <p style="margin-top: 5px;">После регистрации ожидайте подтверждения</p>
             </div>
         </div>
 
@@ -2582,12 +2594,18 @@
     </div>
 
     <script>
-        // ========== СУПЕР-ПОЛЬЗОВАТЕЛЬ ==========
+        // ========== СУПЕР-ПОЛЬЗОВАТЕЛЬ И ДЕМО-ПОЛЬЗОВАТЕЛЬ ==========
 
-        // Данные супер-пользователя
+        // Данные супер-пользователя (полный доступ)
         const SUPER_USER = {
             username: 'super',
             password: 'super'
+        };
+
+        // Данные демо-пользователя (ограниченный доступ)
+        const DEMO_USER = {
+            username: 'test',
+            password: 'test'
         };
 
         // Структура пользователей
@@ -2660,7 +2678,7 @@
                 return;
             }
             
-            if (username === SUPER_USER.username) {
+            if (username === SUPER_USER.username || username === DEMO_USER.username) {
                 message.textContent = 'Этот логин зарезервирован';
                 return;
             }
@@ -2717,11 +2735,11 @@
                 return;
             }
             
-            // Проверка для супер-пользователя
+            // Проверка для супер-пользователя (полный доступ)
             if (username === SUPER_USER.username && password === SUPER_USER.password) {
                 localStorage.setItem('authenticated', 'true');
                 localStorage.setItem('username', 'super');
-                localStorage.setItem('isSuper', 'true');
+                localStorage.setItem('userType', 'super');
                 localStorage.setItem('loginTime', new Date().toISOString());
                 
                 const loginScreen = document.getElementById('login-screen');
@@ -2736,11 +2754,30 @@
                 return;
             }
             
+            // Проверка для демо-пользователя (ограниченный доступ)
+            if (username === DEMO_USER.username && password === DEMO_USER.password) {
+                localStorage.setItem('authenticated', 'true');
+                localStorage.setItem('username', 'test');
+                localStorage.setItem('userType', 'demo');
+                localStorage.setItem('loginTime', new Date().toISOString());
+                
+                const loginScreen = document.getElementById('login-screen');
+                loginScreen.style.animation = 'fadeOut 0.3s ease forwards';
+                
+                setTimeout(() => {
+                    loginScreen.style.display = 'none';
+                    document.querySelector('.container').classList.add('authenticated');
+                    showNotification('Добро пожаловать в демо-режим!');
+                }, 300);
+                return;
+            }
+            
             // Проверка обычных пользователей
             const user = USERS[username];
             if (user && user.password === password) {
                 localStorage.setItem('authenticated', 'true');
                 localStorage.setItem('username', username);
+                localStorage.setItem('userType', 'regular');
                 localStorage.setItem('userName', user.name || username);
                 localStorage.setItem('loginTime', new Date().toISOString());
                 
@@ -2886,8 +2923,8 @@
             if (confirm('Вы действительно хотите выйти?')) {
                 localStorage.removeItem('authenticated');
                 localStorage.removeItem('username');
+                localStorage.removeItem('userType');
                 localStorage.removeItem('userName');
-                localStorage.removeItem('isSuper');
                 localStorage.removeItem('loginTime');
                 
                 document.getElementById('login-screen').style.display = 'flex';
@@ -2906,15 +2943,17 @@
         function checkAuth() {
             const isAuthenticated = localStorage.getItem('authenticated') === 'true';
             const username = localStorage.getItem('username');
-            const isSuper = localStorage.getItem('isSuper') === 'true';
+            const userType = localStorage.getItem('userType');
             
             if (isAuthenticated && username) {
                 document.getElementById('login-screen').style.display = 'none';
                 document.querySelector('.container').classList.add('authenticated');
                 
-                if (isSuper) {
+                if (userType === 'super') {
                     document.getElementById('admin-panel-btn').style.display = 'block';
                     showNotification('Добро пожаловать, супер-пользователь!');
+                } else if (userType === 'demo') {
+                    showNotification('Добро пожаловать в демо-режим!');
                 } else {
                     const userName = localStorage.getItem('userName') || username;
                     showNotification(`С возвращением, ${userName}!`);
@@ -2929,7 +2968,7 @@
 
         // Получение статистики пользователя
         function getUserStats(username) {
-            if (username === 'super') return null;
+            if (username === 'super' || username === 'test') return null;
             
             const stats = localStorage.getItem(`stats_${username}`);
             return stats ? JSON.parse(stats) : {
@@ -2951,7 +2990,8 @@
         // Обновление статистики при ответе на вопрос
         function updateStats(questionId, isCorrect) {
             const username = localStorage.getItem('username');
-            if (!username || username === 'super') return; // Супер-пользователь не собирает статистику
+            const userType = localStorage.getItem('userType');
+            if (!username || userType === 'super' || userType === 'demo') return; // Супер и демо не собирают статистику
             
             const stats = getUserStats(username);
             
@@ -3005,13 +3045,20 @@
         // Показать статистику
         function showStats() {
             const username = localStorage.getItem('username');
+            const userType = localStorage.getItem('userType');
+            
             if (!username) {
                 showNotification('Сначала войдите в систему');
                 return;
             }
             
-            if (username === 'super') {
+            if (userType === 'super') {
                 showNotification('У супер-пользователя нет статистики');
+                return;
+            }
+            
+            if (userType === 'demo') {
+                showNotification('В демо-режиме статистика не сохраняется');
                 return;
             }
             
@@ -3183,7 +3230,8 @@
         // Обновление отображения статистики
         function updateStatsDisplay() {
             const username = localStorage.getItem('username');
-            if (!username || username === 'super') return;
+            const userType = localStorage.getItem('userType');
+            if (!username || userType === 'super' || userType === 'demo') return;
             
             const stats = getUserStats(username);
             const totalErrorsElement = document.getElementById('stats-total-errors');
@@ -3192,7 +3240,7 @@
             }
         }
 
-        // ========== ОГРАНИЧЕНИЕ ВОПРОСОВ ДЛЯ СУПЕР-ПОЛЬЗОВАТЕЛЯ ==========
+        // ========== ОГРАНИЧЕНИЕ ВОПРОСОВ ДЛЯ ДЕМО-ПОЛЬЗОВАТЕЛЯ ==========
         function getLimitedQuestions(questions, limit = 10) {
             if (!questions || questions.length === 0) return [];
             
@@ -3873,9 +3921,9 @@
                 c: [...q.c]
             }));
             
-            // Для супер-пользователя ограничиваем до 10 вопросов
-            const username = localStorage.getItem('username');
-            if (username === 'super') {
+            // Для демо-пользователя ограничиваем до 10 вопросов
+            const userType = localStorage.getItem('userType');
+            if (userType === 'demo') {
                 blockQuestions = getLimitedQuestions(blockQuestions, 10);
                 showNotification(`Демо-режим: показаны 10 случайных вопросов из ${end - start}`);
             }
@@ -3899,9 +3947,9 @@
                 c: [...q.c]
             }));
             
-            // Для супер-пользователя ограничиваем до 10 вопросов
-            const username = localStorage.getItem('username');
-            if (username === 'super') {
+            // Для демо-пользователя ограничиваем до 10 вопросов
+            const userType = localStorage.getItem('userType');
+            if (userType === 'demo') {
                 hardQuestionsList = getLimitedQuestions(hardQuestionsList, 10);
             }
             
@@ -3928,14 +3976,14 @@
                 examTimer = null;
             }
             
-            // Для супер-пользователя берем 10 вопросов вместо 20
-            const username = localStorage.getItem('username');
-            const examSize = username === 'super' ? 10 : 20;
+            // Для демо-пользователя берем 10 вопросов вместо 20
+            const userType = localStorage.getItem('userType');
+            const examSize = userType === 'demo' ? 10 : 20;
             
             examQuestions = [...fullBase].sort(() => Math.random() - 0.5).slice(0, examSize).map(q => shuffleQuestionOptions(q));
             examCurrentIdx = 0;
             examErrors = 0;
-            examTimeLeft = username === 'super' ? 600 : 1200; // 10 минут для супер-пользователя
+            examTimeLeft = userType === 'demo' ? 600 : 1200; // 10 минут для демо
             examAnswers = new Array(examSize).fill(null);
             examResults = new Array(examSize).fill(null);
             answeredQuestionsCount = 0;
@@ -3973,13 +4021,13 @@
                 examTimer = null;
             }
             
-            const username = localStorage.getItem('username');
-            const examSize = username === 'super' ? 10 : 20;
+            const userType = localStorage.getItem('userType');
+            const examSize = userType === 'demo' ? 10 : 20;
             
             examQuestions = [...fullBase].sort(() => Math.random() - 0.5).slice(0, examSize).map(q => shuffleQuestionOptions(q));
             examCurrentIdx = 0;
             examErrors = 0;
-            examTimeLeft = username === 'super' ? 600 : 1200;
+            examTimeLeft = userType === 'demo' ? 600 : 1200;
             examAnswers = new Array(examSize).fill(null);
             examResults = new Array(examSize).fill(null);
             answeredQuestionsCount = 0;
@@ -4039,8 +4087,8 @@
         }
 
         function loadExamQuestion() {
-            const username = localStorage.getItem('username');
-            const examSize = username === 'super' ? 10 : 20;
+            const userType = localStorage.getItem('userType');
+            const examSize = userType === 'demo' ? 10 : 20;
             
             if (examCurrentIdx >= examSize) {
                 finishExam(true);
@@ -4171,8 +4219,8 @@
                 const errorsElement = document.getElementById('exam-errors');
                 if (errorsElement) errorsElement.innerText = examErrors;
                 
-                const username = localStorage.getItem('username');
-                const examSize = username === 'super' ? 10 : 20;
+                const userType = localStorage.getItem('userType');
+                const examSize = userType === 'demo' ? 10 : 20;
                 
                 if (examErrors > 2) {
                     finishExam(false);
@@ -4182,8 +4230,8 @@
 
             examCurrentIdx++;
             
-            const username = localStorage.getItem('username');
-            const examSize = username === 'super' ? 10 : 20;
+            const userType = localStorage.getItem('userType');
+            const examSize = userType === 'demo' ? 10 : 20;
             
             if (examCurrentIdx < examSize) {
                 loadExamQuestion();
@@ -4198,8 +4246,8 @@
                 examTimer = null;
             }
             
-            const username = localStorage.getItem('username');
-            const examSize = username === 'super' ? 10 : 20;
+            const userType = localStorage.getItem('userType');
+            const examSize = userType === 'demo' ? 10 : 20;
             const totalQuestions = examSize;
             const correctAnswers = totalQuestions - examErrors;
             const percentage = (correctAnswers / totalQuestions) * 100;
@@ -4274,8 +4322,8 @@
                 return;
             }
             
-            const username = localStorage.getItem('username');
-            const examSize = username === 'super' ? 10 : 20;
+            const userType = localStorage.getItem('userType');
+            const examSize = userType === 'demo' ? 10 : 20;
             
             for (let i = 0; i < examSize; i++) {
                 const result = examResults[i];
@@ -4322,8 +4370,8 @@
         }
 
         function jumpToReview(index) {
-            const username = localStorage.getItem('username');
-            const examSize = username === 'super' ? 10 : 20;
+            const userType = localStorage.getItem('userType');
+            const examSize = userType === 'demo' ? 10 : 20;
             
             if (index >= 0 && index < examSize && examResults[index] && examResults[index].question) {
                 reviewCurrentIdx = index;
@@ -4407,8 +4455,8 @@
             
             pagination.innerHTML = '';
             
-            const username = localStorage.getItem('username');
-            const examSize = username === 'super' ? 10 : 20;
+            const userType = localStorage.getItem('userType');
+            const examSize = userType === 'demo' ? 10 : 20;
             
             for (let i = 0; i < examSize; i++) {
                 const result = examResults[i];
@@ -4448,8 +4496,8 @@
             const prevBtn = document.getElementById('review-prev-btn');
             const nextBtn = document.getElementById('review-next-btn');
             
-            const username = localStorage.getItem('username');
-            const examSize = username === 'super' ? 10 : 20;
+            const userType = localStorage.getItem('userType');
+            const examSize = userType === 'demo' ? 10 : 20;
             
             if (prevBtn) {
                 prevBtn.disabled = true;
@@ -4485,8 +4533,8 @@
         }
 
         function nextReviewQuestion() {
-            const username = localStorage.getItem('username');
-            const examSize = username === 'super' ? 10 : 20;
+            const userType = localStorage.getItem('userType');
+            const examSize = userType === 'demo' ? 10 : 20;
             
             for (let i = reviewCurrentIdx + 1; i < examSize; i++) {
                 if (examResults[i] && examResults[i].question) {
@@ -4862,8 +4910,8 @@
         }
 
         function updateExamProgress() {
-            const username = localStorage.getItem('username');
-            const examSize = username === 'super' ? 10 : 20;
+            const userType = localStorage.getItem('userType');
+            const examSize = userType === 'demo' ? 10 : 20;
             const progress = ((examCurrentIdx + 1) / examSize) * 100;
             const fillElement = document.getElementById('exam-progress-fill');
             if (fillElement) fillElement.style.width = progress + '%';
