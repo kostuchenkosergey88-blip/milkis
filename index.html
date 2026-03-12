@@ -235,213 +235,228 @@
             font-size: 0.9em;
         }
 
-        /* Панель супер-пользователя */
-        .super-panel {
-            background: white;
-            border-radius: 16px;
+        /* ========== СТРОГИЙ СТИЛЬ ДЛЯ АДМИНКИ ========== */
+        .admin-panel {
+            background: #1a1e24;
+            border-radius: 0;
             padding: 30px;
-            max-width: 600px;
+            max-width: 700px;
             width: 100%;
-            max-height: 80vh;
+            max-height: 85vh;
             overflow-y: auto;
+            border: 1px solid #333842;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            color: #e0e0e0;
         }
 
-        .super-header {
-            background: linear-gradient(135deg, #1e3c5c 0%, #152f48 100%);
-            color: white;
+        .admin-header {
+            background: #0f1217;
+            border-bottom: 3px solid #ffd700;
             padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .super-header h2 {
-            color: #ffd700;
-            margin-bottom: 5px;
-        }
-
-        .super-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .stat-card {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .stat-card .number {
-            font-size: 2.5em;
-            font-weight: 700;
-            color: #1e3c5c;
-        }
-
-        .stat-card .label {
-            color: #666;
-            font-size: 0.9em;
-        }
-
-        .pending-list, .users-list {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-
-        .pending-list h3, .users-list h3 {
-            color: #1e3c5c;
-            margin-bottom: 15px;
-            font-size: 1.2em;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .pending-item, .user-item {
-            background: white;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 10px;
-            border: 1px solid #e0e0e0;
+            margin-bottom: 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .pending-item:last-child, .user-item:last-child {
-            margin-bottom: 0;
+        .admin-header h2 {
+            color: #ffd700;
+            font-size: 1.8em;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin: 0;
+            border: none;
+            text-transform: uppercase;
         }
 
-        .pending-info, .user-info {
+        .admin-back-btn {
+            background: #2d323b;
+            border: 1px solid #ffd700;
+            color: #ffd700;
+            padding: 8px 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 0;
+        }
+
+        .admin-back-btn:hover {
+            background: #ffd700;
+            color: #0f1217;
+        }
+
+        .admin-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .admin-stat-card {
+            background: #0f1217;
+            border: 1px solid #333842;
+            padding: 20px 15px;
+            text-align: center;
+        }
+
+        .admin-stat-number {
+            font-size: 2.8em;
+            font-weight: 700;
+            color: #ffd700;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .admin-stat-label {
+            color: #a0a0a0;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .admin-section {
+            background: #0f1217;
+            border: 1px solid #333842;
+            margin-bottom: 25px;
+        }
+
+        .admin-section-header {
+            background: #1e232b;
+            padding: 15px 20px;
+            border-bottom: 1px solid #333842;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-section-header h3 {
+            color: #ffd700;
+            font-size: 1.1em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        .admin-section-header .badge {
+            background: #ffd700;
+            color: #0f1217;
+            padding: 3px 10px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .admin-list {
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .admin-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #2a2f38;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .admin-item:last-child {
+            border-bottom: none;
+        }
+
+        .admin-item:hover {
+            background: #1e232b;
+        }
+
+        .admin-item-info {
             flex: 1;
         }
 
-        .pending-username {
-            font-weight: 700;
-            color: #1e3c5c;
+        .admin-item-title {
+            font-weight: 600;
+            color: #ffd700;
             font-size: 1.1em;
+            margin-bottom: 5px;
         }
 
-        .pending-name {
-            color: #666;
-            font-size: 0.9em;
-            margin: 3px 0;
-        }
-
-        .pending-reason {
-            color: #999;
+        .admin-item-subtitle {
+            color: #a0a0a0;
             font-size: 0.85em;
-            font-style: italic;
-            background: #f5f5f5;
-            padding: 5px;
-            border-radius: 4px;
-            margin: 5px 0;
         }
 
-        .pending-date {
-            color: #999;
+        .admin-item-detail {
+            color: #808080;
             font-size: 0.8em;
             margin-top: 5px;
         }
 
-        .pending-actions {
+        .admin-item-actions {
             display: flex;
             gap: 8px;
             margin-left: 15px;
         }
 
-        .approve-btn {
+        .admin-btn-approve {
             background: #2e7d32;
             color: white;
             border: none;
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: all 0.2s;
-        }
-
-        .approve-btn:hover {
-            background: #1b5e20;
-            transform: translateY(-2px);
-        }
-
-        .reject-btn {
-            background: #b22222;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: all 0.2s;
-        }
-
-        .reject-btn:hover {
-            background: #8b0000;
-            transform: translateY(-2px);
-        }
-
-        .delete-btn {
-            background: #b22222;
-            color: white;
-            border: none;
-            padding: 6px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.8em;
-            transition: all 0.2s;
-        }
-
-        .delete-btn:hover {
-            background: #8b0000;
-        }
-
-        .user-username {
-            font-weight: 700;
-            color: #1e3c5c;
-        }
-
-        .user-meta {
-            color: #666;
+            padding: 8px 15px;
             font-size: 0.85em;
-            margin-top: 3px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 0;
         }
 
-        .user-badge {
-            background: #f4b400;
-            color: white;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.7em;
-            margin-left: 8px;
+        .admin-btn-approve:hover {
+            background: #1b5e20;
         }
 
-        .user-actions {
-            margin-left: 15px;
-        }
-
-        .super-logout-btn {
+        .admin-btn-reject {
             background: #b22222;
             color: white;
             border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-size: 1em;
+            padding: 8px 15px;
+            font-size: 0.85em;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             cursor: pointer;
-            width: 100%;
-            margin-top: 20px;
             transition: all 0.2s;
+            border-radius: 0;
         }
 
-        .super-logout-btn:hover {
+        .admin-btn-reject:hover {
             background: #8b0000;
-            transform: translateY(-2px);
+        }
+
+        .admin-btn-delete {
+            background: #b22222;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 0;
+        }
+
+        .admin-btn-delete:hover {
+            background: #8b0000;
+        }
+
+        .admin-empty-message {
+            padding: 30px;
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            background: #0f1217;
         }
 
         /* Скрываем основной контент до авторизации */
@@ -515,7 +530,7 @@
         }
 
         /* Кнопка админки */
-        .super-btn {
+        .admin-btn {
             background: rgba(255, 255, 255, 0.1);
             border: 2px solid #ffd700;
             border-radius: 6px;
@@ -528,7 +543,7 @@
             margin-right: 10px;
         }
 
-        .super-btn:hover {
+        .admin-btn:hover {
             background: #ffd700;
             color: #1e3c5c;
             transform: translateY(-2px);
@@ -1813,7 +1828,7 @@
                 width: 100%;
             }
             
-            .super-btn, .logout-btn {
+            .admin-btn, .logout-btn {
                 margin: 5px 0;
                 width: 100%;
             }
@@ -1873,6 +1888,10 @@
             
             .test-desc {
                 font-size: 0.8em;
+            }
+            
+            .admin-stats-grid {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -2026,17 +2045,18 @@
                 padding: 10px 12px;
             }
             
-            .pending-item {
+            .admin-item {
                 flex-direction: column;
+                align-items: flex-start;
                 gap: 10px;
             }
             
-            .pending-actions {
+            .admin-item-actions {
                 margin-left: 0;
                 width: 100%;
             }
             
-            .approve-btn, .reject-btn {
+            .admin-btn-approve, .admin-btn-reject {
                 flex: 1;
             }
         }
@@ -2212,40 +2232,47 @@
             </div>
 
             <div class="login-footer">
-                <p>Демо-доступ: super / super</p>
                 <p>После регистрации ожидайте подтверждения</p>
             </div>
         </div>
 
-        <!-- Панель супер-пользователя (скрыта по умолчанию) -->
-        <div id="super-panel" class="super-panel" style="display: none;">
-            <div class="super-header">
-                <h2>👑 Супер-пользователь</h2>
-                <p>Управление пользователями и заявками</p>
+        <!-- Панель администратора (скрыта по умолчанию) -->
+        <div id="admin-panel" class="admin-panel" style="display: none;">
+            <div class="admin-header">
+                <h2>⚡ ПАНЕЛЬ УПРАВЛЕНИЯ</h2>
+                <button class="admin-back-btn" onclick="adminBack()">← НАЗАД</button>
             </div>
 
-            <div class="super-stats">
-                <div class="stat-card">
-                    <div class="number" id="stat-users">0</div>
-                    <div class="label">пользователей</div>
+            <div class="admin-stats-grid">
+                <div class="admin-stat-card">
+                    <div class="admin-stat-number" id="stat-users">0</div>
+                    <div class="admin-stat-label">ПОЛЬЗОВАТЕЛЕЙ</div>
                 </div>
-                <div class="stat-card">
-                    <div class="number" id="stat-pending">0</div>
-                    <div class="label">заявок</div>
+                <div class="admin-stat-card">
+                    <div class="admin-stat-number" id="stat-pending">0</div>
+                    <div class="admin-stat-label">ЗАЯВОК</div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="admin-stat-number" id="stat-tests">0</div>
+                    <div class="admin-stat-label">ТЕСТОВ</div>
                 </div>
             </div>
 
-            <div class="pending-list">
-                <h3>📋 Новые заявки</h3>
-                <div id="pending-list"></div>
+            <div class="admin-section">
+                <div class="admin-section-header">
+                    <h3>📋 НОВЫЕ ЗАЯВКИ</h3>
+                    <span class="badge" id="pending-badge">0</span>
+                </div>
+                <div class="admin-list" id="pending-list"></div>
             </div>
 
-            <div class="users-list">
-                <h3>👥 Подтвержденные пользователи</h3>
-                <div id="users-list"></div>
+            <div class="admin-section">
+                <div class="admin-section-header">
+                    <h3>👥 ПОДТВЕРЖДЕННЫЕ ПОЛЬЗОВАТЕЛИ</h3>
+                    <span class="badge" id="users-badge">0</span>
+                </div>
+                <div class="admin-list" id="users-list"></div>
             </div>
-
-            <button class="super-logout-btn" onclick="superLogout()">🚪 Выйти из панели</button>
         </div>
     </div>
 
@@ -2257,7 +2284,7 @@
                 <h3>PRO100 TEST</h3>
                 
                 <!-- Кнопка админки для супер-пользователя -->
-                <button id="super-panel-btn" class="super-btn" onclick="openSuperPanel()" style="display: none;">👑 Админка</button>
+                <button id="admin-panel-btn" class="admin-btn" onclick="openAdminPanel()" style="display: none;">⚡ АДМИНКА</button>
                 
                 <!-- Селектор тестов -->
                 <div class="test-selector">
@@ -2348,7 +2375,7 @@
                 </div>
                 
                 <!-- Кнопка выхода -->
-                <button class="logout-btn" onclick="logout()">🚪 Выйти</button>
+                <button class="logout-btn" onclick="logout()">🚪 ВЫЙТИ</button>
             </div>
         </div>
 
@@ -2376,12 +2403,12 @@
                     <p>Вопросы 121 - 160</p>
                 </div>
                 <div class="block-card exam-card" onclick="startExam()">
-                    <h3>Итоговое тестирование</h3>
+                    <h3>ИТОГОВОЕ ТЕСТИРОВАНИЕ</h3>
                     <p>20 вопросов | 20 минут | допуск: 2 ошибки</p>
                 </div>
             </div>
             <div class="block-card hard-mode-card" onclick="startHardMode()">
-                <h3>ТРУДНЫЕ ВОПРОСЫ</h3>
+                <h3>⚠️ ТРУДНЫЕ ВОПРОСЫ</h3>
                 <p>
                     Отмеченные: <span id="hard-count" class="hard-count">0</span>
                     <span class="hard-star">★</span>
@@ -2396,7 +2423,7 @@
                 </p>
             </div>
             <div class="footer-note">
-                Система тестирования МилиSiLовская | Версия 2.0
+                Система тестирования | Версия 2.0
             </div>
         </div>
 
@@ -2545,7 +2572,7 @@
     <div id="statsModal" class="stats-modal">
         <div class="stats-modal-content">
             <div class="stats-modal-header">
-                <h2>📊 Моя статистика</h2>
+                <h2>📊 МОЯ СТАТИСТИКА</h2>
                 <button class="stats-modal-close" onclick="closeStats()">&times;</button>
             </div>
             <div class="stats-modal-body" id="statsContent">
@@ -2703,7 +2730,7 @@
                 setTimeout(() => {
                     loginScreen.style.display = 'none';
                     document.querySelector('.container').classList.add('authenticated');
-                    document.getElementById('super-panel-btn').style.display = 'block';
+                    document.getElementById('admin-panel-btn').style.display = 'block';
                     showNotification('Добро пожаловать, супер-пользователь!');
                 }, 300);
                 return;
@@ -2738,42 +2765,54 @@
             }
         }
 
-        // Открыть панель супер-пользователя
-        function openSuperPanel() {
+        // Открыть панель администратора
+        function openAdminPanel() {
             document.querySelector('.container').style.display = 'none';
             document.getElementById('login-screen').style.display = 'flex';
             document.querySelector('.login-box').style.display = 'none';
-            document.getElementById('super-panel').style.display = 'block';
-            loadSuperPanel();
+            document.getElementById('admin-panel').style.display = 'block';
+            loadAdminPanel();
         }
 
-        // Загрузка панели супер-пользователя
-        function loadSuperPanel() {
+        // Вернуться из админки
+        function adminBack() {
+            document.getElementById('admin-panel').style.display = 'none';
+            document.querySelector('.login-box').style.display = 'block';
+            document.querySelector('.container').style.display = 'block';
+            document.getElementById('login-screen').style.display = 'none';
+        }
+
+        // Загрузка панели администратора
+        function loadAdminPanel() {
             const pendingList = document.getElementById('pending-list');
             const usersList = document.getElementById('users-list');
             
             // Обновляем статистику
             document.getElementById('stat-users').textContent = Object.keys(USERS).length;
             document.getElementById('stat-pending').textContent = Object.keys(PENDING_USERS).length;
+            document.getElementById('stat-tests').textContent = '2'; // Количество доступных тестов
+            
+            document.getElementById('pending-badge').textContent = Object.keys(PENDING_USERS).length;
+            document.getElementById('users-badge').textContent = Object.keys(USERS).length;
             
             // Заявки
             pendingList.innerHTML = '';
             if (Object.keys(PENDING_USERS).length === 0) {
-                pendingList.innerHTML = '<div class="pending-item" style="justify-content: center; color: #666;">Нет новых заявок</div>';
+                pendingList.innerHTML = '<div class="admin-empty-message">Нет новых заявок</div>';
             } else {
                 Object.entries(PENDING_USERS).forEach(([username, data]) => {
                     const date = new Date(data.registeredAt).toLocaleString('ru');
                     pendingList.innerHTML += `
-                        <div class="pending-item">
-                            <div class="pending-info">
-                                <div class="pending-username">${username}</div>
-                                <div class="pending-name">👤 ${data.name}</div>
-                                <div class="pending-reason">📝 ${data.reason}</div>
-                                <div class="pending-date">📅 ${date}</div>
+                        <div class="admin-item">
+                            <div class="admin-item-info">
+                                <div class="admin-item-title">${username}</div>
+                                <div class="admin-item-subtitle">👤 ${data.name}</div>
+                                <div class="admin-item-detail">📝 ${data.reason}</div>
+                                <div class="admin-item-detail">📅 ${date}</div>
                             </div>
-                            <div class="pending-actions">
-                                <button class="approve-btn" onclick="approveUser('${username}')">✅ Подтвердить</button>
-                                <button class="reject-btn" onclick="rejectUser('${username}')">❌ Отклонить</button>
+                            <div class="admin-item-actions">
+                                <button class="admin-btn-approve" onclick="approveUser('${username}')">ПОДТВЕРДИТЬ</button>
+                                <button class="admin-btn-reject" onclick="rejectUser('${username}')">ОТКЛОНИТЬ</button>
                             </div>
                         </div>
                     `;
@@ -2783,19 +2822,19 @@
             // Подтвержденные пользователи
             usersList.innerHTML = '';
             if (Object.keys(USERS).length === 0) {
-                usersList.innerHTML = '<div class="pending-item" style="justify-content: center; color: #666;">Нет пользователей</div>';
+                usersList.innerHTML = '<div class="admin-empty-message">Нет пользователей</div>';
             } else {
                 Object.entries(USERS).forEach(([username, data]) => {
                     const date = new Date(data.registeredAt).toLocaleString('ru');
                     usersList.innerHTML += `
-                        <div class="user-item">
-                            <div class="user-info">
-                                <span class="user-username">${username}</span>
-                                ${data.name ? `<span class="user-meta">(${data.name})</span>` : ''}
-                                <div class="user-meta">Зарегистрирован: ${date}</div>
+                        <div class="admin-item">
+                            <div class="admin-item-info">
+                                <div class="admin-item-title">${username}</div>
+                                ${data.name ? `<div class="admin-item-subtitle">👤 ${data.name}</div>` : ''}
+                                <div class="admin-item-detail">📅 ${date}</div>
                             </div>
-                            <div class="user-actions">
-                                <button class="delete-btn" onclick="deleteUser('${username}')">🗑️ Удалить</button>
+                            <div class="admin-item-actions">
+                                <button class="admin-btn-delete" onclick="deleteUser('${username}')">УДАЛИТЬ</button>
                             </div>
                         </div>
                     `;
@@ -2821,7 +2860,7 @@
             
             saveUsers();
             savePendingUsers();
-            loadSuperPanel();
+            loadAdminPanel();
         }
 
         // Отклонение заявки
@@ -2829,7 +2868,7 @@
             if (confirm(`Отклонить заявку пользователя ${username}?`)) {
                 delete PENDING_USERS[username];
                 savePendingUsers();
-                loadSuperPanel();
+                loadAdminPanel();
             }
         }
 
@@ -2838,15 +2877,8 @@
             if (confirm(`Удалить пользователя ${username}?`)) {
                 delete USERS[username];
                 saveUsers();
-                loadSuperPanel();
+                loadAdminPanel();
             }
-        }
-
-        // Выход из панели супер-пользователя
-        function superLogout() {
-            document.getElementById('super-panel').style.display = 'none';
-            document.querySelector('.login-box').style.display = 'block';
-            document.querySelector('.container').style.display = 'block';
         }
 
         // Функция выхода
@@ -2861,7 +2893,7 @@
                 document.getElementById('login-screen').style.display = 'flex';
                 document.getElementById('login-screen').style.animation = '';
                 document.querySelector('.container').classList.remove('authenticated');
-                document.getElementById('super-panel-btn').style.display = 'none';
+                document.getElementById('admin-panel-btn').style.display = 'none';
                 
                 document.getElementById('username').value = '';
                 document.getElementById('password').value = '';
@@ -2881,7 +2913,7 @@
                 document.querySelector('.container').classList.add('authenticated');
                 
                 if (isSuper) {
-                    document.getElementById('super-panel-btn').style.display = 'block';
+                    document.getElementById('admin-panel-btn').style.display = 'block';
                     showNotification('Добро пожаловать, супер-пользователь!');
                 } else {
                     const userName = localStorage.getItem('userName') || username;
@@ -3575,7 +3607,7 @@
                 examCard.className = 'block-card exam-card';
                 examCard.setAttribute('onclick', 'startExam()');
                 examCard.innerHTML = `
-                    <h3>Итоговое тестирование</h3>
+                    <h3>ИТОГОВОЕ ТЕСТИРОВАНИЕ</h3>
                     <p>20 вопросов | 20 минут | допуск: 2 ошибки</p>
                 `;
                 menuGrid.appendChild(examCard);
