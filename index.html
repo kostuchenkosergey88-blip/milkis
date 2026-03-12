@@ -235,8 +235,8 @@
             font-size: 0.9em;
         }
 
-        /* Панель администратора */
-        #admin-panel {
+        /* Панель супер-пользователя */
+        .super-panel {
             background: white;
             border-radius: 16px;
             padding: 30px;
@@ -246,7 +246,7 @@
             overflow-y: auto;
         }
 
-        .admin-header {
+        .super-header {
             background: linear-gradient(135deg, #1e3c5c 0%, #152f48 100%);
             color: white;
             padding: 20px;
@@ -255,9 +255,34 @@
             text-align: center;
         }
 
-        .admin-header h2 {
+        .super-header h2 {
             color: #ffd700;
             margin-bottom: 5px;
+        }
+
+        .super-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-card .number {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #1e3c5c;
+        }
+
+        .stat-card .label {
+            color: #666;
+            font-size: 0.9em;
         }
 
         .pending-list, .users-list {
@@ -400,7 +425,7 @@
             margin-left: 15px;
         }
 
-        .admin-logout-btn {
+        .super-logout-btn {
             background: #b22222;
             color: white;
             border: none;
@@ -414,7 +439,7 @@
             transition: all 0.2s;
         }
 
-        .admin-logout-btn:hover {
+        .super-logout-btn:hover {
             background: #8b0000;
             transform: translateY(-2px);
         }
@@ -486,6 +511,26 @@
 
         .logout-btn:hover {
             background: #b22222;
+            transform: translateY(-2px);
+        }
+
+        /* Кнопка админки */
+        .super-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #ffd700;
+            border-radius: 6px;
+            padding: 6px 15px;
+            color: white;
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-right: 10px;
+        }
+
+        .super-btn:hover {
+            background: #ffd700;
+            color: #1e3c5c;
             transform: translateY(-2px);
         }
 
@@ -1768,8 +1813,8 @@
                 width: 100%;
             }
             
-            .logout-btn {
-                margin-left: 0;
+            .super-btn, .logout-btn {
+                margin: 5px 0;
                 width: 100%;
             }
             
@@ -2124,7 +2169,6 @@
             <div class="login-tabs">
                 <button class="login-tab active" onclick="showLoginTab('login')">Вход</button>
                 <button class="login-tab" onclick="showLoginTab('register')">Регистрация</button>
-                <button class="login-tab" onclick="showLoginTab('admin')">Админ</button>
             </div>
 
             <!-- Форма входа -->
@@ -2167,32 +2211,28 @@
                 </div>
             </div>
 
-            <!-- Форма входа администратора -->
-            <div id="admin-form" class="login-tab-content">
-                <div class="login-form">
-                    <div class="input-group">
-                        <label for="admin-username">Логин администратора</label>
-                        <input type="text" id="admin-username" placeholder="admin">
-                    </div>
-                    <div class="input-group">
-                        <label for="admin-password">Пароль</label>
-                        <input type="password" id="admin-password" placeholder="Введите пароль">
-                    </div>
-                    <button class="login-btn" onclick="adminLogin()">Войти в панель</button>
-                    <div id="admin-message" class="login-message"></div>
-                </div>
-            </div>
-
             <div class="login-footer">
-                <p>Демо-доступ: admin / admin</p>
+                <p>Демо-доступ: super / super</p>
+                <p>После регистрации ожидайте подтверждения</p>
             </div>
         </div>
 
-        <!-- Панель администратора (скрыта по умолчанию) -->
-        <div id="admin-panel" style="display: none;">
-            <div class="admin-header">
-                <h2>👨‍💼 Панель администратора</h2>
+        <!-- Панель супер-пользователя (скрыта по умолчанию) -->
+        <div id="super-panel" class="super-panel" style="display: none;">
+            <div class="super-header">
+                <h2>👑 Супер-пользователь</h2>
                 <p>Управление пользователями и заявками</p>
+            </div>
+
+            <div class="super-stats">
+                <div class="stat-card">
+                    <div class="number" id="stat-users">0</div>
+                    <div class="label">пользователей</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number" id="stat-pending">0</div>
+                    <div class="label">заявок</div>
+                </div>
             </div>
 
             <div class="pending-list">
@@ -2205,7 +2245,7 @@
                 <div id="users-list"></div>
             </div>
 
-            <button class="admin-logout-btn" onclick="adminLogout()">🚪 Выйти из панели</button>
+            <button class="super-logout-btn" onclick="superLogout()">🚪 Выйти из панели</button>
         </div>
     </div>
 
@@ -2215,6 +2255,9 @@
         <div class="top-panel">
             <div class="panel-left">
                 <h3>PRO100 TEST</h3>
+                
+                <!-- Кнопка админки для супер-пользователя -->
+                <button id="super-panel-btn" class="super-btn" onclick="openSuperPanel()" style="display: none;">👑 Админка</button>
                 
                 <!-- Селектор тестов -->
                 <div class="test-selector">
@@ -2512,12 +2555,12 @@
     </div>
 
     <script>
-        // ========== АВТОРИЗАЦИЯ С ПОДТВЕРЖДЕНИЕМ АДМИНА ==========
+        // ========== СУПЕР-ПОЛЬЗОВАТЕЛЬ ==========
 
-        // Администратор (всегда есть)
-        const ADMIN = {
-            username: 'admin',
-            password: 'admin'
+        // Данные супер-пользователя
+        const SUPER_USER = {
+            username: 'super',
+            password: 'super'
         };
 
         // Структура пользователей
@@ -2532,15 +2575,8 @@
             if (saved) {
                 USERS = JSON.parse(saved);
             } else {
-                // По умолчанию только админ
-                USERS = {
-                    'admin': {
-                        password: 'admin',
-                        approved: true,
-                        isAdmin: true,
-                        registeredAt: new Date().toISOString()
-                    }
-                };
+                // По умолчанию пусто
+                USERS = {};
                 saveUsers();
             }
         }
@@ -2578,9 +2614,6 @@
             } else if (tab === 'register') {
                 document.querySelectorAll('.login-tab')[1].classList.add('active');
                 document.getElementById('register-form').classList.add('active');
-            } else if (tab === 'admin') {
-                document.querySelectorAll('.login-tab')[2].classList.add('active');
-                document.getElementById('admin-form').classList.add('active');
             }
         }
 
@@ -2600,8 +2633,8 @@
                 return;
             }
             
-            if (username === 'admin') {
-                message.textContent = 'Логин admin зарезервирован';
+            if (username === SUPER_USER.username) {
+                message.textContent = 'Этот логин зарезервирован';
                 return;
             }
             
@@ -2625,7 +2658,7 @@
             
             savePendingUsers();
             
-            message.textContent = '✅ Заявка отправлена! Ожидайте подтверждения администратора.';
+            message.textContent = '✅ Заявка отправлена! Ожидайте подтверждения.';
             message.classList.add('login-success');
             
             // Очищаем форму
@@ -2633,122 +2666,6 @@
             document.getElementById('reg-password').value = '';
             document.getElementById('reg-name').value = '';
             document.getElementById('reg-reason').value = '';
-        }
-
-        // Вход администратора
-        function adminLogin() {
-            const username = document.getElementById('admin-username').value.trim();
-            const password = document.getElementById('admin-password').value;
-            const message = document.getElementById('admin-message');
-            
-            message.textContent = '';
-            
-            if (username === ADMIN.username && password === ADMIN.password) {
-                // Показываем панель админа
-                document.querySelector('.login-box').style.display = 'none';
-                document.getElementById('admin-panel').style.display = 'block';
-                loadAdminPanel();
-            } else {
-                message.textContent = 'Неверный логин или пароль администратора';
-            }
-        }
-
-        // Загрузка панели админа
-        function loadAdminPanel() {
-            const pendingList = document.getElementById('pending-list');
-            const usersList = document.getElementById('users-list');
-            
-            // Заявки
-            pendingList.innerHTML = '';
-            if (Object.keys(PENDING_USERS).length === 0) {
-                pendingList.innerHTML = '<div class="pending-item" style="justify-content: center; color: #666;">Нет новых заявок</div>';
-            } else {
-                Object.entries(PENDING_USERS).forEach(([username, data]) => {
-                    const date = new Date(data.registeredAt).toLocaleString('ru');
-                    pendingList.innerHTML += `
-                        <div class="pending-item">
-                            <div class="pending-info">
-                                <div class="pending-username">${username}</div>
-                                <div class="pending-name">👤 ${data.name}</div>
-                                <div class="pending-reason">📝 ${data.reason}</div>
-                                <div class="pending-date">📅 ${date}</div>
-                            </div>
-                            <div class="pending-actions">
-                                <button class="approve-btn" onclick="approveUser('${username}')">✅ Подтвердить</button>
-                                <button class="reject-btn" onclick="rejectUser('${username}')">❌ Отклонить</button>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-            
-            // Подтвержденные пользователи
-            usersList.innerHTML = '';
-            Object.entries(USERS).forEach(([username, data]) => {
-                if (username !== 'admin') { // Не показываем админа в списке
-                    const date = new Date(data.registeredAt).toLocaleString('ru');
-                    usersList.innerHTML += `
-                        <div class="user-item">
-                            <div class="user-info">
-                                <span class="user-username">${username}</span>
-                                ${data.name ? `<span class="user-meta">(${data.name})</span>` : ''}
-                                <div class="user-meta">Зарегистрирован: ${date}</div>
-                            </div>
-                            <div class="user-actions">
-                                <button class="delete-btn" onclick="deleteUser('${username}')">🗑️ Удалить</button>
-                            </div>
-                        </div>
-                    `;
-                }
-            });
-        }
-
-        // Подтверждение пользователя
-        function approveUser(username) {
-            const userData = PENDING_USERS[username];
-            
-            // Добавляем в список пользователей
-            USERS[username] = {
-                password: userData.password,
-                approved: true,
-                isAdmin: false,
-                name: userData.name,
-                registeredAt: userData.registeredAt
-            };
-            
-            // Удаляем из заявок
-            delete PENDING_USERS[username];
-            
-            saveUsers();
-            savePendingUsers();
-            loadAdminPanel();
-        }
-
-        // Отклонение заявки
-        function rejectUser(username) {
-            if (confirm(`Отклонить заявку пользователя ${username}?`)) {
-                delete PENDING_USERS[username];
-                savePendingUsers();
-                loadAdminPanel();
-            }
-        }
-
-        // Удаление пользователя
-        function deleteUser(username) {
-            if (confirm(`Удалить пользователя ${username}?`)) {
-                delete USERS[username];
-                saveUsers();
-                loadAdminPanel();
-            }
-        }
-
-        // Выход из админки
-        function adminLogout() {
-            document.querySelector('.login-box').style.display = 'block';
-            document.getElementById('admin-panel').style.display = 'none';
-            document.getElementById('admin-username').value = '';
-            document.getElementById('admin-password').value = '';
-            showLoginTab('login');
         }
 
         // Функция входа
@@ -2773,11 +2690,11 @@
                 return;
             }
             
-            // Проверка для админа
-            if (username === ADMIN.username && password === ADMIN.password) {
+            // Проверка для супер-пользователя
+            if (username === SUPER_USER.username && password === SUPER_USER.password) {
                 localStorage.setItem('authenticated', 'true');
-                localStorage.setItem('username', 'admin');
-                localStorage.setItem('isAdmin', 'true');
+                localStorage.setItem('username', 'super');
+                localStorage.setItem('isSuper', 'true');
                 localStorage.setItem('loginTime', new Date().toISOString());
                 
                 const loginScreen = document.getElementById('login-screen');
@@ -2786,7 +2703,8 @@
                 setTimeout(() => {
                     loginScreen.style.display = 'none';
                     document.querySelector('.container').classList.add('authenticated');
-                    showNotification('Добро пожаловать, администратор!');
+                    document.getElementById('super-panel-btn').style.display = 'block';
+                    showNotification('Добро пожаловать, супер-пользователь!');
                 }, 300);
                 return;
             }
@@ -2820,18 +2738,130 @@
             }
         }
 
+        // Открыть панель супер-пользователя
+        function openSuperPanel() {
+            document.querySelector('.container').style.display = 'none';
+            document.getElementById('login-screen').style.display = 'flex';
+            document.querySelector('.login-box').style.display = 'none';
+            document.getElementById('super-panel').style.display = 'block';
+            loadSuperPanel();
+        }
+
+        // Загрузка панели супер-пользователя
+        function loadSuperPanel() {
+            const pendingList = document.getElementById('pending-list');
+            const usersList = document.getElementById('users-list');
+            
+            // Обновляем статистику
+            document.getElementById('stat-users').textContent = Object.keys(USERS).length;
+            document.getElementById('stat-pending').textContent = Object.keys(PENDING_USERS).length;
+            
+            // Заявки
+            pendingList.innerHTML = '';
+            if (Object.keys(PENDING_USERS).length === 0) {
+                pendingList.innerHTML = '<div class="pending-item" style="justify-content: center; color: #666;">Нет новых заявок</div>';
+            } else {
+                Object.entries(PENDING_USERS).forEach(([username, data]) => {
+                    const date = new Date(data.registeredAt).toLocaleString('ru');
+                    pendingList.innerHTML += `
+                        <div class="pending-item">
+                            <div class="pending-info">
+                                <div class="pending-username">${username}</div>
+                                <div class="pending-name">👤 ${data.name}</div>
+                                <div class="pending-reason">📝 ${data.reason}</div>
+                                <div class="pending-date">📅 ${date}</div>
+                            </div>
+                            <div class="pending-actions">
+                                <button class="approve-btn" onclick="approveUser('${username}')">✅ Подтвердить</button>
+                                <button class="reject-btn" onclick="rejectUser('${username}')">❌ Отклонить</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            // Подтвержденные пользователи
+            usersList.innerHTML = '';
+            if (Object.keys(USERS).length === 0) {
+                usersList.innerHTML = '<div class="pending-item" style="justify-content: center; color: #666;">Нет пользователей</div>';
+            } else {
+                Object.entries(USERS).forEach(([username, data]) => {
+                    const date = new Date(data.registeredAt).toLocaleString('ru');
+                    usersList.innerHTML += `
+                        <div class="user-item">
+                            <div class="user-info">
+                                <span class="user-username">${username}</span>
+                                ${data.name ? `<span class="user-meta">(${data.name})</span>` : ''}
+                                <div class="user-meta">Зарегистрирован: ${date}</div>
+                            </div>
+                            <div class="user-actions">
+                                <button class="delete-btn" onclick="deleteUser('${username}')">🗑️ Удалить</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        // Подтверждение пользователя
+        function approveUser(username) {
+            const userData = PENDING_USERS[username];
+            
+            // Добавляем в список пользователей
+            USERS[username] = {
+                password: userData.password,
+                approved: true,
+                isAdmin: false,
+                name: userData.name,
+                registeredAt: userData.registeredAt
+            };
+            
+            // Удаляем из заявок
+            delete PENDING_USERS[username];
+            
+            saveUsers();
+            savePendingUsers();
+            loadSuperPanel();
+        }
+
+        // Отклонение заявки
+        function rejectUser(username) {
+            if (confirm(`Отклонить заявку пользователя ${username}?`)) {
+                delete PENDING_USERS[username];
+                savePendingUsers();
+                loadSuperPanel();
+            }
+        }
+
+        // Удаление пользователя
+        function deleteUser(username) {
+            if (confirm(`Удалить пользователя ${username}?`)) {
+                delete USERS[username];
+                saveUsers();
+                loadSuperPanel();
+            }
+        }
+
+        // Выход из панели супер-пользователя
+        function superLogout() {
+            document.getElementById('super-panel').style.display = 'none';
+            document.querySelector('.login-box').style.display = 'block';
+            document.querySelector('.container').style.display = 'block';
+        }
+
         // Функция выхода
         function logout() {
             if (confirm('Вы действительно хотите выйти?')) {
                 localStorage.removeItem('authenticated');
                 localStorage.removeItem('username');
                 localStorage.removeItem('userName');
-                localStorage.removeItem('isAdmin');
+                localStorage.removeItem('isSuper');
                 localStorage.removeItem('loginTime');
                 
                 document.getElementById('login-screen').style.display = 'flex';
                 document.getElementById('login-screen').style.animation = '';
                 document.querySelector('.container').classList.remove('authenticated');
+                document.getElementById('super-panel-btn').style.display = 'none';
                 
                 document.getElementById('username').value = '';
                 document.getElementById('password').value = '';
@@ -2844,14 +2874,15 @@
         function checkAuth() {
             const isAuthenticated = localStorage.getItem('authenticated') === 'true';
             const username = localStorage.getItem('username');
-            const isAdmin = localStorage.getItem('isAdmin') === 'true';
+            const isSuper = localStorage.getItem('isSuper') === 'true';
             
             if (isAuthenticated && username) {
                 document.getElementById('login-screen').style.display = 'none';
                 document.querySelector('.container').classList.add('authenticated');
                 
-                if (isAdmin) {
-                    showNotification('Добро пожаловать, администратор!');
+                if (isSuper) {
+                    document.getElementById('super-panel-btn').style.display = 'block';
+                    showNotification('Добро пожаловать, супер-пользователь!');
                 } else {
                     const userName = localStorage.getItem('userName') || username;
                     showNotification(`С возвращением, ${userName}!`);
@@ -2866,6 +2897,8 @@
 
         // Получение статистики пользователя
         function getUserStats(username) {
+            if (username === 'super') return null;
+            
             const stats = localStorage.getItem(`stats_${username}`);
             return stats ? JSON.parse(stats) : {
                 totalAnswers: 0,
@@ -2886,7 +2919,7 @@
         // Обновление статистики при ответе на вопрос
         function updateStats(questionId, isCorrect) {
             const username = localStorage.getItem('username');
-            if (!username || username === 'admin') return; // Админ не собирает статистику
+            if (!username || username === 'super') return; // Супер-пользователь не собирает статистику
             
             const stats = getUserStats(username);
             
@@ -2945,8 +2978,8 @@
                 return;
             }
             
-            if (username === 'admin') {
-                showNotification('У администратора нет статистики');
+            if (username === 'super') {
+                showNotification('У супер-пользователя нет статистики');
                 return;
             }
             
@@ -3118,7 +3151,7 @@
         // Обновление отображения статистики
         function updateStatsDisplay() {
             const username = localStorage.getItem('username');
-            if (!username || username === 'admin') return;
+            if (!username || username === 'super') return;
             
             const stats = getUserStats(username);
             const totalErrorsElement = document.getElementById('stats-total-errors');
@@ -3127,7 +3160,7 @@
             }
         }
 
-        // ========== ОГРАНИЧЕНИЕ ВОПРОСОВ ДЛЯ ДЕМО-РЕЖИМА ==========
+        // ========== ОГРАНИЧЕНИЕ ВОПРОСОВ ДЛЯ СУПЕР-ПОЛЬЗОВАТЕЛЯ ==========
         function getLimitedQuestions(questions, limit = 10) {
             if (!questions || questions.length === 0) return [];
             
@@ -3808,9 +3841,9 @@
                 c: [...q.c]
             }));
             
-            // Для демо-режима (admin) ограничиваем до 10 вопросов
+            // Для супер-пользователя ограничиваем до 10 вопросов
             const username = localStorage.getItem('username');
-            if (username === 'admin') {
+            if (username === 'super') {
                 blockQuestions = getLimitedQuestions(blockQuestions, 10);
                 showNotification(`Демо-режим: показаны 10 случайных вопросов из ${end - start}`);
             }
@@ -3834,9 +3867,9 @@
                 c: [...q.c]
             }));
             
-            // Для демо-режима ограничиваем до 10 вопросов
+            // Для супер-пользователя ограничиваем до 10 вопросов
             const username = localStorage.getItem('username');
-            if (username === 'admin') {
+            if (username === 'super') {
                 hardQuestionsList = getLimitedQuestions(hardQuestionsList, 10);
             }
             
@@ -3863,14 +3896,14 @@
                 examTimer = null;
             }
             
-            // Для демо-режима берем 10 вопросов вместо 20
+            // Для супер-пользователя берем 10 вопросов вместо 20
             const username = localStorage.getItem('username');
-            const examSize = username === 'admin' ? 10 : 20;
+            const examSize = username === 'super' ? 10 : 20;
             
             examQuestions = [...fullBase].sort(() => Math.random() - 0.5).slice(0, examSize).map(q => shuffleQuestionOptions(q));
             examCurrentIdx = 0;
             examErrors = 0;
-            examTimeLeft = username === 'admin' ? 600 : 1200; // 10 минут для демо
+            examTimeLeft = username === 'super' ? 600 : 1200; // 10 минут для супер-пользователя
             examAnswers = new Array(examSize).fill(null);
             examResults = new Array(examSize).fill(null);
             answeredQuestionsCount = 0;
@@ -3909,12 +3942,12 @@
             }
             
             const username = localStorage.getItem('username');
-            const examSize = username === 'admin' ? 10 : 20;
+            const examSize = username === 'super' ? 10 : 20;
             
             examQuestions = [...fullBase].sort(() => Math.random() - 0.5).slice(0, examSize).map(q => shuffleQuestionOptions(q));
             examCurrentIdx = 0;
             examErrors = 0;
-            examTimeLeft = username === 'admin' ? 600 : 1200;
+            examTimeLeft = username === 'super' ? 600 : 1200;
             examAnswers = new Array(examSize).fill(null);
             examResults = new Array(examSize).fill(null);
             answeredQuestionsCount = 0;
@@ -3975,7 +4008,7 @@
 
         function loadExamQuestion() {
             const username = localStorage.getItem('username');
-            const examSize = username === 'admin' ? 10 : 20;
+            const examSize = username === 'super' ? 10 : 20;
             
             if (examCurrentIdx >= examSize) {
                 finishExam(true);
@@ -4107,7 +4140,7 @@
                 if (errorsElement) errorsElement.innerText = examErrors;
                 
                 const username = localStorage.getItem('username');
-                const examSize = username === 'admin' ? 10 : 20;
+                const examSize = username === 'super' ? 10 : 20;
                 
                 if (examErrors > 2) {
                     finishExam(false);
@@ -4118,7 +4151,7 @@
             examCurrentIdx++;
             
             const username = localStorage.getItem('username');
-            const examSize = username === 'admin' ? 10 : 20;
+            const examSize = username === 'super' ? 10 : 20;
             
             if (examCurrentIdx < examSize) {
                 loadExamQuestion();
@@ -4134,7 +4167,7 @@
             }
             
             const username = localStorage.getItem('username');
-            const examSize = username === 'admin' ? 10 : 20;
+            const examSize = username === 'super' ? 10 : 20;
             const totalQuestions = examSize;
             const correctAnswers = totalQuestions - examErrors;
             const percentage = (correctAnswers / totalQuestions) * 100;
@@ -4210,7 +4243,7 @@
             }
             
             const username = localStorage.getItem('username');
-            const examSize = username === 'admin' ? 10 : 20;
+            const examSize = username === 'super' ? 10 : 20;
             
             for (let i = 0; i < examSize; i++) {
                 const result = examResults[i];
@@ -4258,7 +4291,7 @@
 
         function jumpToReview(index) {
             const username = localStorage.getItem('username');
-            const examSize = username === 'admin' ? 10 : 20;
+            const examSize = username === 'super' ? 10 : 20;
             
             if (index >= 0 && index < examSize && examResults[index] && examResults[index].question) {
                 reviewCurrentIdx = index;
@@ -4343,7 +4376,7 @@
             pagination.innerHTML = '';
             
             const username = localStorage.getItem('username');
-            const examSize = username === 'admin' ? 10 : 20;
+            const examSize = username === 'super' ? 10 : 20;
             
             for (let i = 0; i < examSize; i++) {
                 const result = examResults[i];
@@ -4384,7 +4417,7 @@
             const nextBtn = document.getElementById('review-next-btn');
             
             const username = localStorage.getItem('username');
-            const examSize = username === 'admin' ? 10 : 20;
+            const examSize = username === 'super' ? 10 : 20;
             
             if (prevBtn) {
                 prevBtn.disabled = true;
@@ -4421,7 +4454,7 @@
 
         function nextReviewQuestion() {
             const username = localStorage.getItem('username');
-            const examSize = username === 'admin' ? 10 : 20;
+            const examSize = username === 'super' ? 10 : 20;
             
             for (let i = reviewCurrentIdx + 1; i < examSize; i++) {
                 if (examResults[i] && examResults[i].question) {
@@ -4798,7 +4831,7 @@
 
         function updateExamProgress() {
             const username = localStorage.getItem('username');
-            const examSize = username === 'admin' ? 10 : 20;
+            const examSize = username === 'super' ? 10 : 20;
             const progress = ((examCurrentIdx + 1) / examSize) * 100;
             const fillElement = document.getElementById('exam-progress-fill');
             if (fillElement) fillElement.style.width = progress + '%';
