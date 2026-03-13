@@ -2554,11 +2554,1650 @@
     </div>
 
     <script>
-        // ========== СЮДА ВСТАВЬТЕ ВЕСЬ ВАШ СУЩЕСТВУЮЩИЙ JAVASCRIPT ==========
-        // Весь ваш код с переменными, функциями навигации, статистикой и т.д.
-        
-        // Для демонстрации работы новых функций добавьте эти функции:
-        
+   // Массив доступных тестов (для которых есть JSON-файлы)
+        const AVAILABLE_TESTS = ['b211', 'b26-marine'];
+
+        // Конфигурация тестов
+        const TEST_CONFIGS = {
+            // А.1 Основы - 211 вопросов / 4 блока
+            a1: {
+                code: 'А.1',
+                name: 'Основы промышленной безопасности',
+                fullName: 'А.1 Основы промышленной безопасности',
+                jsonFile: 'questions_a1.json',
+                totalQuestions: 211,
+                blocks: [
+                    { num: 1, start: 0, end: 53, desc: 'Вопросы 1 - 53' },
+                    { num: 2, start: 53, end: 106, desc: 'Вопросы 54 - 106' },
+                    { num: 3, start: 106, end: 159, desc: 'Вопросы 107 - 159' },
+                    { num: 4, start: 159, end: 211, desc: 'Вопросы 160 - 211' }
+                ]
+            },
+            // Б.2.1 - 405 вопросов / 6 блоков
+            b21: {
+                code: 'Б.2.1',
+                name: 'Эксплуатация объектов нефтяной и газовой промышленности',
+                fullName: 'Б.2.1 Эксплуатация объектов нефтяной и газовой промышленности',
+                jsonFile: 'questions_b21.json',
+                totalQuestions: 405,
+                blocks: [
+                    { num: 1, start: 0, end: 68, desc: 'Вопросы 1 - 68' },
+                    { num: 2, start: 68, end: 136, desc: 'Вопросы 69 - 136' },
+                    { num: 3, start: 136, end: 204, desc: 'Вопросы 137 - 204' },
+                    { num: 4, start: 204, end: 272, desc: 'Вопросы 205 - 272' },
+                    { num: 5, start: 272, end: 340, desc: 'Вопросы 273 - 340' },
+                    { num: 6, start: 340, end: 405, desc: 'Вопросы 341 - 405' }
+                ]
+            },
+            // Б.2.3 - 228 вопросов / 4 блока
+            b23: {
+                code: 'Б.2.3',
+                name: 'Проектирование, строительство, реконструкция',
+                fullName: 'Б.2.3 Проектирование, строительство, реконструкция и капитальный ремонт',
+                jsonFile: 'questions_b23.json',
+                totalQuestions: 228,
+                blocks: [
+                    { num: 1, start: 0, end: 57, desc: 'Вопросы 1 - 57' },
+                    { num: 2, start: 57, end: 114, desc: 'Вопросы 58 - 114' },
+                    { num: 3, start: 114, end: 171, desc: 'Вопросы 115 - 171' },
+                    { num: 4, start: 171, end: 228, desc: 'Вопросы 172 - 228' }
+                ]
+            },
+            // Б.2.6 Морские - 187 вопросов / 4 блока (АКТИВЕН)
+            'b26-marine': {
+                code: 'Б.2.6',
+                name: 'Разведка и разработка морских месторождений',
+                fullName: 'Б.2.6 Разведка и разработка морских месторождений углеводородного сырья',
+                jsonFile: 'questions_b26.json',
+                totalQuestions: 187,
+                blocks: [
+                    { num: 1, start: 0, end: 47, desc: 'Вопросы 1 - 47' },
+                    { num: 2, start: 47, end: 94, desc: 'Вопросы 48 - 94' },
+                    { num: 3, start: 94, end: 141, desc: 'Вопросы 95 - 141' },
+                    { num: 4, start: 141, end: 187, desc: 'Вопросы 142 - 187' }
+                ]
+            },
+            // Б.2.7 - 155 вопросов / 4 блока
+            b27: {
+                code: 'Б.2.7',
+                name: 'Магистральные нефтепроводы',
+                fullName: 'Б.2.7 Магистральные нефтепроводы и нефтепродуктопроводы',
+                jsonFile: 'questions_b27.json',
+                totalQuestions: 155,
+                blocks: [
+                    { num: 1, start: 0, end: 39, desc: 'Вопросы 1 - 39' },
+                    { num: 2, start: 39, end: 78, desc: 'Вопросы 40 - 78' },
+                    { num: 3, start: 78, end: 117, desc: 'Вопросы 79 - 117' },
+                    { num: 4, start: 117, end: 155, desc: 'Вопросы 118 - 155' }
+                ]
+            },
+            // Б.2.8 - 132 вопроса / 4 блока
+            b28: {
+                code: 'Б.2.8',
+                name: 'Магистральные газопроводы',
+                fullName: 'Б.2.8 Магистральные газопроводы',
+                jsonFile: 'questions_b28.json',
+                totalQuestions: 132,
+                blocks: [
+                    { num: 1, start: 0, end: 33, desc: 'Вопросы 1 - 33' },
+                    { num: 2, start: 33, end: 66, desc: 'Вопросы 34 - 66' },
+                    { num: 3, start: 66, end: 99, desc: 'Вопросы 67 - 99' },
+                    { num: 4, start: 99, end: 132, desc: 'Вопросы 100 - 132' }
+                ]
+            },
+            // Б.2.11 - 160 вопросов / 4 блока (АКТИВЕН)
+            b211: {
+                code: 'Б.2.11',
+                name: 'Ремонтные, монтажные и пусконаладочные работы',
+                fullName: 'Б.2.11 Промышленная безопасность<br>"Ремонтные, монтажные и пусконаладочные работы на опасных производственных объектах нефтегазодобычи"',
+                jsonFile: 'questions_b211.json',
+                totalQuestions: 160,
+                blocks: [
+                    { num: 1, start: 0, end: 40, desc: 'Вопросы 1 - 40' },
+                    { num: 2, start: 40, end: 80, desc: 'Вопросы 41 - 80' },
+                    { num: 3, start: 80, end: 120, desc: 'Вопросы 81 - 120' },
+                    { num: 4, start: 120, end: 160, desc: 'Вопросы 121 - 160' }
+                ]
+            },
+            // Тесты по электробезопасности
+            electro2: {
+                code: '2 гр.',
+                name: 'Электробезопасность (2 группа)',
+                fullName: 'Электробезопасность 2 группа<br>До и выше 1000В',
+                jsonFile: 'questions_electro2.json',
+                totalQuestions: 100,
+                blocks: [
+                    { num: 1, start: 0, end: 25, desc: 'Вопросы 1 - 25' },
+                    { num: 2, start: 25, end: 50, desc: 'Вопросы 26 - 50' },
+                    { num: 3, start: 50, end: 75, desc: 'Вопросы 51 - 75' },
+                    { num: 4, start: 75, end: 100, desc: 'Вопросы 76 - 100' }
+                ]
+            },
+            electro3: {
+                code: '3 гр.',
+                name: 'Электробезопасность (3 группа)',
+                fullName: 'Электробезопасность 3 группа<br>До и выше 1000В',
+                jsonFile: 'questions_electro3.json',
+                totalQuestions: 120,
+                blocks: [
+                    { num: 1, start: 0, end: 30, desc: 'Вопросы 1 - 30' },
+                    { num: 2, start: 30, end: 60, desc: 'Вопросы 31 - 60' },
+                    { num: 3, start: 60, end: 90, desc: 'Вопросы 61 - 90' },
+                    { num: 4, start: 90, end: 120, desc: 'Вопросы 91 - 120' }
+                ]
+            },
+            electro4: {
+                code: '4 гр.',
+                name: 'Электробезопасность (4 группа)',
+                fullName: 'Электробезопасность 4 группа<br>До и выше 1000В',
+                jsonFile: 'questions_electro4.json',
+                totalQuestions: 140,
+                blocks: [
+                    { num: 1, start: 0, end: 35, desc: 'Вопросы 1 - 35' },
+                    { num: 2, start: 35, end: 70, desc: 'Вопросы 36 - 70' },
+                    { num: 3, start: 70, end: 105, desc: 'Вопросы 71 - 105' },
+                    { num: 4, start: 105, end: 140, desc: 'Вопросы 106 - 140' }
+                ]
+            },
+            electro5: {
+                code: '5 гр.',
+                name: 'Электробезопасность (5 группа)',
+                fullName: 'Электробезопасность 5 группа<br>До и выше 1000В',
+                jsonFile: 'questions_electro5.json',
+                totalQuestions: 160,
+                blocks: [
+                    { num: 1, start: 0, end: 40, desc: 'Вопросы 1 - 40' },
+                    { num: 2, start: 40, end: 80, desc: 'Вопросы 41 - 80' },
+                    { num: 3, start: 80, end: 120, desc: 'Вопросы 81 - 120' },
+                    { num: 4, start: 120, end: 160, desc: 'Вопросы 121 - 160' }
+                ]
+            }
+        };
+
+        // Основные переменные
+        let fullBase = [];
+        let activeQuestions = [];
+        let currentIdx = 0;
+        let score = 0;
+        let selectedOptions = [];
+        let hardQuestions = [];
+        let examQuestions = [];
+        let examCurrentIdx = 0;
+        let examErrors = 0;
+        let examTimer = null;
+        let examTimeLeft = 1200;
+        let examAnswers = [];
+        let examResults = [];
+        let reviewCurrentIdx = 0;
+        let answeredQuestionsCount = 0;
+        let currentTest = 'b211';
+        let answerStates = new Map();
+
+        let trainingState = {
+            activeQuestions: [],
+            currentIdx: 0,
+            score: 0,
+            blockNum: null,
+            questionStates: []
+        };
+
+        // Функция для форматирования пояснений (звездочки в жирный текст)
+        function formatExplanation(text) {
+            if (!text) return text;
+            // Заменяем **текст** на <strong>текст</strong>
+            return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        }
+
+        // Регистрация Service Worker для PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('sw.js').then(function(registration) {
+                    console.log('ServiceWorker успешно зарегистрирован');
+                }).catch(function(err) {
+                    console.log('Ошибка регистрации ServiceWorker: ', err);
+                });
+            });
+        }
+
+        // Функция показа уведомления
+        function showNotification(message) {
+            const container = document.getElementById('notificationContainer');
+            
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <div class="notification-title">⚡ Информация</div>
+                    <div class="notification-message">${message}</div>
+                </div>
+                <button class="notification-close" onclick="this.parentElement.remove()">×</button>
+            `;
+            
+            container.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 3000);
+        }
+
+        // Функции для дропдауна
+        function toggleTestDropdown() {
+            const menu = document.getElementById('testDropdown');
+            const btn = document.getElementById('testSelectorBtn');
+            menu.classList.toggle('show');
+            btn.classList.toggle('active');
+        }
+
+        // Закрытие дропдауна при клике вне его
+        document.addEventListener('click', function(event) {
+            const selector = document.querySelector('.test-selector');
+            const menu = document.getElementById('testDropdown');
+            const btn = document.getElementById('testSelectorBtn');
+            
+            if (selector && !selector.contains(event.target)) {
+                if (menu) menu.classList.remove('show');
+                if (btn) btn.classList.remove('active');
+            }
+        });
+
+        // Функция для полной очистки всех экранов при переключении теста
+        function resetAllScreens() {
+            // Скрываем все экраны кроме меню
+            document.getElementById('menu-screen').style.display = 'block';
+            document.getElementById('quiz-screen').style.display = 'none';
+            document.getElementById('exam-screen').style.display = 'none';
+            document.getElementById('exam-review-screen').style.display = 'none';
+            
+            // Сбрасываем отображение элементов экзамена
+            const examQuestionContainer = document.getElementById('exam-question-container');
+            const examOptionsBox = document.getElementById('exam-options-box');
+            const examNextBtn = document.getElementById('exam-next-btn');
+            const examResult = document.getElementById('exam-result');
+            
+            if (examQuestionContainer) examQuestionContainer.style.display = 'block';
+            if (examOptionsBox) examOptionsBox.style.display = 'flex';
+            if (examNextBtn) examNextBtn.style.display = 'none';
+            if (examResult) examResult.style.display = 'none';
+            
+            // Очищаем содержимое
+            const qText = document.getElementById('q-text');
+            const optionsBox = document.getElementById('options-box');
+            const expBox = document.getElementById('exp-box');
+            const examQText = document.getElementById('exam-q-text');
+            const examOptionsBox_ = document.getElementById('exam-options-box');
+            const reviewQText = document.getElementById('review-q-text');
+            const reviewOptionsBox = document.getElementById('review-options-box');
+            const reviewExpBox = document.getElementById('review-exp-box');
+            
+            if (qText) qText.innerHTML = '';
+            if (optionsBox) optionsBox.innerHTML = '';
+            if (expBox) {
+                expBox.innerHTML = '';
+                expBox.style.display = 'none';
+            }
+            if (examQText) examQText.innerHTML = '';
+            if (examOptionsBox_) examOptionsBox_.innerHTML = '';
+            if (reviewQText) reviewQText.innerHTML = '';
+            if (reviewOptionsBox) reviewOptionsBox.innerHTML = '';
+            if (reviewExpBox) reviewExpBox.innerHTML = '';
+            
+            // Сбрасываем счетчики
+            const qCounter = document.getElementById('q-counter');
+            const scoreDisplay = document.getElementById('score-display');
+            const examCounter = document.getElementById('exam-counter');
+            const examErrors_ = document.getElementById('exam-errors');
+            const reviewCounter = document.getElementById('review-counter');
+            const reviewHardCount = document.getElementById('review-hard-count');
+            
+            if (qCounter) qCounter.innerText = '0/0';
+            if (scoreDisplay) scoreDisplay.innerText = '0';
+            if (examCounter) examCounter.innerText = '0/20';
+            if (examErrors_) examErrors_.innerText = '0';
+            if (reviewCounter) reviewCounter.innerText = '0/20';
+            if (reviewHardCount) reviewHardCount.innerText = '0';
+            
+            // Сбрасываем прогресс-бары
+            const progressFill = document.getElementById('progress-fill');
+            const examProgressFill = document.getElementById('exam-progress-fill');
+            const reviewProgressFill = document.getElementById('review-progress-fill');
+            
+            if (progressFill) progressFill.style.width = '0%';
+            if (examProgressFill) examProgressFill.style.width = '0%';
+            if (reviewProgressFill) reviewProgressFill.style.width = '0%';
+            
+            // Сбрасываем таймер
+            const timerDisplay = document.getElementById('timer-display');
+            if (timerDisplay) {
+                timerDisplay.innerText = '20:00';
+            }
+            const timerContainer = document.querySelector('.timer-container');
+            if (timerContainer) {
+                timerContainer.classList.remove('timer-warning');
+            }
+        }
+
+        // Функция для создания блоков
+        function renderBlocks(config) {
+            const container = document.getElementById('blocksContainer');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            // Создаем блоки
+            config.blocks.forEach(block => {
+                const blockCard = document.createElement('div');
+                blockCard.className = 'block-card';
+                blockCard.setAttribute('onclick', `startBlock(${block.num}, ${block.start}, ${block.end})`);
+                blockCard.innerHTML = `
+                    <h3>БЛОК ${block.num}</h3>
+                    <p>${block.desc}</p>
+                `;
+                container.appendChild(blockCard);
+            });
+            
+            // Добавляем итоговое тестирование
+            const examCard = document.createElement('div');
+            examCard.className = 'block-card exam-card';
+            examCard.setAttribute('onclick', 'startExam()');
+            examCard.innerHTML = `
+                <h3>Итоговое тестирование</h3>
+                <p>20 вопросов | 20 минут | допуск: 2 ошибки</p>
+            `;
+            container.appendChild(examCard);
+        }
+
+        // Выбор теста (исправленная версия с полной очисткой)
+        function selectTest(testId) {
+            if (!TEST_CONFIGS[testId]) {
+                showNotification('Тест появится в скором времени');
+                return;
+            }
+            
+            // Проверяем, доступен ли тест
+            if (!AVAILABLE_TESTS.includes(testId)) {
+                showNotification(`Тест "${TEST_CONFIGS[testId].name}" появится в ближайшее время`);
+                return;
+            }
+            
+            console.log('Переключение на тест:', testId);
+            
+            // Принудительно сбрасываем все экраны
+            resetAllScreens();
+            
+            // ПОЛНАЯ ОЧИСТКА ВСЕХ ДАННЫХ
+            fullBase = [];
+            activeQuestions = [];
+            hardQuestions = [];
+            examQuestions = [];
+            examAnswers = [];
+            examResults = [];
+            
+            // Сбрасываем индексы и счетчики
+            currentIdx = 0;
+            score = 0;
+            examCurrentIdx = 0;
+            examErrors = 0;
+            examTimeLeft = 1200;
+            answeredQuestionsCount = 0;
+            reviewCurrentIdx = 0;
+            
+            // Очищаем Map с состояниями ответов
+            answerStates.clear();
+            
+            // Очищаем выбранные опции
+            selectedOptions = [];
+            
+            // Останавливаем таймер если он запущен
+            if (examTimer) {
+                clearInterval(examTimer);
+                examTimer = null;
+            }
+            
+            // Очищаем состояние тренировки для предыдущего теста
+            clearTrainingState();
+            
+            currentTest = testId;
+            const config = TEST_CONFIGS[testId];
+            
+            // Обновляем отображение
+            document.getElementById('selectedTestDisplay').innerText = `${config.code} ${config.name}`;
+            document.getElementById('testTitle').innerHTML = config.fullName;
+            
+            // Очищаем меню и создаем новые блоки
+            const menuGrid = document.querySelector('.menu-grid');
+            if (menuGrid) {
+                menuGrid.innerHTML = '';
+                config.blocks.forEach(block => {
+                    const blockCard = document.createElement('div');
+                    blockCard.className = 'block-card';
+                    blockCard.setAttribute('onclick', `startBlock(${block.num}, ${block.start}, ${block.end})`);
+                    blockCard.innerHTML = `
+                        <h3>БЛОК ${block.num}</h3>
+                        <p>${block.desc}</p>
+                    `;
+                    menuGrid.appendChild(blockCard);
+                });
+                
+                // Добавляем итоговое тестирование
+                const examCard = document.createElement('div');
+                examCard.className = 'block-card exam-card';
+                examCard.setAttribute('onclick', 'startExam()');
+                examCard.innerHTML = `
+                    <h3>Итоговое тестирование</h3>
+                    <p>20 вопросов | 20 минут | допуск: 2 ошибки</p>
+                `;
+                menuGrid.appendChild(examCard);
+            }
+            
+            // Обновляем выделение в дропдауне
+            document.querySelectorAll('.test-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            const selectedItem = document.querySelector(`.test-item[data-test="${testId}"]`);
+            if (selectedItem) selectedItem.classList.add('selected');
+            
+            // Закрываем дропдаун
+            document.getElementById('testDropdown').classList.remove('show');
+            document.getElementById('testSelectorBtn').classList.remove('active');
+            
+            // Загружаем вопросы нового теста
+            loadQuestions(testId);
+        }
+
+        // Загрузка вопросов (исправленная версия с анти-кешированием)
+        async function loadQuestions(testId) {
+            const config = TEST_CONFIGS[testId];
+            
+            try {
+                console.log(`Загрузка вопросов для ${testId} из файла ${config.jsonFile}`);
+                
+                // Добавляем параметр для избежания кеширования браузером
+                const response = await fetch(`${config.jsonFile}?t=${Date.now()}`);
+                
+                if (!response.ok) {
+                    throw new Error(`Ошибка загрузки: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('JSON загружен, ключи:', Object.keys(data));
+                
+                // Обрабатываем особый случай для b26-marine (ключ в JSON - 'b26')
+                if (testId === 'b26-marine') {
+                    fullBase = data.b26 || [];
+                    console.log('Загружено для Б.2.6 из ключа b26:', fullBase.length);
+                } else {
+                    fullBase = data[testId] || [];
+                }
+                
+                console.log(`Загружено ${fullBase.length} вопросов для ${testId}`);
+                
+                if (fullBase.length === 0) {
+                    console.log('Доступные ключи в JSON:', Object.keys(data));
+                    showNotification(`В файле нет вопросов для теста ${testId}`);
+                    return;
+                }
+                
+                // Загружаем трудные вопросы для этого теста
+                const saved = localStorage.getItem(`hardQuestions_${testId}`);
+                if (saved) {
+                    try {
+                        hardQuestions = JSON.parse(saved);
+                        if (!Array.isArray(hardQuestions)) {
+                            hardQuestions = [];
+                        }
+                    } catch (e) {
+                        hardQuestions = [];
+                    }
+                }
+                
+                updateHardCount();
+                showNotification(`Загружено ${fullBase.length} вопросов`);
+                
+            } catch (error) {
+                console.error('Ошибка:', error);
+                showNotification(`База "${config.name}" появится в скором времени`);
+                fullBase = [];
+            }
+        }
+
+        // Функции для работы с вопросами
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function shuffleQuestionOptions(question) {
+            if (question.originalOptions) return question;
+            
+            const options = [...question.o];
+            const correctIndices = [...question.c];
+            
+            const optionsWithIndex = options.map((text, index) => ({
+                text,
+                originalIndex: index
+            }));
+            
+            const shuffledOptionsWithIndex = shuffleArray([...optionsWithIndex]);
+            
+            const newCorrectIndices = [];
+            shuffledOptionsWithIndex.forEach((item, newIndex) => {
+                if (correctIndices.includes(item.originalIndex)) {
+                    newCorrectIndices.push(newIndex);
+                }
+            });
+            
+            return {
+                ...question,
+                originalOptions: options,
+                originalCorrect: correctIndices,
+                o: shuffledOptionsWithIndex.map(item => item.text),
+                c: newCorrectIndices.sort((a, b) => a - b)
+            };
+        }
+
+        function restoreOriginalOptions(question) {
+            if (!question.originalOptions) return question;
+            
+            return {
+                ...question,
+                o: question.originalOptions,
+                c: question.originalCorrect,
+                originalOptions: undefined,
+                originalCorrect: undefined
+            };
+        }
+
+        function showError(message) {
+            const menuScreen = document.getElementById('menu-screen');
+            if (!menuScreen) return;
+            
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.innerHTML = `
+                <h3>Идет работа над обновлением базы</h3>
+                <p>${message}</p>
+            `;
+            menuScreen.insertBefore(errorDiv, menuScreen.firstChild);
+        }
+
+        function showRestoreNotification(savedTraining) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #cd5c5c;
+                color: white;
+                padding: 15px 20px;
+                border-radius: 4px;
+                z-index: 1000;
+                cursor: pointer;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                border-left: 4px solid #ffd700;
+            `;
+            notification.innerHTML = `
+                <strong>Есть сохраненный прогресс</strong><br>
+                <small>Нажмите чтобы продолжить</small>
+            `;
+            notification.onclick = function() {
+                activeQuestions = savedTraining.activeQuestions;
+                currentIdx = savedTraining.currentIdx;
+                score = savedTraining.score;
+                
+                answerStates.clear();
+                savedTraining.questionStates.forEach(state => {
+                    if (state.answerState) {
+                        answerStates.set(state.id, state.answerState);
+                    }
+                    if (state.isHard && !hardQuestions.includes(state.id)) {
+                        hardQuestions.push(state.id);
+                    }
+                });
+                
+                initQuiz();
+                this.remove();
+            };
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 10000);
+        }
+
+        function loadTrainingState() {
+            const saved = localStorage.getItem(`trainingState_${currentTest}`);
+            if (saved) {
+                try {
+                    trainingState = JSON.parse(saved);
+                    if (trainingState.activeQuestions && trainingState.activeQuestions.length > 0) {
+                        return trainingState;
+                    }
+                } catch (e) {}
+            }
+            return null;
+        }
+
+        function saveTrainingState() {
+            if (activeQuestions.length > 0 && document.getElementById('quiz-screen') && 
+                document.getElementById('quiz-screen').style.display === 'block') {
+                const restoredQuestions = activeQuestions.map(q => restoreOriginalOptions(q));
+                
+                const questionStates = restoredQuestions.map(q => ({
+                    id: q.id,
+                    isHard: hardQuestions.includes(q.id),
+                    answerState: answerStates.get(q.id) || null
+                }));
+                
+                trainingState = {
+                    activeQuestions: restoredQuestions,
+                    currentIdx: currentIdx,
+                    score: score,
+                    blockNum: trainingState.blockNum,
+                    questionStates: questionStates
+                };
+                localStorage.setItem(`trainingState_${currentTest}`, JSON.stringify(trainingState));
+            }
+        }
+
+        function clearTrainingState() {
+            localStorage.removeItem(`trainingState_${currentTest}`);
+            trainingState = {
+                activeQuestions: [],
+                currentIdx: 0,
+                score: 0,
+                blockNum: null,
+                questionStates: []
+            };
+        }
+
+        function startBlock(num, start, end) {
+            if (fullBase.length === 0) {
+                alert('База вопросов обновляется. Пожалуйста, подождите.');
+                return;
+            }
+            
+            const savedState = loadTrainingState();
+            
+            if (savedState && savedState.blockNum === num && savedState.activeQuestions.length > 0) {
+                if (confirm('Обнаружено сохраненное состояние блока. Продолжить с того же места?')) {
+                    activeQuestions = savedState.activeQuestions.map(q => shuffleQuestionOptions(q));
+                    currentIdx = savedState.currentIdx;
+                    score = savedState.score;
+                    
+                    answerStates.clear();
+                    savedState.questionStates.forEach(state => {
+                        if (state.answerState) {
+                            answerStates.set(state.id, state.answerState);
+                        }
+                        if (state.isHard && !hardQuestions.includes(state.id)) {
+                            hardQuestions.push(state.id);
+                        }
+                    });
+                    localStorage.setItem(`hardQuestions_${currentTest}`, JSON.stringify(hardQuestions));
+                    
+                    initQuiz();
+                    return;
+                } else {
+                    clearTrainingState();
+                }
+            }
+            
+            activeQuestions = fullBase.slice(start, end).map(q => ({
+                ...q,
+                c: [...q.c]
+            })).map(q => shuffleQuestionOptions(q)).sort(() => Math.random() - 0.5);
+            
+            answerStates.clear();
+            trainingState.blockNum = num;
+            clearTrainingState();
+            initQuiz();
+        }
+
+        function startHardMode() {
+            if (fullBase.length === 0) {
+                alert('База вопросов обновляется. Пожалуйста, подождите.');
+                return;
+            }
+            
+            activeQuestions = fullBase.filter(q => hardQuestions.includes(q.id)).map(q => ({
+                ...q,
+                c: [...q.c]
+            })).map(q => shuffleQuestionOptions(q));
+            
+            if (activeQuestions.length === 0) {
+                alert('Нет отмеченных вопросов. Отмечайте сложные вопросы звездочкой!');
+                return;
+            }
+            
+            answerStates.clear();
+            clearTrainingState();
+            initQuiz();
+        }
+
+        function startExam() {
+            if (fullBase.length === 0) {
+                alert('База вопросов обновляется. Пожалуйста, подождите.');
+                return;
+            }
+            
+            if (examTimer) {
+                clearInterval(examTimer);
+                examTimer = null;
+            }
+            
+            examQuestions = [...fullBase].sort(() => Math.random() - 0.5).slice(0, 20).map(q => shuffleQuestionOptions(q));
+            examCurrentIdx = 0;
+            examErrors = 0;
+            examTimeLeft = 1200;
+            examAnswers = new Array(20).fill(null);
+            examResults = new Array(20).fill(null);
+            answeredQuestionsCount = 0;
+            
+            document.getElementById('menu-screen').style.display = 'none';
+            document.getElementById('quiz-screen').style.display = 'none';
+            document.getElementById('exam-screen').style.display = 'block';
+            document.getElementById('exam-review-screen').style.display = 'none';
+            
+            document.getElementById('exam-result').style.display = 'none';
+            document.getElementById('exam-next-btn').style.display = 'none';
+            
+            document.getElementById('exam-question-container').style.display = 'block';
+            document.getElementById('exam-options-box').style.display = 'flex';
+            
+            const timerContainer = document.querySelector('.timer-container');
+            const stats = document.querySelector('.stats');
+            const progressContainer = document.querySelector('.progress-container');
+            
+            if (timerContainer) timerContainer.style.display = 'inline-flex';
+            if (stats) stats.style.display = 'flex';
+            if (progressContainer) progressContainer.style.display = 'block';
+            
+            startExamTimer();
+            loadExamQuestion();
+        }
+
+        function restartExam() {
+            if (examTimer) {
+                clearInterval(examTimer);
+                examTimer = null;
+            }
+            
+            examQuestions = [...fullBase].sort(() => Math.random() - 0.5).slice(0, 20).map(q => shuffleQuestionOptions(q));
+            examCurrentIdx = 0;
+            examErrors = 0;
+            examTimeLeft = 1200;
+            examAnswers = new Array(20).fill(null);
+            examResults = new Array(20).fill(null);
+            answeredQuestionsCount = 0;
+            
+            document.getElementById('exam-result').style.display = 'none';
+            document.getElementById('exam-next-btn').style.display = 'none';
+            
+            document.getElementById('exam-question-container').style.display = 'block';
+            document.getElementById('exam-options-box').style.display = 'flex';
+            
+            const timerContainer = document.querySelector('.timer-container');
+            const stats = document.querySelector('.stats');
+            const progressContainer = document.querySelector('.progress-container');
+            
+            if (timerContainer) timerContainer.style.display = 'inline-flex';
+            if (stats) stats.style.display = 'flex';
+            if (progressContainer) progressContainer.style.display = 'block';
+            
+            startExamTimer();
+            loadExamQuestion();
+        }
+
+        function startExamTimer() {
+            if (examTimer) {
+                clearInterval(examTimer);
+                examTimer = null;
+            }
+            
+            examTimer = setInterval(() => {
+                if (examTimeLeft > 0) {
+                    examTimeLeft--;
+                    updateExamTimerDisplay();
+                    
+                    const timerElement = document.getElementById('timer');
+                    if (timerElement && examTimeLeft <= 60) {
+                        timerElement.classList.add('timer-warning');
+                    }
+                    
+                    if (examTimeLeft <= 0) {
+                        finishExam(false);
+                    }
+                }
+            }, 1000);
+        }
+
+        function updateExamTimerDisplay() {
+            const minutes = Math.floor(examTimeLeft / 60);
+            const seconds = examTimeLeft % 60;
+            const timerDisplay = document.getElementById('timer-display');
+            if (timerDisplay) {
+                timerDisplay.textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+        }
+
+        function loadExamQuestion() {
+            if (examCurrentIdx >= 20) {
+                finishExam(true);
+                return;
+            }
+
+            const q = examQuestions[examCurrentIdx];
+            if (!q) return;
+            
+            const qText = document.getElementById('exam-q-text');
+            if (qText) qText.innerText = q.q;
+            
+            const counter = document.getElementById('exam-counter');
+            if (counter) counter.innerText = `${examCurrentIdx + 1}/20`;
+            
+            const errors = document.getElementById('exam-errors');
+            if (errors) errors.innerText = examErrors;
+            
+            const box = document.getElementById('exam-options-box');
+            if (!box) return;
+            box.innerHTML = '';
+            
+            const savedAnswer = examAnswers[examCurrentIdx];
+            const isMultiple = q.c.length > 1;
+            
+            q.o.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                
+                if (savedAnswer !== null && savedAnswer !== undefined) {
+                    if (isMultiple) {
+                        if (Array.isArray(savedAnswer) && savedAnswer.includes(i)) {
+                            btn.classList.add('selected');
+                        }
+                    } else {
+                        if (savedAnswer === i) {
+                            btn.classList.add('selected');
+                        }
+                    }
+                }
+                
+                btn.onclick = () => selectExamOption(i, btn);
+                box.appendChild(btn);
+            });
+
+            updateExamProgress();
+            
+            const nextBtn = document.getElementById('exam-next-btn');
+            if (nextBtn) {
+                nextBtn.style.display = savedAnswer !== null ? 'block' : 'none';
+            }
+        }
+
+        function selectExamOption(idx, btn) {
+            const q = examQuestions[examCurrentIdx];
+            if (!q) return;
+            
+            const isMultiple = q.c.length > 1;
+            let currentAnswer = examAnswers[examCurrentIdx];
+            
+            if (isMultiple) {
+                if (!currentAnswer || !Array.isArray(currentAnswer)) currentAnswer = [];
+                
+                if (currentAnswer.includes(idx)) {
+                    currentAnswer = currentAnswer.filter(i => i !== idx);
+                    btn.classList.remove('selected');
+                } else {
+                    currentAnswer.push(idx);
+                    btn.classList.add('selected');
+                }
+                
+                examAnswers[examCurrentIdx] = currentAnswer;
+            } else {
+                const box = document.getElementById('exam-options-box');
+                if (box) {
+                    box.querySelectorAll('.option-btn').forEach(b => {
+                        b.classList.remove('selected');
+                    });
+                }
+                
+                btn.classList.add('selected');
+                examAnswers[examCurrentIdx] = idx;
+            }
+            
+            const nextBtn = document.getElementById('exam-next-btn');
+            if (nextBtn) {
+                nextBtn.style.display = 'block';
+            }
+        }
+
+        function nextExamQuestion() {
+            const selectedAnswer = examAnswers[examCurrentIdx];
+            const q = examQuestions[examCurrentIdx];
+            if (!q) return;
+            
+            const isMultiple = q.c.length > 1;
+            
+            if (isMultiple) {
+                if (!selectedAnswer || selectedAnswer.length === 0) {
+                    alert('Выберите вариант ответа!');
+                    return;
+                }
+            } else {
+                if (selectedAnswer === null || selectedAnswer === undefined) {
+                    alert('Выберите вариант ответа!');
+                    return;
+                }
+            }
+            
+            let isCorrect;
+            if (isMultiple) {
+                isCorrect = q.c.length === selectedAnswer.length && 
+                           q.c.every(v => selectedAnswer.includes(v));
+            } else {
+                isCorrect = q.c.includes(selectedAnswer);
+            }
+            
+            examResults[examCurrentIdx] = {
+                question: q,
+                selectedAnswer: selectedAnswer,
+                isCorrect: isCorrect
+            };
+            answeredQuestionsCount++;
+            
+            if (!isCorrect) {
+                examErrors++;
+                const errorsElement = document.getElementById('exam-errors');
+                if (errorsElement) errorsElement.innerText = examErrors;
+                
+                if (examErrors > 2) {
+                    finishExam(false);
+                    return;
+                }
+            }
+
+            examCurrentIdx++;
+            
+            if (examCurrentIdx < 20) {
+                loadExamQuestion();
+            } else {
+                finishExam(true);
+            }
+        }
+
+        function finishExam(completed) {
+            if (examTimer) {
+                clearInterval(examTimer);
+                examTimer = null;
+            }
+            
+            const totalQuestions = 20;
+            const correctAnswers = totalQuestions - examErrors;
+            const percentage = (correctAnswers / totalQuestions) * 100;
+            const passed = completed && examErrors <= 2 && examTimeLeft > 0;
+            
+            const questionContainer = document.getElementById('exam-question-container');
+            const optionsBox = document.getElementById('exam-options-box');
+            const nextBtn = document.getElementById('exam-next-btn');
+            const timerContainer = document.querySelector('.timer-container');
+            const stats = document.querySelector('.stats');
+            const progressContainer = document.querySelector('.progress-container');
+            
+            if (questionContainer) questionContainer.style.display = 'none';
+            if (optionsBox) optionsBox.style.display = 'none';
+            if (nextBtn) nextBtn.style.display = 'none';
+            if (timerContainer) timerContainer.style.display = 'none';
+            if (stats) stats.style.display = 'none';
+            if (progressContainer) progressContainer.style.display = 'none';
+            
+            const resultDiv = document.getElementById('exam-result');
+            if (resultDiv) resultDiv.style.display = 'block';
+            
+            const resultTitle = document.getElementById('exam-result-title');
+            const resultScore = document.getElementById('exam-result-score');
+            const resultDetails = document.getElementById('exam-result-details');
+            
+            if (resultTitle) {
+                if (passed) {
+                    resultTitle.innerHTML = 'РЕЗУЛЬТАТ: СДАНО';
+                    resultTitle.className = 'result-title result-pass';
+                } else {
+                    resultTitle.innerHTML = 'РЕЗУЛЬТАТ: НЕ СДАНО';
+                    resultTitle.className = 'result-title result-fail';
+                }
+            }
+            
+            if (resultScore) {
+                resultScore.innerHTML = `${correctAnswers}/20`;
+                resultScore.className = passed ? 'result-score result-pass' : 'result-score result-fail';
+            }
+            
+            let reason = '';
+            if (examErrors > 2) {
+                reason = `Допущено ошибок: ${examErrors} (максимум 2)`;
+            } else if (examTimeLeft <= 0) {
+                reason = 'Истекло время экзамена';
+            }
+            
+            if (resultDetails) {
+                resultDetails.innerHTML = `
+                    Правильных ответов: ${correctAnswers} из 20<br>
+                    Ошибок: ${examErrors}<br>
+                    Процент правильных: ${percentage.toFixed(1)}%<br>
+                    ${reason ? '<br>Причина: ' + reason : ''}
+                `;
+            }
+            
+            renderExamResultQuestions();
+        }
+
+        function renderExamResultQuestions() {
+            const container = document.getElementById('exam-result-questions');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            if (answeredQuestionsCount === 0) {
+                const emptyMessage = document.createElement('div');
+                emptyMessage.className = 'empty-message';
+                emptyMessage.innerText = 'Нет отвеченных вопросов';
+                container.appendChild(emptyMessage);
+                return;
+            }
+            
+            for (let i = 0; i < 20; i++) {
+                const result = examResults[i];
+                
+                if (result && result.question) {
+                    const item = document.createElement('div');
+                    item.className = 'result-question-item';
+                    
+                    const isHard = hardQuestions.includes(result.question.id);
+                    
+                    item.innerHTML = `
+                        <div class="result-question-info" onclick="jumpToReview(${i})">
+                            <span class="result-question-number">Вопрос ${i + 1}</span>
+                            <span class="result-question-text">${result.question.q.substring(0, 50)}...</span>
+                            <span class="result-question-status ${result.isCorrect ? 'status-correct' : 'status-wrong'}"></span>
+                        </div>
+                        <button class="result-star-btn ${isHard ? 'active' : ''}" onclick="toggleExamHard(${result.question.id}, event)">★</button>
+                    `;
+                    
+                    container.appendChild(item);
+                }
+            }
+        }
+
+        function startReview() {
+            if (!examResults || examResults.length === 0 || !examResults.some(r => r && r.question)) {
+                alert('Нет данных для просмотра');
+                return;
+            }
+            
+            reviewCurrentIdx = 0;
+            
+            document.getElementById('exam-screen').style.display = 'none';
+            document.getElementById('exam-review-screen').style.display = 'block';
+            
+            loadReviewQuestion();
+            updateReviewPagination();
+            updateReviewNavigationButtons();
+        }
+
+        function showExamResults() {
+            document.getElementById('exam-review-screen').style.display = 'none';
+            document.getElementById('exam-screen').style.display = 'block';
+        }
+
+        function jumpToReview(index) {
+            if (index >= 0 && index < 20 && examResults[index] && examResults[index].question) {
+                reviewCurrentIdx = index;
+                
+                document.getElementById('exam-screen').style.display = 'none';
+                document.getElementById('exam-review-screen').style.display = 'block';
+                
+                loadReviewQuestion();
+                updateReviewPagination();
+                updateReviewNavigationButtons();
+            }
+        }
+
+        function loadReviewQuestion() {
+            const result = examResults[reviewCurrentIdx];
+            if (!result || !result.question) return;
+            
+            const q = result.question;
+            
+            const qText = document.getElementById('review-q-text');
+            if (qText) qText.innerText = q.q;
+            
+            const counter = document.getElementById('review-counter');
+            if (counter) counter.innerText = `${reviewCurrentIdx + 1}/20`;
+            
+            const hardCount = document.getElementById('review-hard-count');
+            if (hardCount) hardCount.innerText = hardQuestions.length;
+            
+            const starBtn = document.getElementById('review-star-btn');
+            if (starBtn) {
+                starBtn.classList.toggle('active', hardQuestions.includes(q.id));
+            }
+            
+            const box = document.getElementById('review-options-box');
+            if (!box) return;
+            box.innerHTML = '';
+            
+            const isMultiple = q.c.length > 1;
+            
+            q.o.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                btn.disabled = true;
+                
+                if (q.c.includes(i)) {
+                    btn.classList.add('review-correct');
+                }
+                
+                if (result.selectedAnswer !== null && result.selectedAnswer !== undefined) {
+                    if (isMultiple) {
+                        if (Array.isArray(result.selectedAnswer) && result.selectedAnswer.includes(i)) {
+                            btn.classList.add('review-selected');
+                            if (!q.c.includes(i)) {
+                                btn.classList.add('review-wrong');
+                            }
+                        }
+                    } else {
+                        if (result.selectedAnswer === i) {
+                            btn.classList.add('review-selected');
+                            if (!q.c.includes(i)) {
+                                btn.classList.add('review-wrong');
+                            }
+                        }
+                    }
+                }
+                
+                box.appendChild(btn);
+            });
+
+            const expBox = document.getElementById('review-exp-box');
+            if (expBox) expBox.innerHTML = formatExplanation(q.e);
+            
+            updateReviewProgress();
+            updateReviewPaginationActive();
+        }
+
+        function updateReviewPagination() {
+            const pagination = document.getElementById('review-pagination');
+            if (!pagination) return;
+            
+            pagination.innerHTML = '';
+            
+            for (let i = 0; i < 20; i++) {
+                const result = examResults[i];
+                
+                if (result && result.question) {
+                    const btn = document.createElement('button');
+                    btn.className = 'page-btn';
+                    btn.innerText = i + 1;
+                    
+                    if (result.isCorrect !== undefined) {
+                        btn.classList.add(result.isCorrect ? 'correct' : 'wrong');
+                    }
+                    
+                    if (i === reviewCurrentIdx) {
+                        btn.classList.add('active');
+                    }
+                    
+                    btn.onclick = () => jumpToReview(i);
+                    pagination.appendChild(btn);
+                }
+            }
+        }
+
+        function updateReviewPaginationActive() {
+            const buttons = document.querySelectorAll('#review-pagination .page-btn');
+            buttons.forEach((btn, index) => {
+                btn.classList.remove('active');
+                
+                const result = examResults[index];
+                if (result && result.question && index === reviewCurrentIdx) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function updateReviewNavigationButtons() {
+            const prevBtn = document.getElementById('review-prev-btn');
+            const nextBtn = document.getElementById('review-next-btn');
+            
+            if (prevBtn) {
+                prevBtn.disabled = true;
+                for (let i = reviewCurrentIdx - 1; i >= 0; i--) {
+                    if (examResults[i] && examResults[i].question) {
+                        prevBtn.disabled = false;
+                        break;
+                    }
+                }
+            }
+            
+            if (nextBtn) {
+                nextBtn.disabled = true;
+                for (let i = reviewCurrentIdx + 1; i < 20; i++) {
+                    if (examResults[i] && examResults[i].question) {
+                        nextBtn.disabled = false;
+                        break;
+                    }
+                }
+            }
+        }
+
+        function prevReviewQuestion() {
+            for (let i = reviewCurrentIdx - 1; i >= 0; i--) {
+                if (examResults[i] && examResults[i].question) {
+                    reviewCurrentIdx = i;
+                    loadReviewQuestion();
+                    updateReviewPaginationActive();
+                    updateReviewNavigationButtons();
+                    break;
+                }
+            }
+        }
+
+        function nextReviewQuestion() {
+            for (let i = reviewCurrentIdx + 1; i < 20; i++) {
+                if (examResults[i] && examResults[i].question) {
+                    reviewCurrentIdx = i;
+                    loadReviewQuestion();
+                    updateReviewPaginationActive();
+                    updateReviewNavigationButtons();
+                    break;
+                }
+            }
+        }
+
+        function toggleReviewHard() {
+            const result = examResults[reviewCurrentIdx];
+            if (!result || !result.question) return;
+            
+            const id = result.question.id;
+            if (hardQuestions.includes(id)) {
+                hardQuestions = hardQuestions.filter(h => h !== id);
+            } else {
+                hardQuestions.push(id);
+            }
+
+            localStorage.setItem(`hardQuestions_${currentTest}`, JSON.stringify(hardQuestions));
+            
+            const starBtn = document.getElementById('review-star-btn');
+            if (starBtn) starBtn.classList.toggle('active');
+            
+            const hardCount = document.getElementById('review-hard-count');
+            if (hardCount) hardCount.innerText = hardQuestions.length;
+            
+            updateHardCount();
+            renderExamResultQuestions();
+        }
+
+        function toggleExamHard(questionId, event) {
+            event.stopPropagation();
+            
+            if (hardQuestions.includes(questionId)) {
+                hardQuestions = hardQuestions.filter(h => h !== questionId);
+            } else {
+                hardQuestions.push(questionId);
+            }
+
+            localStorage.setItem(`hardQuestions_${currentTest}`, JSON.stringify(hardQuestions));
+            updateHardCount();
+            
+            const btn = event.target;
+            btn.classList.toggle('active');
+            
+            renderExamResultQuestions();
+        }
+
+        function initQuiz() {
+            if (!activeQuestions.length) return;
+            
+            document.getElementById('menu-screen').style.display = 'none';
+            document.getElementById('quiz-screen').style.display = 'block';
+            document.getElementById('exam-screen').style.display = 'none';
+            document.getElementById('exam-review-screen').style.display = 'none';
+            
+            updateHardCount();
+            renderPagination();
+            loadQuestion();
+            updateNavigationButtons();
+        }
+
+        function renderPagination() {
+            const pagination = document.getElementById('pagination');
+            if (!pagination) return;
+            pagination.innerHTML = '';
+            
+            activeQuestions.forEach((q, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'page-btn';
+                btn.innerText = index + 1;
+                
+                const state = answerStates.get(q.id);
+                if (state && state.isChecked) {
+                    btn.classList.add(state.isCorrect ? 'correct' : 'wrong');
+                } else if (state && state.selected && state.selected.length > 0) {
+                    btn.classList.add('answered');
+                }
+                
+                if (index === currentIdx) {
+                    btn.classList.add('active');
+                }
+                
+                btn.onclick = () => jumpToQuestion(index);
+                pagination.appendChild(btn);
+            });
+        }
+
+        function updatePaginationActive() {
+            const buttons = document.querySelectorAll('.page-btn');
+            buttons.forEach((btn, index) => {
+                btn.classList.remove('active');
+                if (index === currentIdx) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function jumpToQuestion(index) {
+            if (index < 0 || index >= activeQuestions.length) return;
+            
+            currentIdx = index;
+            loadQuestion();
+            updatePaginationActive();
+            updateNavigationButtons();
+            saveTrainingState();
+        }
+
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const checkBtn = document.getElementById('check-btn');
+            
+            if (!prevBtn || !nextBtn || !checkBtn) return;
+            
+            const q = activeQuestions[currentIdx];
+            if (!q) return;
+            
+            const savedState = answerStates.get(q.id);
+            
+            prevBtn.disabled = currentIdx <= 0;
+            nextBtn.disabled = currentIdx >= activeQuestions.length - 1;
+            
+            if (savedState && savedState.isChecked) {
+                checkBtn.style.display = 'none';
+            } else {
+                checkBtn.style.display = 'block';
+                checkBtn.disabled = selectedOptions.length !== q.c.length;
+            }
+        }
+
+        function prevQuestion() {
+            if (currentIdx > 0) {
+                jumpToQuestion(currentIdx - 1);
+            }
+        }
+
+        function loadQuestion() {
+            if (!activeQuestions.length || currentIdx >= activeQuestions.length) return;
+            
+            const q = activeQuestions[currentIdx];
+            const savedState = answerStates.get(q.id);
+            
+            if (savedState && savedState.selected) {
+                selectedOptions = [...savedState.selected];
+            } else {
+                selectedOptions = [];
+            }
+
+            const qText = document.getElementById('q-text');
+            if (qText) qText.innerText = q.q;
+            
+            const counter = document.getElementById('q-counter');
+            if (counter) counter.innerText = `${currentIdx + 1}/${activeQuestions.length}`;
+            
+            const scoreDisplay = document.getElementById('score-display');
+            if (scoreDisplay) scoreDisplay.innerText = `${score}`;
+            
+            const starBtn = document.getElementById('star-btn');
+            if (starBtn) {
+                starBtn.classList.toggle('active', hardQuestions.includes(q.id));
+            }
+
+            const box = document.getElementById('options-box');
+            if (!box) return;
+            box.innerHTML = '';
+            
+            q.o.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                
+                if (savedState && savedState.isChecked) {
+                    btn.disabled = true;
+                    if (q.c.includes(i)) {
+                        btn.classList.add('correct');
+                    } else if (savedState.selected.includes(i)) {
+                        btn.classList.add('wrong');
+                    }
+                } else {
+                    if (selectedOptions.includes(i)) {
+                        btn.classList.add('selected');
+                    }
+                    btn.onclick = () => selectOption(i, btn);
+                }
+                
+                box.appendChild(btn);
+            });
+
+            const expBox = document.getElementById('exp-box');
+            if (expBox) {
+                if (savedState && savedState.isChecked) {
+                    expBox.innerHTML = formatExplanation(q.e);
+                    expBox.style.display = 'block';
+                } else {
+                    expBox.style.display = 'none';
+                }
+            }
+
+            updateNavigationButtons();
+            updateProgress();
+            updatePaginationActive();
+        }
+
+        function selectOption(idx, btn) {
+            const q = activeQuestions[currentIdx];
+            if (!q) return;
+            
+            const isMultiple = q.c.length > 1;
+
+            if (isMultiple) {
+                if (selectedOptions.includes(idx)) {
+                    selectedOptions = selectedOptions.filter(i => i !== idx);
+                    btn.classList.remove('selected');
+                } else if (selectedOptions.length < q.c.length) {
+                    selectedOptions.push(idx);
+                    btn.classList.add('selected');
+                }
+            } else {
+                document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+                selectedOptions = [idx];
+                btn.classList.add('selected');
+            }
+
+            answerStates.set(q.id, {
+                selected: [...selectedOptions],
+                isChecked: false,
+                isCorrect: false
+            });
+
+            const checkBtn = document.getElementById('check-btn');
+            if (checkBtn) {
+                checkBtn.disabled = selectedOptions.length !== q.c.length;
+            }
+            
+            renderPagination();
+            saveTrainingState();
+        }
+
+        function checkAnswer() {
+            const q = activeQuestions[currentIdx];
+            if (!q) return;
+            
+            const btns = document.querySelectorAll('.option-btn');
+            
+            const isCorrect = q.c.every(v => selectedOptions.includes(v)) && 
+                             selectedOptions.length === q.c.length;
+
+            btns.forEach((btn, i) => {
+                btn.disabled = true;
+                if (q.c.includes(i)) {
+                    btn.classList.add('correct');
+                } else if (selectedOptions.includes(i)) {
+                    btn.classList.add('wrong');
+                }
+            });
+
+            answerStates.set(q.id, {
+                selected: [...selectedOptions],
+                isChecked: true,
+                isCorrect: isCorrect
+            });
+
+            if (isCorrect) {
+                score++;
+                const scoreDisplay = document.getElementById('score-display');
+                if (scoreDisplay) scoreDisplay.innerText = `${score}`;
+            }
+
+            const expBox = document.getElementById('exp-box');
+            if (expBox) {
+                expBox.innerHTML = formatExplanation(q.e);
+                expBox.style.display = 'block';
+            }
+            
+            updateNavigationButtons();
+            renderPagination();
+            saveTrainingState();
+        }
+
+        function toggleHard() {
+            const id = activeQuestions[currentIdx].id;
+            if (hardQuestions.includes(id)) {
+                hardQuestions = hardQuestions.filter(h => h !== id);
+            } else {
+                hardQuestions.push(id);
+            }
+
+            localStorage.setItem(`hardQuestions_${currentTest}`, JSON.stringify(hardQuestions));
+            
+            const starBtn = document.getElementById('star-btn');
+            if (starBtn) starBtn.classList.toggle('active');
+            
+            updateHardCount();
+            saveTrainingState();
+        }
+
+        function updateHardCount() {
+            const count = hardQuestions.length;
+            
+            const hardCountElement = document.getElementById('hard-count');
+            if (hardCountElement) hardCountElement.innerText = count;
+            
+            const reviewHardCountElement = document.getElementById('review-hard-count');
+            if (reviewHardCountElement) reviewHardCountElement.innerText = count;
+        }
+
+        function resetHardQuestions(event) {
+            event.stopPropagation();
+            hardQuestions = [];
+            localStorage.removeItem(`hardQuestions_${currentTest}`);
+            updateHardCount();
+            alert('Список трудных вопросов очищен');
+        }
+
+        function nextQuestion() {
+            if (currentIdx < activeQuestions.length - 1) {
+                jumpToQuestion(currentIdx + 1);
+            }
+        }
+
+        function showMenu() {
+            if (examTimer) {
+                clearInterval(examTimer);
+                examTimer = null;
+            }
+            
+            if (activeQuestions.length > 0 && currentIdx < activeQuestions.length) {
+                if (!confirm('Прогресс текущего блока будет сохранен. Вернуться в меню?')) {
+                    return;
+                }
+                saveTrainingState();
+            }
+            
+            document.getElementById('menu-screen').style.display = 'block';
+            document.getElementById('quiz-screen').style.display = 'none';
+            document.getElementById('exam-screen').style.display = 'none';
+            document.getElementById('exam-review-screen').style.display = 'none';
+            
+            document.getElementById('exam-question-container').style.display = 'block';
+            document.getElementById('exam-options-box').style.display = 'flex';
+            
+            const timerContainer = document.querySelector('.timer-container');
+            const stats = document.querySelector('.stats');
+            const progressContainer = document.querySelector('.progress-container');
+            
+            if (timerContainer) timerContainer.style.display = 'flex';
+            if (stats) stats.style.display = 'flex';
+            if (progressContainer) progressContainer.style.display = 'block';
+            
+            updateHardCount();
+        }
+
+        function updateProgress() {
+            const progress = ((currentIdx + 1) / activeQuestions.length) * 100;
+            const fillElement = document.getElementById('progress-fill');
+            if (fillElement) fillElement.style.width = progress + '%';
+        }
+
+        function updateReviewProgress() {
+            const answeredCount = examResults.filter(r => r && r.question).length;
+            const progress = (answeredCount > 0 ? ((reviewCurrentIdx + 1) / answeredCount) * 100 : 0);
+            const fillElement = document.getElementById('review-progress-fill');
+            if (fillElement) fillElement.style.width = progress + '%';
+        }
+
+        function updateExamProgress() {
+            const progress = ((examCurrentIdx + 1) / 20) * 100;
+            const fillElement = document.getElementById('exam-progress-fill');
+            if (fillElement) fillElement.style.width = progress + '%';
+        }
+
+        window.addEventListener('beforeunload', function() {
+            if (activeQuestions.length > 0 && currentIdx < activeQuestions.length) {
+                saveTrainingState();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Загружаем тест по умолчанию (б211)
+            loadQuestions('b211');
+        });
         // Функции для иконок
         function startHardMode() {
             if (hardQuestions.length === 0) {
