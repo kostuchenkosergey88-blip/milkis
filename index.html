@@ -506,7 +506,7 @@
         .panel-left {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
             flex-wrap: wrap;
             flex: 1;
         }
@@ -521,19 +521,25 @@
             padding-right: 20px;
         }
 
-        /* Единый стиль для всех иконок в верхней панели */
+        /* Быстрая статистика в шапке */
+        .quick-stats {
+            display: flex;
+            gap: 10px;
+            margin-left: auto;
+            margin-right: 15px;
+        }
+
         .quick-item {
             position: relative;
             display: flex;
             align-items: center;
-            gap: 6px;
-            padding: 8px 14px;
+            gap: 4px;
+            padding: 6px 12px;
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 30px;
+            border-radius: 20px;
             cursor: pointer;
             transition: all 0.2s;
-            white-space: nowrap;
         }
 
         .quick-item:hover {
@@ -543,79 +549,79 @@
         }
 
         .quick-icon {
-            font-size: 1.1em;
+            font-size: 1em;
             color: #ffd700;
         }
 
         .quick-count {
             color: white;
-            font-size: 0.9em;
+            font-size: 0.85em;
             font-weight: 600;
-            min-width: 24px;
+            min-width: 20px;
             text-align: center;
         }
 
-        /* Иконка админки (выделяется) */
-        .admin-icon {
-            background: rgba(255, 215, 0, 0.15);
-            border-color: #ffd700;
-        }
-
-        .admin-icon:hover {
-            background: rgba(255, 215, 0, 0.3);
-        }
-
-        /* Всплывающие подсказки */
+        /* Всплывающая подсказка */
         .quick-item::after {
             content: attr(data-tooltip);
             position: absolute;
-            bottom: -40px;
+            bottom: -30px;
             left: 50%;
             transform: translateX(-50%);
             background: #1e3c5c;
             color: white;
-            padding: 6px 10px;
+            padding: 4px 8px;
             border-radius: 4px;
             font-size: 0.75em;
             white-space: nowrap;
-            border: 1px solid #ffd700;
             opacity: 0;
             visibility: hidden;
             transition: all 0.2s;
-            z-index: 1000;
-            pointer-events: none;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            border: 1px solid #ffd700;
+            z-index: 100;
         }
 
         .quick-item:hover::after {
             opacity: 1;
             visibility: visible;
-            bottom: -45px;
-        }
-
-        .quick-stats {
-            display: flex;
-            gap: 8px;
-            margin-left: auto;
-            margin-right: 15px;
+            bottom: -35px;
         }
 
         /* Кнопка выхода */
         .logout-btn {
             background: rgba(255, 255, 255, 0.1);
             border: 2px solid #b22222;
-            border-radius: 30px;
-            padding: 8px 20px;
+            border-radius: 6px;
+            padding: 6px 15px;
             color: white;
             font-size: 0.9em;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
-            white-space: nowrap;
         }
 
         .logout-btn:hover {
             background: #b22222;
+            transform: translateY(-2px);
+        }
+
+        /* Кнопка админки */
+        .admin-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #ffd700;
+            border-radius: 6px;
+            padding: 6px 15px;
+            color: white;
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-right: 10px;
+        }
+
+        .admin-btn:hover {
+            background: #ffd700;
+            color: #1e3c5c;
             transform: translateY(-2px);
         }
 
@@ -630,7 +636,7 @@
         .test-selector-btn {
             background: rgba(255, 255, 255, 0.1);
             border: 2px solid #2a4a70;
-            border-radius: 30px;
+            border-radius: 6px;
             padding: 8px 15px;
             color: white;
             display: flex;
@@ -890,78 +896,6 @@
             background: #2a4a70;
             border-color: #0a1a2a;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-        }
-
-        .hard-mode-card {
-            background: #4a4a4a;
-            border: 1px solid #2d2d2d;
-            margin-top: 15px;
-            position: relative;
-        }
-
-        .hard-mode-card h3 {
-            color: white;
-        }
-
-        .hard-mode-card p {
-            color: #d0d0d0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-        }
-
-        .hard-mode-card:hover {
-            background: #5a5a5a;
-            border-color: #1e3c5c;
-        }
-
-        .stats-menu-card {
-            background: #f4b400;
-            border: 2px solid #d4a000;
-            margin-top: 15px;
-            position: relative;
-        }
-
-        .stats-menu-card h3 {
-            color: white;
-        }
-
-        .stats-menu-card p {
-            color: #fff5e0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-        }
-
-        .stats-menu-card:hover {
-            background: #ffc107;
-            border-color: #1e3c5c;
-        }
-
-        .reset-hard-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            width: 24px;
-            height: 24px;
-            border-radius: 4px;
-            font-size: 16px;
-            line-height: 1;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-
-        .reset-hard-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.1);
         }
 
         #quiz-screen, #exam-screen, #exam-review-screen {
@@ -1884,36 +1818,29 @@
             .panel-left {
                 flex-direction: column;
                 align-items: stretch;
-                gap: 10px;
+                gap: 8px;
             }
             
             .panel-left h3 {
+                font-size: 1.1em;
                 border-right: none;
                 border-bottom: 2px solid #2a4a70;
                 padding-right: 0;
-                padding-bottom: 10px;
+                padding-bottom: 6px;
+                margin-bottom: 4px;
                 text-align: center;
                 width: 100%;
             }
             
             .quick-stats {
-                margin: 5px 0;
+                margin: 10px 0;
                 width: 100%;
                 justify-content: center;
-                flex-wrap: wrap;
             }
             
-            .quick-item {
-                padding: 8px 15px;
-            }
-            
-            .quick-item::after {
-                display: none;
-            }
-            
-            .logout-btn {
+            .admin-btn, .logout-btn {
+                margin: 5px 0;
                 width: 100%;
-                text-align: center;
             }
             
             .test-selector {
@@ -2011,18 +1938,8 @@
                 grid-column: span 1;
             }
 
-            .hard-mode-card, .stats-menu-card {
-                margin-top: 10px;
-            }
-
-            .hard-mode-card p, .stats-menu-card p {
-                font-size: 0.9em;
-            }
-
-            .reset-hard-btn {
-                width: 22px;
-                height: 22px;
-                font-size: 14px;
+            #quiz-screen, #exam-screen, #exam-review-screen {
+                padding: 15px;
             }
 
             .quiz-header, .review-header {
@@ -2082,6 +1999,14 @@
             .panel-left h3 {
                 font-size: 1em;
                 padding-bottom: 5px;
+            }
+            
+            .quick-item {
+                padding: 8px 15px;
+            }
+            
+            .quick-item::after {
+                display: none;
             }
             
             .test-selector-btn {
@@ -2316,12 +2241,11 @@
 
             <div class="login-footer">
                 <p>Демо-доступ: <span class="demo-credentials">test / test</span></p>
-                <p style="margin-top: 5px;">Супер-пользователь: super / super</p>
                 <p style="margin-top: 5px;">После регистрации ожидайте подтверждения</p>
             </div>
         </div>
 
-        <!-- Панель администратора -->
+        <!-- Панель администратора (скрыта по умолчанию) -->
         <div id="admin-panel" class="admin-panel" style="display: none;">
             <div class="admin-header">
                 <h2>⚡ ПАНЕЛЬ УПРАВЛЕНИЯ</h2>
@@ -2368,10 +2292,8 @@
             <div class="panel-left">
                 <h3>PRO100 TEST</h3>
                 
-                <!-- Иконка админки (только для super) -->
-                <div id="admin-icon" class="quick-item admin-icon" onclick="openAdminPanel()" data-tooltip="👑 Панель управления" style="display: none;">
-                    <span class="quick-icon">👑</span>
-                </div>
+                <!-- Кнопка админки для супер-пользователя -->
+                <button id="admin-panel-btn" class="admin-btn" onclick="openAdminPanel()" style="display: none;">⚡ АДМИНКА</button>
                 
                 <!-- Селектор тестов -->
                 <div class="test-selector">
@@ -2463,11 +2385,11 @@
                 
                 <!-- Быстрая статистика -->
                 <div class="quick-stats">
-                    <div class="quick-item" onclick="startHardMode()" oncontextmenu="resetHardQuestions(event)" data-tooltip="⚠️ Трудные вопросы (правый клик для сброса)">
+                    <div class="quick-item" onclick="startHardMode()" data-tooltip="Трудные вопросы">
                         <span class="quick-icon">⚠️</span>
                         <span class="quick-count" id="hard-count">0</span>
                     </div>
-                    <div class="quick-item" onclick="showStats()" oncontextmenu="resetUserStats(event)" data-tooltip="📊 Моя статистика (правый клик для сброса)">
+                    <div class="quick-item" onclick="showStats()" data-tooltip="Моя статистика">
                         <span class="quick-icon">📊</span>
                         <span class="quick-count" id="stats-total-errors">0</span>
                     </div>
@@ -2506,37 +2428,149 @@
                     <p>20 вопросов | 20 минут | допуск: 2 ошибки</p>
                 </div>
             </div>
-            <div class="block-card hard-mode-card" onclick="startHardMode()">
-                <h3>⚠️ ТРУДНЫЕ ВОПРОСЫ</h3>
-                <p>
-                    Отмеченные: <span id="hard-count-card" class="hard-count">0</span>
-                    <span class="hard-star">★</span>
-                </p>
-                <button class="reset-hard-btn" onclick="resetHardQuestions(event)" title="Сбросить список трудных вопросов">✕</button>
-            </div>
-            <div class="block-card stats-menu-card" onclick="showStats()">
-                <h3>📊 МОЯ СТАТИСТИКА</h3>
-                <p>
-                    Ошибки: <span id="stats-total-errors-card" class="hard-count">0</span>
-                    <span class="hard-star">⚠️</span>
-                </p>
-            </div>
             <div class="footer-note">
                 Система тестирования | Версия 2.0
             </div>
         </div>
 
-        <!-- Остальные экраны (quiz, exam и т.д.) -->
         <div id="quiz-screen" style="display: none;">
-            <!-- Здесь ваш существующий код экрана тестирования -->
+            <div class="quiz-header">
+                <button class="back-btn" onclick="showMenu()">
+                    ← НАЗАД
+                </button>
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-icon">📄</span>
+                        <span id="q-counter">0/0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon">✓</span>
+                        <span id="score-display">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+
+            <div class="question-container">
+                <button class="star-btn" id="star-btn" onclick="toggleHard()">★</button>
+                <div id="q-text"></div>
+            </div>
+
+            <div class="options-box" id="options-box"></div>
+            
+            <div class="explanation-box" id="exp-box" style="display: none;"></div>
+
+            <div class="pagination" id="pagination"></div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prev-btn" onclick="prevQuestion()" disabled>
+                    ← ПРЕД
+                </button>
+                <button class="nav-btn" id="check-btn" onclick="checkAnswer()" disabled>
+                    ПРОВЕРИТЬ
+                </button>
+                <button class="nav-btn" id="next-btn" onclick="nextQuestion()" disabled>
+                    СЛЕД →
+                </button>
+            </div>
         </div>
 
         <div id="exam-screen" style="display: none;">
-            <!-- Здесь ваш существующий код экрана экзамена -->
+            <div class="quiz-header">
+                <button class="back-btn" onclick="showMenu()">
+                    ← В МЕНЮ
+                </button>
+                <div class="timer-container" id="timer">
+                    <span class="timer-icon">⏱</span>
+                    <span id="timer-display">20:00</span>
+                </div>
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-icon">📄</span>
+                        <span id="exam-counter">0/20</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon">✗</span>
+                        <span id="exam-errors">0</span>/2
+                    </div>
+                </div>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-fill exam-progress" id="exam-progress-fill"></div>
+            </div>
+
+            <div class="question-container exam-question" id="exam-question-container">
+                <div id="exam-q-text"></div>
+            </div>
+
+            <div class="options-box" id="exam-options-box"></div>
+
+            <div id="exam-result" style="display: none;" class="result-box">
+                <div class="result-title" id="exam-result-title"></div>
+                <div class="result-score" id="exam-result-score"></div>
+                <div class="result-details" id="exam-result-details"></div>
+                
+                <div class="result-nav">
+                    <h4 style="margin-bottom: 10px; color: #1e3c5c;">Навигация по вопросам:</h4>
+                    <div id="exam-result-questions"></div>
+                </div>
+                
+                <div>
+                    <button class="review-btn" onclick="startReview()">ПРОСМОТР ВОПРОСОВ</button>
+                    <button class="restart-exam-btn" onclick="restartExam()">НАЧАТЬ ЗАНОВО</button>
+                    <button class="restart-exam-btn" onclick="showMenu()">ГЛАВНОЕ МЕНЮ</button>
+                </div>
+            </div>
+
+            <button class="nav-btn" id="exam-next-btn" onclick="nextExamQuestion()" style="display: none;">
+                ПОДТВЕРДИТЬ И ДАЛЕЕ →
+            </button>
         </div>
 
         <div id="exam-review-screen">
-            <!-- Здесь ваш существующий код экрана просмотра -->
+            <div class="review-header">
+                <button class="back-btn" onclick="showExamResults()">
+                    ← К РЕЗУЛЬТАТАМ
+                </button>
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-icon">📄</span>
+                        <span id="review-counter">0/20</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon">★</span>
+                        <span id="review-hard-count">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-fill" id="review-progress-fill"></div>
+            </div>
+
+            <div class="question-container review-question">
+                <button class="star-btn" id="review-star-btn" onclick="toggleReviewHard()">★</button>
+                <div id="review-q-text"></div>
+            </div>
+
+            <div class="options-box" id="review-options-box"></div>
+            
+            <div class="explanation-box" id="review-exp-box"></div>
+
+            <div class="pagination" id="review-pagination"></div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn" id="review-prev-btn" onclick="prevReviewQuestion()" disabled>
+                    ← ПРЕД
+                </button>
+                <button class="nav-btn" id="review-next-btn" onclick="nextReviewQuestion()" disabled>
+                    СЛЕД →
+                </button>
+            </div>
         </div>
     </div>
 
@@ -2554,12 +2588,672 @@
     </div>
 
     <script>
-   // Массив доступных тестов (для которых есть JSON-файлы)
+        // ========== СУПЕР-ПОЛЬЗОВАТЕЛЬ И ДЕМО-ПОЛЬЗОВАТЕЛЬ ==========
+
+        // Данные супер-пользователя (полный доступ)
+        const SUPER_USER = {
+            username: 'super',
+            password: 'super'
+        };
+
+        // Данные демо-пользователя (ограниченный доступ)
+        const DEMO_USER = {
+            username: 'test',
+            password: 'test'
+        };
+
+        // Структура пользователей
+        let USERS = {};
+
+        // Заявки на регистрацию
+        let PENDING_USERS = {};
+
+        // Загрузка пользователей из localStorage
+        function loadUsers() {
+            const saved = localStorage.getItem('users');
+            if (saved) {
+                USERS = JSON.parse(saved);
+            } else {
+                // По умолчанию пусто
+                USERS = {};
+                saveUsers();
+            }
+        }
+
+        // Сохранение пользователей
+        function saveUsers() {
+            localStorage.setItem('users', JSON.stringify(USERS));
+        }
+
+        // Загрузка заявок
+        function loadPendingUsers() {
+            const saved = localStorage.getItem('pending_users');
+            if (saved) {
+                PENDING_USERS = JSON.parse(saved);
+            }
+        }
+
+        // Сохранение заявок
+        function savePendingUsers() {
+            localStorage.setItem('pending_users', JSON.stringify(PENDING_USERS));
+        }
+
+        // Инициализация
+        loadUsers();
+        loadPendingUsers();
+
+        // Переключение табов
+        function showLoginTab(tab) {
+            document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.login-tab-content').forEach(c => c.classList.remove('active'));
+            
+            if (tab === 'login') {
+                document.querySelectorAll('.login-tab')[0].classList.add('active');
+                document.getElementById('login-form').classList.add('active');
+            } else if (tab === 'register') {
+                document.querySelectorAll('.login-tab')[1].classList.add('active');
+                document.getElementById('register-form').classList.add('active');
+            }
+        }
+
+        // Регистрация нового пользователя
+        function register() {
+            const username = document.getElementById('reg-username').value.trim();
+            const password = document.getElementById('reg-password').value;
+            const name = document.getElementById('reg-name').value.trim();
+            const reason = document.getElementById('reg-reason').value.trim();
+            const message = document.getElementById('register-message');
+            
+            message.textContent = '';
+            message.className = 'login-message';
+            
+            if (!username || !password) {
+                message.textContent = 'Логин и пароль обязательны';
+                return;
+            }
+            
+            if (username === SUPER_USER.username || username === DEMO_USER.username) {
+                message.textContent = 'Этот логин зарезервирован';
+                return;
+            }
+            
+            if (USERS[username]) {
+                message.textContent = 'Пользователь с таким логином уже существует';
+                return;
+            }
+            
+            if (PENDING_USERS[username]) {
+                message.textContent = 'Заявка уже отправлена, ожидайте подтверждения';
+                return;
+            }
+            
+            // Создаем заявку
+            PENDING_USERS[username] = {
+                password: password,
+                name: name || username,
+                reason: reason || 'Не указана',
+                registeredAt: new Date().toISOString()
+            };
+            
+            savePendingUsers();
+            
+            message.textContent = '✅ Заявка отправлена! Ожидайте подтверждения.';
+            message.classList.add('login-success');
+            
+            // Очищаем форму
+            document.getElementById('reg-username').value = '';
+            document.getElementById('reg-password').value = '';
+            document.getElementById('reg-name').value = '';
+            document.getElementById('reg-reason').value = '';
+        }
+
+        // Функция входа
+        function login() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const errorElement = document.getElementById('login-error');
+            
+            errorElement.textContent = '';
+            document.getElementById('username').classList.remove('error');
+            document.getElementById('password').classList.remove('error');
+            
+            if (!username) {
+                errorElement.textContent = 'Введите логин';
+                document.getElementById('username').classList.add('error');
+                return;
+            }
+            
+            if (!password) {
+                errorElement.textContent = 'Введите пароль';
+                document.getElementById('password').classList.add('error');
+                return;
+            }
+            
+            // Проверка для супер-пользователя (полный доступ)
+            if (username === SUPER_USER.username && password === SUPER_USER.password) {
+                localStorage.setItem('authenticated', 'true');
+                localStorage.setItem('username', 'super');
+                localStorage.setItem('userType', 'super');
+                localStorage.setItem('loginTime', new Date().toISOString());
+                
+                const loginScreen = document.getElementById('login-screen');
+                loginScreen.style.animation = 'fadeOut 0.3s ease forwards';
+                
+                setTimeout(() => {
+                    loginScreen.style.display = 'none';
+                    document.querySelector('.container').classList.add('authenticated');
+                    document.getElementById('admin-panel-btn').style.display = 'block';
+                    showNotification('Добро пожаловать, супер-пользователь!');
+                }, 300);
+                return;
+            }
+            
+            // Проверка для демо-пользователя (ограниченный доступ)
+            if (username === DEMO_USER.username && password === DEMO_USER.password) {
+                localStorage.setItem('authenticated', 'true');
+                localStorage.setItem('username', 'test');
+                localStorage.setItem('userType', 'demo');
+                localStorage.setItem('loginTime', new Date().toISOString());
+                
+                const loginScreen = document.getElementById('login-screen');
+                loginScreen.style.animation = 'fadeOut 0.3s ease forwards';
+                
+                setTimeout(() => {
+                    loginScreen.style.display = 'none';
+                    document.querySelector('.container').classList.add('authenticated');
+                    showNotification('Добро пожаловать в демо-режим!');
+                }, 300);
+                return;
+            }
+            
+            // Проверка обычных пользователей
+            const user = USERS[username];
+            if (user && user.password === password) {
+                localStorage.setItem('authenticated', 'true');
+                localStorage.setItem('username', username);
+                localStorage.setItem('userType', 'regular');
+                localStorage.setItem('userName', user.name || username);
+                localStorage.setItem('loginTime', new Date().toISOString());
+                
+                const loginScreen = document.getElementById('login-screen');
+                loginScreen.style.animation = 'fadeOut 0.3s ease forwards';
+                
+                setTimeout(() => {
+                    loginScreen.style.display = 'none';
+                    document.querySelector('.container').classList.add('authenticated');
+                    showNotification(`Добро пожаловать, ${user.name || username}!`);
+                }, 300);
+            } else {
+                errorElement.textContent = 'Неверный логин или пароль';
+                document.getElementById('username').classList.add('error');
+                document.getElementById('password').classList.add('error');
+                document.getElementById('password').value = '';
+                
+                document.querySelector('.login-box').style.animation = 'shake 0.5s ease';
+                setTimeout(() => {
+                    document.querySelector('.login-box').style.animation = '';
+                }, 500);
+            }
+        }
+
+        // Открыть панель администратора
+        function openAdminPanel() {
+            document.querySelector('.container').style.display = 'none';
+            document.getElementById('login-screen').style.display = 'flex';
+            document.querySelector('.login-box').style.display = 'none';
+            document.getElementById('admin-panel').style.display = 'block';
+            loadAdminPanel();
+        }
+
+        // Вернуться из админки
+        function adminBack() {
+            document.getElementById('admin-panel').style.display = 'none';
+            document.querySelector('.login-box').style.display = 'block';
+            document.querySelector('.container').style.display = 'block';
+            document.getElementById('login-screen').style.display = 'none';
+        }
+
+        // Загрузка панели администратора
+        function loadAdminPanel() {
+            const pendingList = document.getElementById('pending-list');
+            const usersList = document.getElementById('users-list');
+            
+            // Обновляем статистику
+            document.getElementById('stat-users').textContent = Object.keys(USERS).length;
+            document.getElementById('stat-pending').textContent = Object.keys(PENDING_USERS).length;
+            document.getElementById('stat-tests').textContent = '2'; // Количество доступных тестов
+            
+            document.getElementById('pending-badge').textContent = Object.keys(PENDING_USERS).length;
+            document.getElementById('users-badge').textContent = Object.keys(USERS).length;
+            
+            // Заявки
+            pendingList.innerHTML = '';
+            if (Object.keys(PENDING_USERS).length === 0) {
+                pendingList.innerHTML = '<div class="admin-empty-message">Нет новых заявок</div>';
+            } else {
+                Object.entries(PENDING_USERS).forEach(([username, data]) => {
+                    const date = new Date(data.registeredAt).toLocaleString('ru');
+                    pendingList.innerHTML += `
+                        <div class="admin-item">
+                            <div class="admin-item-info">
+                                <div class="admin-item-title">${username}</div>
+                                <div class="admin-item-subtitle">👤 ${data.name}</div>
+                                <div class="admin-item-detail">📝 ${data.reason}</div>
+                                <div class="admin-item-detail">📅 ${date}</div>
+                            </div>
+                            <div class="admin-item-actions">
+                                <button class="admin-btn-approve" onclick="approveUser('${username}')">ПОДТВЕРДИТЬ</button>
+                                <button class="admin-btn-reject" onclick="rejectUser('${username}')">ОТКЛОНИТЬ</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            // Подтвержденные пользователи
+            usersList.innerHTML = '';
+            if (Object.keys(USERS).length === 0) {
+                usersList.innerHTML = '<div class="admin-empty-message">Нет пользователей</div>';
+            } else {
+                Object.entries(USERS).forEach(([username, data]) => {
+                    const date = new Date(data.registeredAt).toLocaleString('ru');
+                    usersList.innerHTML += `
+                        <div class="admin-item">
+                            <div class="admin-item-info">
+                                <div class="admin-item-title">${username}</div>
+                                ${data.name ? `<div class="admin-item-subtitle">👤 ${data.name}</div>` : ''}
+                                <div class="admin-item-detail">📅 ${date}</div>
+                            </div>
+                            <div class="admin-item-actions">
+                                <button class="admin-btn-delete" onclick="deleteUser('${username}')">УДАЛИТЬ</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        // Подтверждение пользователя
+        function approveUser(username) {
+            const userData = PENDING_USERS[username];
+            
+            // Добавляем в список пользователей
+            USERS[username] = {
+                password: userData.password,
+                approved: true,
+                isAdmin: false,
+                name: userData.name,
+                registeredAt: userData.registeredAt
+            };
+            
+            // Удаляем из заявок
+            delete PENDING_USERS[username];
+            
+            saveUsers();
+            savePendingUsers();
+            loadAdminPanel();
+        }
+
+        // Отклонение заявки
+        function rejectUser(username) {
+            if (confirm(`Отклонить заявку пользователя ${username}?`)) {
+                delete PENDING_USERS[username];
+                savePendingUsers();
+                loadAdminPanel();
+            }
+        }
+
+        // Удаление пользователя
+        function deleteUser(username) {
+            if (confirm(`Удалить пользователя ${username}?`)) {
+                delete USERS[username];
+                saveUsers();
+                loadAdminPanel();
+            }
+        }
+
+        // Функция выхода
+        function logout() {
+            if (confirm('Вы действительно хотите выйти?')) {
+                localStorage.removeItem('authenticated');
+                localStorage.removeItem('username');
+                localStorage.removeItem('userType');
+                localStorage.removeItem('userName');
+                localStorage.removeItem('loginTime');
+                
+                document.getElementById('login-screen').style.display = 'flex';
+                document.getElementById('login-screen').style.animation = '';
+                document.querySelector('.container').classList.remove('authenticated');
+                document.getElementById('admin-panel-btn').style.display = 'none';
+                
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+                
+                showNotification('Вы вышли из системы');
+            }
+        }
+
+        // Проверка авторизации
+        function checkAuth() {
+            const isAuthenticated = localStorage.getItem('authenticated') === 'true';
+            const username = localStorage.getItem('username');
+            const userType = localStorage.getItem('userType');
+            
+            if (isAuthenticated && username) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.querySelector('.container').classList.add('authenticated');
+                
+                if (userType === 'super') {
+                    document.getElementById('admin-panel-btn').style.display = 'block';
+                    showNotification('Добро пожаловать, супер-пользователь!');
+                } else if (userType === 'demo') {
+                    showNotification('Добро пожаловать в демо-режим!');
+                } else {
+                    const userName = localStorage.getItem('userName') || username;
+                    showNotification(`С возвращением, ${userName}!`);
+                }
+            } else {
+                document.getElementById('login-screen').style.display = 'flex';
+                document.querySelector('.container').classList.remove('authenticated');
+            }
+        }
+
+        // ========== СТАТИСТИКА ==========
+
+        // Получение статистики пользователя
+        function getUserStats(username) {
+            if (username === 'super' || username === 'test') return null;
+            
+            const stats = localStorage.getItem(`stats_${username}`);
+            return stats ? JSON.parse(stats) : {
+                totalAnswers: 0,
+                correctAnswers: 0,
+                wrongAnswers: 0,
+                questionsStats: {},
+                lastTestDate: null,
+                testsCompleted: 0,
+                worstQuestions: []
+            };
+        }
+
+        // Сохранение статистики пользователя
+        function saveUserStats(username, stats) {
+            localStorage.setItem(`stats_${username}`, JSON.stringify(stats));
+        }
+
+        // Обновление статистики при ответе на вопрос
+        function updateStats(questionId, isCorrect) {
+            const username = localStorage.getItem('username');
+            const userType = localStorage.getItem('userType');
+            if (!username || userType === 'super' || userType === 'demo') return; // Супер и демо не собирают статистику
+            
+            const stats = getUserStats(username);
+            
+            if (!stats.questionsStats[questionId]) {
+                stats.questionsStats[questionId] = {
+                    wrong: 0,
+                    correct: 0,
+                    lastSeen: Date.now()
+                };
+            }
+            
+            if (isCorrect) {
+                stats.questionsStats[questionId].correct++;
+                stats.correctAnswers++;
+            } else {
+                stats.questionsStats[questionId].wrong++;
+                stats.wrongAnswers++;
+            }
+            
+            stats.questionsStats[questionId].lastSeen = Date.now();
+            stats.totalAnswers++;
+            
+            updateWorstQuestions(stats);
+            stats.lastTestDate = new Date().toISOString();
+            
+            saveUserStats(username, stats);
+            updateStatsDisplay();
+        }
+
+        // Обновление топа вопросов с частыми ошибками
+        function updateWorstQuestions(stats) {
+            const questionsWithErrors = [];
+            
+            for (const [qId, qStats] of Object.entries(stats.questionsStats)) {
+                if (qStats.wrong > 0) {
+                    const errorRate = qStats.wrong / (qStats.wrong + qStats.correct) * 100;
+                    questionsWithErrors.push({
+                        id: parseInt(qId),
+                        wrong: qStats.wrong,
+                        correct: qStats.correct,
+                        total: qStats.wrong + qStats.correct,
+                        errorRate: errorRate
+                    });
+                }
+            }
+            
+            questionsWithErrors.sort((a, b) => b.wrong - a.wrong);
+            stats.worstQuestions = questionsWithErrors.slice(0, 10);
+        }
+
+        // Показать статистику
+        function showStats() {
+            const username = localStorage.getItem('username');
+            const userType = localStorage.getItem('userType');
+            
+            if (!username) {
+                showNotification('Сначала войдите в систему');
+                return;
+            }
+            
+            if (userType === 'super') {
+                showNotification('У супер-пользователя нет статистики');
+                return;
+            }
+            
+            if (userType === 'demo') {
+                showNotification('В демо-режиме статистика не сохраняется');
+                return;
+            }
+            
+            const stats = getUserStats(username);
+            const modal = document.getElementById('statsModal');
+            const content = document.getElementById('statsContent');
+            
+            if (!stats.totalAnswers) {
+                content.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #666;">
+                        <div style="font-size: 3em; margin-bottom: 20px;">📊</div>
+                        <h3>У вас пока нет статистики</h3>
+                        <p>Начните отвечать на вопросы, чтобы увидеть свою статистику</p>
+                    </div>
+                `;
+                modal.classList.add('show');
+                return;
+            }
+            
+            const successRate = ((stats.correctAnswers / stats.totalAnswers) * 100).toFixed(1);
+            const errorRate = ((stats.wrongAnswers / stats.totalAnswers) * 100).toFixed(1);
+            
+            let questionsHtml = '';
+            if (stats.worstQuestions.length > 0) {
+                stats.worstQuestions.forEach((q, index) => {
+                    const question = fullBase.find(qb => qb.id === q.id);
+                    if (question) {
+                        questionsHtml += `
+                            <div class="stats-question-item" onclick="jumpToQuestionFromStats(${q.id})">
+                                <span class="stats-question-id">#${q.id}</span>
+                                <span class="stats-question-text">${question.q.substring(0, 60)}...</span>
+                                <span class="stats-question-count">${q.wrong} ✗</span>
+                            </div>
+                        `;
+                    }
+                });
+            } else {
+                questionsHtml = '<div style="text-align: center; padding: 20px; color: #666;">Пока нет ошибок! Так держать! 🎉</div>';
+            }
+            
+            const blocksStats = {};
+            for (let i = 1; i <= 4; i++) {
+                blocksStats[i] = { wrong: 0, correct: 0, total: 0 };
+            }
+            
+            for (const [qId, qStats] of Object.entries(stats.questionsStats)) {
+                const id = parseInt(qId);
+                let block = 1;
+                if (id <= 40) block = 1;
+                else if (id <= 80) block = 2;
+                else if (id <= 120) block = 3;
+                else block = 4;
+                
+                blocksStats[block].wrong += qStats.wrong;
+                blocksStats[block].correct += qStats.correct;
+                blocksStats[block].total += qStats.wrong + qStats.correct;
+            }
+            
+            let blocksHtml = '';
+            for (let i = 1; i <= 4; i++) {
+                const block = blocksStats[i];
+                if (block.total > 0) {
+                    const blockErrorRate = (block.wrong / block.total * 100).toFixed(1);
+                    blocksHtml += `
+                        <div class="stats-chart-bar">
+                            <span class="stats-chart-label">Блок ${i}</span>
+                            <div style="flex: 1; margin-left: 10px;">
+                                <div class="stats-chart-fill ${blockErrorRate > 30 ? 'worst' : ''}" 
+                                     style="width: ${blockErrorRate}%;">
+                                    ${blockErrorRate}% ошибок
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            
+            content.innerHTML = `
+                <div class="stats-summary">
+                    <div class="stats-summary-item">
+                        <div class="stats-summary-label">Всего ответов</div>
+                        <div class="stats-summary-value">${stats.totalAnswers}</div>
+                    </div>
+                    <div class="stats-summary-item">
+                        <div class="stats-summary-label">Правильных</div>
+                        <div class="stats-summary-value" style="color: #2e7d32;">${stats.correctAnswers} <small>(${successRate}%)</small></div>
+                    </div>
+                    <div class="stats-summary-item">
+                        <div class="stats-summary-label">Ошибок</div>
+                        <div class="stats-summary-value" style="color: #b22222;">${stats.wrongAnswers} <small>(${errorRate}%)</small></div>
+                    </div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stats-card">
+                        <div class="stats-card-title">Самая частая ошибка</div>
+                        <div class="stats-card-value">${stats.worstQuestions[0] ? stats.worstQuestions[0].wrong : 0}</div>
+                        <div class="stats-card-label">раз ошиблись в одном вопросе</div>
+                    </div>
+                    <div class="stats-card worst">
+                        <div class="stats-card-title">Тяжелый вопрос</div>
+                        <div class="stats-card-value">${stats.worstQuestions[0] ? '#' + stats.worstQuestions[0].id : '-'}</div>
+                        <div class="stats-card-label">ID вопроса с частыми ошибками</div>
+                    </div>
+                </div>
+                
+                <div class="stats-chart">
+                    <h4 style="margin-bottom: 15px; color: #1e3c5c;">Процент ошибок по блокам</h4>
+                    ${blocksHtml || '<p style="color: #666;">Нет данных</p>'}
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <h4 style="margin-bottom: 15px; color: #1e3c5c;">⚠️ Частые ошибки</h4>
+                    <div class="stats-questions">
+                        ${questionsHtml}
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end;">
+                    <button class="reset-hard-btn" onclick="resetStats()" style="position: relative; top: 0; right: 0; width: auto; height: auto; padding: 8px 15px; border-radius: 6px; background: #b22222; color: white;">
+                        Сбросить статистику
+                    </button>
+                </div>
+            `;
+            
+            modal.classList.add('show');
+        }
+
+        // Закрыть статистику
+        function closeStats() {
+            document.getElementById('statsModal').classList.remove('show');
+        }
+
+        // Переход к вопросу из статистики
+        function jumpToQuestionFromStats(questionId) {
+            closeStats();
+            
+            const question = fullBase.find(q => q.id === questionId);
+            if (!question) return;
+            
+            let blockNum, start, end;
+            if (questionId <= 40) { blockNum = 1; start = 0; end = 40; }
+            else if (questionId <= 80) { blockNum = 2; start = 40; end = 80; }
+            else if (questionId <= 120) { blockNum = 3; start = 80; end = 120; }
+            else { blockNum = 4; start = 120; end = 160; }
+            
+            startBlock(blockNum, start, end);
+            
+            setTimeout(() => {
+                const activeIndex = activeQuestions.findIndex(q => q.id === questionId);
+                if (activeIndex !== -1) {
+                    jumpToQuestion(activeIndex);
+                    showNotification(`Вопрос #${questionId} - поработаем над ошибками!`);
+                }
+            }, 500);
+        }
+
+        // Сброс статистики
+        function resetStats() {
+            if (confirm('Вы уверены, что хотите сбросить всю статистику?')) {
+                const username = localStorage.getItem('username');
+                localStorage.removeItem(`stats_${username}`);
+                updateStatsDisplay();
+                closeStats();
+                showNotification('Статистика сброшена');
+            }
+        }
+
+        // Обновление отображения статистики
+        function updateStatsDisplay() {
+            const username = localStorage.getItem('username');
+            const userType = localStorage.getItem('userType');
+            
+            const hardCountElement = document.getElementById('hard-count');
+            const statsErrorsElement = document.getElementById('stats-total-errors');
+            
+            if (userType === 'super' || userType === 'demo') {
+                if (hardCountElement) hardCountElement.textContent = '0';
+                if (statsErrorsElement) statsErrorsElement.textContent = '0';
+                return;
+            }
+            
+            const stats = getUserStats(username);
+            if (statsErrorsElement) {
+                statsErrorsElement.textContent = stats.wrongAnswers || 0;
+            }
+        }
+
+        // ========== ОГРАНИЧЕНИЕ ВОПРОСОВ ДЛЯ ДЕМО-ПОЛЬЗОВАТЕЛЯ ==========
+        function getLimitedQuestions(questions, limit = 10) {
+            if (!questions || questions.length === 0) return [];
+            
+            // Перемешиваем и берем первые limit вопросов
+            const shuffled = [...questions].sort(() => Math.random() - 0.5);
+            return shuffled.slice(0, limit);
+        }
+
+        // ========== ОСНОВНЫЕ ПЕРЕМЕННЫЕ ==========
         const AVAILABLE_TESTS = ['b211', 'b26-marine'];
 
-        // Конфигурация тестов
         const TEST_CONFIGS = {
-            // А.1 Основы - 211 вопросов / 4 блока
             a1: {
                 code: 'А.1',
                 name: 'Основы промышленной безопасности',
@@ -2573,7 +3267,6 @@
                     { num: 4, start: 159, end: 211, desc: 'Вопросы 160 - 211' }
                 ]
             },
-            // Б.2.1 - 405 вопросов / 6 блоков
             b21: {
                 code: 'Б.2.1',
                 name: 'Эксплуатация объектов нефтяной и газовой промышленности',
@@ -2589,7 +3282,6 @@
                     { num: 6, start: 340, end: 405, desc: 'Вопросы 341 - 405' }
                 ]
             },
-            // Б.2.3 - 228 вопросов / 4 блока
             b23: {
                 code: 'Б.2.3',
                 name: 'Проектирование, строительство, реконструкция',
@@ -2603,7 +3295,6 @@
                     { num: 4, start: 171, end: 228, desc: 'Вопросы 172 - 228' }
                 ]
             },
-            // Б.2.6 Морские - 187 вопросов / 4 блока (АКТИВЕН)
             'b26-marine': {
                 code: 'Б.2.6',
                 name: 'Разведка и разработка морских месторождений',
@@ -2617,7 +3308,6 @@
                     { num: 4, start: 141, end: 187, desc: 'Вопросы 142 - 187' }
                 ]
             },
-            // Б.2.7 - 155 вопросов / 4 блока
             b27: {
                 code: 'Б.2.7',
                 name: 'Магистральные нефтепроводы',
@@ -2631,7 +3321,6 @@
                     { num: 4, start: 117, end: 155, desc: 'Вопросы 118 - 155' }
                 ]
             },
-            // Б.2.8 - 132 вопроса / 4 блока
             b28: {
                 code: 'Б.2.8',
                 name: 'Магистральные газопроводы',
@@ -2645,7 +3334,6 @@
                     { num: 4, start: 99, end: 132, desc: 'Вопросы 100 - 132' }
                 ]
             },
-            // Б.2.11 - 160 вопросов / 4 блока (АКТИВЕН)
             b211: {
                 code: 'Б.2.11',
                 name: 'Ремонтные, монтажные и пусконаладочные работы',
@@ -2659,7 +3347,6 @@
                     { num: 4, start: 120, end: 160, desc: 'Вопросы 121 - 160' }
                 ]
             },
-            // Тесты по электробезопасности
             electro2: {
                 code: '2 гр.',
                 name: 'Электробезопасность (2 группа)',
@@ -2744,7 +3431,6 @@
         // Функция для форматирования пояснений (звездочки в жирный текст)
         function formatExplanation(text) {
             if (!text) return text;
-            // Заменяем **текст** на <strong>текст</strong>
             return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
         }
 
@@ -2786,8 +3472,30 @@
         function toggleTestDropdown() {
             const menu = document.getElementById('testDropdown');
             const btn = document.getElementById('testSelectorBtn');
+            const isMobile = window.innerWidth <= 768;
+            
             menu.classList.toggle('show');
             btn.classList.toggle('active');
+            
+            if (isMobile && menu.classList.contains('show')) {
+                let overlay = document.querySelector('.dropdown-overlay');
+                if (!overlay) {
+                    overlay = document.createElement('div');
+                    overlay.className = 'dropdown-overlay';
+                    document.body.appendChild(overlay);
+                }
+                overlay.classList.add('show');
+                overlay.onclick = function() {
+                    menu.classList.remove('show');
+                    btn.classList.remove('active');
+                    this.classList.remove('show');
+                };
+            } else {
+                const overlay = document.querySelector('.dropdown-overlay');
+                if (overlay) {
+                    overlay.classList.remove('show');
+                }
+            }
         }
 
         // Закрытие дропдауна при клике вне его
@@ -2799,18 +3507,18 @@
             if (selector && !selector.contains(event.target)) {
                 if (menu) menu.classList.remove('show');
                 if (btn) btn.classList.remove('active');
+                const overlay = document.querySelector('.dropdown-overlay');
+                if (overlay) overlay.classList.remove('show');
             }
         });
 
         // Функция для полной очистки всех экранов при переключении теста
         function resetAllScreens() {
-            // Скрываем все экраны кроме меню
             document.getElementById('menu-screen').style.display = 'block';
             document.getElementById('quiz-screen').style.display = 'none';
             document.getElementById('exam-screen').style.display = 'none';
             document.getElementById('exam-review-screen').style.display = 'none';
             
-            // Сбрасываем отображение элементов экзамена
             const examQuestionContainer = document.getElementById('exam-question-container');
             const examOptionsBox = document.getElementById('exam-options-box');
             const examNextBtn = document.getElementById('exam-next-btn');
@@ -2821,7 +3529,6 @@
             if (examNextBtn) examNextBtn.style.display = 'none';
             if (examResult) examResult.style.display = 'none';
             
-            // Очищаем содержимое
             const qText = document.getElementById('q-text');
             const optionsBox = document.getElementById('options-box');
             const expBox = document.getElementById('exp-box');
@@ -2843,7 +3550,6 @@
             if (reviewOptionsBox) reviewOptionsBox.innerHTML = '';
             if (reviewExpBox) reviewExpBox.innerHTML = '';
             
-            // Сбрасываем счетчики
             const qCounter = document.getElementById('q-counter');
             const scoreDisplay = document.getElementById('score-display');
             const examCounter = document.getElementById('exam-counter');
@@ -2858,7 +3564,6 @@
             if (reviewCounter) reviewCounter.innerText = '0/20';
             if (reviewHardCount) reviewHardCount.innerText = '0';
             
-            // Сбрасываем прогресс-бары
             const progressFill = document.getElementById('progress-fill');
             const examProgressFill = document.getElementById('exam-progress-fill');
             const reviewProgressFill = document.getElementById('review-progress-fill');
@@ -2867,7 +3572,6 @@
             if (examProgressFill) examProgressFill.style.width = '0%';
             if (reviewProgressFill) reviewProgressFill.style.width = '0%';
             
-            // Сбрасываем таймер
             const timerDisplay = document.getElementById('timer-display');
             if (timerDisplay) {
                 timerDisplay.innerText = '20:00';
@@ -2878,44 +3582,13 @@
             }
         }
 
-        // Функция для создания блоков
-        function renderBlocks(config) {
-            const container = document.getElementById('blocksContainer');
-            if (!container) return;
-            
-            container.innerHTML = '';
-            
-            // Создаем блоки
-            config.blocks.forEach(block => {
-                const blockCard = document.createElement('div');
-                blockCard.className = 'block-card';
-                blockCard.setAttribute('onclick', `startBlock(${block.num}, ${block.start}, ${block.end})`);
-                blockCard.innerHTML = `
-                    <h3>БЛОК ${block.num}</h3>
-                    <p>${block.desc}</p>
-                `;
-                container.appendChild(blockCard);
-            });
-            
-            // Добавляем итоговое тестирование
-            const examCard = document.createElement('div');
-            examCard.className = 'block-card exam-card';
-            examCard.setAttribute('onclick', 'startExam()');
-            examCard.innerHTML = `
-                <h3>Итоговое тестирование</h3>
-                <p>20 вопросов | 20 минут | допуск: 2 ошибки</p>
-            `;
-            container.appendChild(examCard);
-        }
-
-        // Выбор теста (исправленная версия с полной очисткой)
+        // Выбор теста
         function selectTest(testId) {
             if (!TEST_CONFIGS[testId]) {
                 showNotification('Тест появится в скором времени');
                 return;
             }
             
-            // Проверяем, доступен ли тест
             if (!AVAILABLE_TESTS.includes(testId)) {
                 showNotification(`Тест "${TEST_CONFIGS[testId].name}" появится в ближайшее время`);
                 return;
@@ -2923,10 +3596,8 @@
             
             console.log('Переключение на тест:', testId);
             
-            // Принудительно сбрасываем все экраны
             resetAllScreens();
             
-            // ПОЛНАЯ ОЧИСТКА ВСЕХ ДАННЫХ
             fullBase = [];
             activeQuestions = [];
             hardQuestions = [];
@@ -2934,7 +3605,6 @@
             examAnswers = [];
             examResults = [];
             
-            // Сбрасываем индексы и счетчики
             currentIdx = 0;
             score = 0;
             examCurrentIdx = 0;
@@ -2943,29 +3613,31 @@
             answeredQuestionsCount = 0;
             reviewCurrentIdx = 0;
             
-            // Очищаем Map с состояниями ответов
             answerStates.clear();
-            
-            // Очищаем выбранные опции
             selectedOptions = [];
             
-            // Останавливаем таймер если он запущен
             if (examTimer) {
                 clearInterval(examTimer);
                 examTimer = null;
             }
             
-            // Очищаем состояние тренировки для предыдущего теста
             clearTrainingState();
             
             currentTest = testId;
             const config = TEST_CONFIGS[testId];
             
-            // Обновляем отображение
-            document.getElementById('selectedTestDisplay').innerText = `${config.code} ${config.name}`;
+            let displayName = `${config.code} ${config.name}`;
+            if (window.innerWidth <= 480) {
+                const shortNames = {
+                    'b211': 'Б.2.11 Ремонтные работы',
+                    'b26-marine': 'Б.2.6 Морские'
+                };
+                displayName = shortNames[testId] || `${config.code} ${config.name}`;
+            }
+            
+            document.getElementById('selectedTestDisplay').innerText = displayName;
             document.getElementById('testTitle').innerHTML = config.fullName;
             
-            // Очищаем меню и создаем новые блоки
             const menuGrid = document.querySelector('.menu-grid');
             if (menuGrid) {
                 menuGrid.innerHTML = '';
@@ -2980,40 +3652,37 @@
                     menuGrid.appendChild(blockCard);
                 });
                 
-                // Добавляем итоговое тестирование
                 const examCard = document.createElement('div');
                 examCard.className = 'block-card exam-card';
                 examCard.setAttribute('onclick', 'startExam()');
                 examCard.innerHTML = `
-                    <h3>Итоговое тестирование</h3>
+                    <h3>ИТОГОВОЕ ТЕСТИРОВАНИЕ</h3>
                     <p>20 вопросов | 20 минут | допуск: 2 ошибки</p>
                 `;
                 menuGrid.appendChild(examCard);
             }
             
-            // Обновляем выделение в дропдауне
             document.querySelectorAll('.test-item').forEach(item => {
                 item.classList.remove('selected');
             });
             const selectedItem = document.querySelector(`.test-item[data-test="${testId}"]`);
             if (selectedItem) selectedItem.classList.add('selected');
             
-            // Закрываем дропдаун
             document.getElementById('testDropdown').classList.remove('show');
             document.getElementById('testSelectorBtn').classList.remove('active');
+            const overlay = document.querySelector('.dropdown-overlay');
+            if (overlay) overlay.classList.remove('show');
             
-            // Загружаем вопросы нового теста
             loadQuestions(testId);
         }
 
-        // Загрузка вопросов (исправленная версия с анти-кешированием)
+        // Загрузка вопросов
         async function loadQuestions(testId) {
             const config = TEST_CONFIGS[testId];
             
             try {
                 console.log(`Загрузка вопросов для ${testId} из файла ${config.jsonFile}`);
                 
-                // Добавляем параметр для избежания кеширования браузером
                 const response = await fetch(`${config.jsonFile}?t=${Date.now()}`);
                 
                 if (!response.ok) {
@@ -3023,7 +3692,6 @@
                 const data = await response.json();
                 console.log('JSON загружен, ключи:', Object.keys(data));
                 
-                // Обрабатываем особый случай для b26-marine (ключ в JSON - 'b26')
                 if (testId === 'b26-marine') {
                     fullBase = data.b26 || [];
                     console.log('Загружено для Б.2.6 из ключа b26:', fullBase.length);
@@ -3039,7 +3707,6 @@
                     return;
                 }
                 
-                // Загружаем трудные вопросы для этого теста
                 const saved = localStorage.getItem(`hardQuestions_${testId}`);
                 if (saved) {
                     try {
@@ -3249,10 +3916,20 @@
                 }
             }
             
-            activeQuestions = fullBase.slice(start, end).map(q => ({
+            // Берем вопросы из блока
+            let blockQuestions = fullBase.slice(start, end).map(q => ({
                 ...q,
                 c: [...q.c]
-            })).map(q => shuffleQuestionOptions(q)).sort(() => Math.random() - 0.5);
+            }));
+            
+            // Для демо-пользователя ограничиваем до 10 вопросов
+            const userType = localStorage.getItem('userType');
+            if (userType === 'demo') {
+                blockQuestions = getLimitedQuestions(blockQuestions, 10);
+                showNotification(`Демо-режим: показаны 10 случайных вопросов из ${end - start}`);
+            }
+            
+            activeQuestions = blockQuestions.map(q => shuffleQuestionOptions(q)).sort(() => Math.random() - 0.5);
             
             answerStates.clear();
             trainingState.blockNum = num;
@@ -3266,10 +3943,18 @@
                 return;
             }
             
-            activeQuestions = fullBase.filter(q => hardQuestions.includes(q.id)).map(q => ({
+            let hardQuestionsList = fullBase.filter(q => hardQuestions.includes(q.id)).map(q => ({
                 ...q,
                 c: [...q.c]
-            })).map(q => shuffleQuestionOptions(q));
+            }));
+            
+            // Для демо-пользователя ограничиваем до 10 вопросов
+            const userType = localStorage.getItem('userType');
+            if (userType === 'demo') {
+                hardQuestionsList = getLimitedQuestions(hardQuestionsList, 10);
+            }
+            
+            activeQuestions = hardQuestionsList.map(q => shuffleQuestionOptions(q));
             
             if (activeQuestions.length === 0) {
                 alert('Нет отмеченных вопросов. Отмечайте сложные вопросы звездочкой!');
@@ -3292,12 +3977,16 @@
                 examTimer = null;
             }
             
-            examQuestions = [...fullBase].sort(() => Math.random() - 0.5).slice(0, 20).map(q => shuffleQuestionOptions(q));
+            // Для демо-пользователя берем 10 вопросов вместо 20
+            const userType = localStorage.getItem('userType');
+            const examSize = userType === 'demo' ? 10 : 20;
+            
+            examQuestions = [...fullBase].sort(() => Math.random() - 0.5).slice(0, examSize).map(q => shuffleQuestionOptions(q));
             examCurrentIdx = 0;
             examErrors = 0;
-            examTimeLeft = 1200;
-            examAnswers = new Array(20).fill(null);
-            examResults = new Array(20).fill(null);
+            examTimeLeft = userType === 'demo' ? 600 : 1200; // 10 минут для демо
+            examAnswers = new Array(examSize).fill(null);
+            examResults = new Array(examSize).fill(null);
             answeredQuestionsCount = 0;
             
             document.getElementById('menu-screen').style.display = 'none';
@@ -3319,6 +4008,10 @@
             if (stats) stats.style.display = 'flex';
             if (progressContainer) progressContainer.style.display = 'block';
             
+            // Обновляем счетчик
+            const examCounter = document.getElementById('exam-counter');
+            if (examCounter) examCounter.innerText = `0/${examSize}`;
+            
             startExamTimer();
             loadExamQuestion();
         }
@@ -3329,12 +4022,15 @@
                 examTimer = null;
             }
             
-            examQuestions = [...fullBase].sort(() => Math.random() - 0.5).slice(0, 20).map(q => shuffleQuestionOptions(q));
+            const userType = localStorage.getItem('userType');
+            const examSize = userType === 'demo' ? 10 : 20;
+            
+            examQuestions = [...fullBase].sort(() => Math.random() - 0.5).slice(0, examSize).map(q => shuffleQuestionOptions(q));
             examCurrentIdx = 0;
             examErrors = 0;
-            examTimeLeft = 1200;
-            examAnswers = new Array(20).fill(null);
-            examResults = new Array(20).fill(null);
+            examTimeLeft = userType === 'demo' ? 600 : 1200;
+            examAnswers = new Array(examSize).fill(null);
+            examResults = new Array(examSize).fill(null);
             answeredQuestionsCount = 0;
             
             document.getElementById('exam-result').style.display = 'none';
@@ -3350,6 +4046,9 @@
             if (timerContainer) timerContainer.style.display = 'inline-flex';
             if (stats) stats.style.display = 'flex';
             if (progressContainer) progressContainer.style.display = 'block';
+            
+            const examCounter = document.getElementById('exam-counter');
+            if (examCounter) examCounter.innerText = `0/${examSize}`;
             
             startExamTimer();
             loadExamQuestion();
@@ -3389,7 +4088,10 @@
         }
 
         function loadExamQuestion() {
-            if (examCurrentIdx >= 20) {
+            const userType = localStorage.getItem('userType');
+            const examSize = userType === 'demo' ? 10 : 20;
+            
+            if (examCurrentIdx >= examSize) {
                 finishExam(true);
                 return;
             }
@@ -3401,7 +4103,7 @@
             if (qText) qText.innerText = q.q;
             
             const counter = document.getElementById('exam-counter');
-            if (counter) counter.innerText = `${examCurrentIdx + 1}/20`;
+            if (counter) counter.innerText = `${examCurrentIdx + 1}/${examSize}`;
             
             const errors = document.getElementById('exam-errors');
             if (errors) errors.innerText = examErrors;
@@ -3518,6 +4220,9 @@
                 const errorsElement = document.getElementById('exam-errors');
                 if (errorsElement) errorsElement.innerText = examErrors;
                 
+                const userType = localStorage.getItem('userType');
+                const examSize = userType === 'demo' ? 10 : 20;
+                
                 if (examErrors > 2) {
                     finishExam(false);
                     return;
@@ -3526,7 +4231,10 @@
 
             examCurrentIdx++;
             
-            if (examCurrentIdx < 20) {
+            const userType = localStorage.getItem('userType');
+            const examSize = userType === 'demo' ? 10 : 20;
+            
+            if (examCurrentIdx < examSize) {
                 loadExamQuestion();
             } else {
                 finishExam(true);
@@ -3539,7 +4247,9 @@
                 examTimer = null;
             }
             
-            const totalQuestions = 20;
+            const userType = localStorage.getItem('userType');
+            const examSize = userType === 'demo' ? 10 : 20;
+            const totalQuestions = examSize;
             const correctAnswers = totalQuestions - examErrors;
             const percentage = (correctAnswers / totalQuestions) * 100;
             const passed = completed && examErrors <= 2 && examTimeLeft > 0;
@@ -3576,7 +4286,7 @@
             }
             
             if (resultScore) {
-                resultScore.innerHTML = `${correctAnswers}/20`;
+                resultScore.innerHTML = `${correctAnswers}/${totalQuestions}`;
                 resultScore.className = passed ? 'result-score result-pass' : 'result-score result-fail';
             }
             
@@ -3589,7 +4299,7 @@
             
             if (resultDetails) {
                 resultDetails.innerHTML = `
-                    Правильных ответов: ${correctAnswers} из 20<br>
+                    Правильных ответов: ${correctAnswers} из ${totalQuestions}<br>
                     Ошибок: ${examErrors}<br>
                     Процент правильных: ${percentage.toFixed(1)}%<br>
                     ${reason ? '<br>Причина: ' + reason : ''}
@@ -3613,7 +4323,10 @@
                 return;
             }
             
-            for (let i = 0; i < 20; i++) {
+            const userType = localStorage.getItem('userType');
+            const examSize = userType === 'demo' ? 10 : 20;
+            
+            for (let i = 0; i < examSize; i++) {
                 const result = examResults[i];
                 
                 if (result && result.question) {
@@ -3658,7 +4371,10 @@
         }
 
         function jumpToReview(index) {
-            if (index >= 0 && index < 20 && examResults[index] && examResults[index].question) {
+            const userType = localStorage.getItem('userType');
+            const examSize = userType === 'demo' ? 10 : 20;
+            
+            if (index >= 0 && index < examSize && examResults[index] && examResults[index].question) {
                 reviewCurrentIdx = index;
                 
                 document.getElementById('exam-screen').style.display = 'none';
@@ -3680,7 +4396,7 @@
             if (qText) qText.innerText = q.q;
             
             const counter = document.getElementById('review-counter');
-            if (counter) counter.innerText = `${reviewCurrentIdx + 1}/20`;
+            if (counter) counter.innerText = `${reviewCurrentIdx + 1}/${examResults.length}`;
             
             const hardCount = document.getElementById('review-hard-count');
             if (hardCount) hardCount.innerText = hardQuestions.length;
@@ -3740,7 +4456,10 @@
             
             pagination.innerHTML = '';
             
-            for (let i = 0; i < 20; i++) {
+            const userType = localStorage.getItem('userType');
+            const examSize = userType === 'demo' ? 10 : 20;
+            
+            for (let i = 0; i < examSize; i++) {
                 const result = examResults[i];
                 
                 if (result && result.question) {
@@ -3778,6 +4497,9 @@
             const prevBtn = document.getElementById('review-prev-btn');
             const nextBtn = document.getElementById('review-next-btn');
             
+            const userType = localStorage.getItem('userType');
+            const examSize = userType === 'demo' ? 10 : 20;
+            
             if (prevBtn) {
                 prevBtn.disabled = true;
                 for (let i = reviewCurrentIdx - 1; i >= 0; i--) {
@@ -3790,7 +4512,7 @@
             
             if (nextBtn) {
                 nextBtn.disabled = true;
-                for (let i = reviewCurrentIdx + 1; i < 20; i++) {
+                for (let i = reviewCurrentIdx + 1; i < examSize; i++) {
                     if (examResults[i] && examResults[i].question) {
                         nextBtn.disabled = false;
                         break;
@@ -3812,7 +4534,10 @@
         }
 
         function nextReviewQuestion() {
-            for (let i = reviewCurrentIdx + 1; i < 20; i++) {
+            const userType = localStorage.getItem('userType');
+            const examSize = userType === 'demo' ? 10 : 20;
+            
+            for (let i = reviewCurrentIdx + 1; i < examSize; i++) {
                 if (examResults[i] && examResults[i].question) {
                     reviewCurrentIdx = i;
                     loadReviewQuestion();
@@ -4059,11 +4784,11 @@
             const q = activeQuestions[currentIdx];
             if (!q) return;
             
+            const wasCorrect = q.c.every(v => selectedOptions.includes(v)) && 
+                              selectedOptions.length === q.c.length;
+            
             const btns = document.querySelectorAll('.option-btn');
             
-            const isCorrect = q.c.every(v => selectedOptions.includes(v)) && 
-                             selectedOptions.length === q.c.length;
-
             btns.forEach((btn, i) => {
                 btn.disabled = true;
                 if (q.c.includes(i)) {
@@ -4076,10 +4801,10 @@
             answerStates.set(q.id, {
                 selected: [...selectedOptions],
                 isChecked: true,
-                isCorrect: isCorrect
+                isCorrect: wasCorrect
             });
 
-            if (isCorrect) {
+            if (wasCorrect) {
                 score++;
                 const scoreDisplay = document.getElementById('score-display');
                 if (scoreDisplay) scoreDisplay.innerText = `${score}`;
@@ -4090,6 +4815,9 @@
                 expBox.innerHTML = formatExplanation(q.e);
                 expBox.style.display = 'block';
             }
+            
+            // Записываем статистику
+            updateStats(q.id, wasCorrect);
             
             updateNavigationButtons();
             renderPagination();
@@ -4183,7 +4911,9 @@
         }
 
         function updateExamProgress() {
-            const progress = ((examCurrentIdx + 1) / 20) * 100;
+            const userType = localStorage.getItem('userType');
+            const examSize = userType === 'demo' ? 10 : 20;
+            const progress = ((examCurrentIdx + 1) / examSize) * 100;
             const fillElement = document.getElementById('exam-progress-fill');
             if (fillElement) fillElement.style.width = progress + '%';
         }
@@ -4195,106 +4925,10 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Загружаем тест по умолчанию (б211)
+            checkAuth();
             loadQuestions('b211');
+            updateStatsDisplay();
         });
-        // Функции для иконок
-        function startHardMode() {
-            if (hardQuestions.length === 0) {
-                showNotification('Нет отмеченных вопросов');
-                return;
-            }
-            showNotification(`Режим трудных вопросов: ${hardQuestions.length} вопросов`);
-        }
-
-        function resetHardQuestions(event) {
-            event.preventDefault();
-            if (confirm('Очистить список трудных вопросов?')) {
-                hardQuestions = [];
-                localStorage.setItem(`hardQuestions_${currentTest}`, JSON.stringify(hardQuestions));
-                document.getElementById('hard-count').textContent = '0';
-                if (document.getElementById('hard-count-card')) {
-                    document.getElementById('hard-count-card').textContent = '0';
-                }
-                showNotification('✅ Список трудных вопросов очищен');
-            }
-        }
-
-        function showStats() {
-            const modal = document.getElementById('statsModal');
-            document.getElementById('statsContent').innerHTML = `
-                <div style="text-align: center; padding: 20px;">
-                    <h3>📊 Статистика</h3>
-                    <p>Здесь будет отображаться ваша статистика</p>
-                </div>
-            `;
-            modal.classList.add('show');
-        }
-
-        function resetUserStats(event) {
-            event.preventDefault();
-            const userType = localStorage.getItem('userType');
-            if (userType === 'super' || userType === 'demo') {
-                showNotification('Статистика не сохраняется');
-                return;
-            }
-            if (confirm('Сбросить всю статистику?')) {
-                localStorage.removeItem(`stats_${localStorage.getItem('username')}`);
-                document.getElementById('stats-total-errors').textContent = '0';
-                if (document.getElementById('stats-total-errors-card')) {
-                    document.getElementById('stats-total-errors-card').textContent = '0';
-                }
-                showNotification('✅ Статистика сброшена');
-            }
-        }
-
-        function closeStats() {
-            document.getElementById('statsModal').classList.remove('show');
-        }
-
-        function openAdminPanel() {
-            document.querySelector('.container').style.display = 'none';
-            document.getElementById('login-screen').style.display = 'flex';
-            document.querySelector('.login-box').style.display = 'none';
-            document.getElementById('admin-panel').style.display = 'block';
-            loadAdminPanel();
-        }
-
-        function adminBack() {
-            document.getElementById('admin-panel').style.display = 'none';
-            document.querySelector('.login-box').style.display = 'block';
-            document.querySelector('.container').style.display = 'block';
-            document.getElementById('login-screen').style.display = 'none';
-        }
-
-        function loadAdminPanel() {
-            // Здесь код загрузки админ-панели
-            document.getElementById('stat-users').textContent = Object.keys(USERS).length;
-            document.getElementById('stat-pending').textContent = Object.keys(PENDING_USERS).length;
-            document.getElementById('pending-badge').textContent = Object.keys(PENDING_USERS).length;
-            document.getElementById('users-badge').textContent = Object.keys(USERS).length;
-        }
-
-        // Обновите функцию checkAuth для отображения иконки админки
-        function checkAuth() {
-            const isAuthenticated = localStorage.getItem('authenticated') === 'true';
-            const username = localStorage.getItem('username');
-            const userType = localStorage.getItem('userType');
-            
-            if (isAuthenticated && username) {
-                document.getElementById('login-screen').style.display = 'none';
-                document.querySelector('.container').classList.add('authenticated');
-                
-                // Показываем иконку админки только для супер-пользователя
-                const adminIcon = document.getElementById('admin-icon');
-                if (userType === 'super') {
-                    adminIcon.style.display = 'flex';
-                }
-            } else {
-                document.getElementById('login-screen').style.display = 'flex';
-                document.querySelector('.container').classList.remove('authenticated');
-            }
-        }
     </script>
 </body>
 </html>
