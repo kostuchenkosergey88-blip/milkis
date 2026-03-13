@@ -26,7 +26,6 @@
     
     <title>Промышленная безопасность | Система тестирования</title>
     <style>
-        /* ========== ОСНОВНЫЕ СТИЛИ ========== */
         * {
             margin: 0;
             padding: 0;
@@ -48,7 +47,7 @@
             position: relative;
         }
 
-        /* ========== ЭКРАН АВТОРИЗАЦИИ ========== */
+        /* Экран авторизации */
         .login-container {
             position: fixed;
             top: 0;
@@ -74,8 +73,14 @@
         }
 
         @keyframes slideInUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         .login-header {
@@ -91,6 +96,12 @@
             margin-bottom: 10px;
             border: none;
             padding: 0;
+        }
+
+        .login-header p {
+            color: #e0e0e0;
+            font-size: 1em;
+            opacity: 0.9;
         }
 
         .login-tabs {
@@ -111,6 +122,7 @@
             color: #666;
             cursor: pointer;
             transition: all 0.3s;
+            border-radius: 6px 6px 0 0;
         }
 
         .login-tab:hover {
@@ -156,6 +168,12 @@
             font-size: 1em;
             transition: all 0.3s;
             outline: none;
+            font-family: inherit;
+        }
+
+        .input-group textarea {
+            resize: vertical;
+            min-height: 80px;
         }
 
         .input-group input:focus,
@@ -180,12 +198,17 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
+            margin-top: 10px;
         }
 
         .login-btn:hover {
             background: #2a4a70;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(30, 60, 92, 0.3);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
         }
 
         .login-message {
@@ -223,9 +246,240 @@
             font-weight: 600;
         }
 
-        /* ========== ОСНОВНОЙ КОНТЕЙНЕР ========== */
+        /* ========== СТРОГИЙ СТИЛЬ ДЛЯ АДМИНКИ ========== */
+        .admin-panel {
+            background: #1a1e24;
+            border-radius: 0;
+            padding: 30px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            border: 1px solid #333842;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            color: #e0e0e0;
+        }
+
+        .admin-header {
+            background: #0f1217;
+            border-bottom: 3px solid #ffd700;
+            padding: 20px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-header h2 {
+            color: #ffd700;
+            font-size: 1.8em;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin: 0;
+            border: none;
+            text-transform: uppercase;
+        }
+
+        .admin-back-btn {
+            background: #2d323b;
+            border: 1px solid #ffd700;
+            color: #ffd700;
+            padding: 8px 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 0;
+        }
+
+        .admin-back-btn:hover {
+            background: #ffd700;
+            color: #0f1217;
+        }
+
+        .admin-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .admin-stat-card {
+            background: #0f1217;
+            border: 1px solid #333842;
+            padding: 20px 15px;
+            text-align: center;
+        }
+
+        .admin-stat-number {
+            font-size: 2.8em;
+            font-weight: 700;
+            color: #ffd700;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .admin-stat-label {
+            color: #a0a0a0;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .admin-section {
+            background: #0f1217;
+            border: 1px solid #333842;
+            margin-bottom: 25px;
+        }
+
+        .admin-section-header {
+            background: #1e232b;
+            padding: 15px 20px;
+            border-bottom: 1px solid #333842;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-section-header h3 {
+            color: #ffd700;
+            font-size: 1.1em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        .admin-section-header .badge {
+            background: #ffd700;
+            color: #0f1217;
+            padding: 3px 10px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .admin-list {
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .admin-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #2a2f38;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .admin-item:last-child {
+            border-bottom: none;
+        }
+
+        .admin-item:hover {
+            background: #1e232b;
+        }
+
+        .admin-item-info {
+            flex: 1;
+        }
+
+        .admin-item-title {
+            font-weight: 600;
+            color: #ffd700;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .admin-item-subtitle {
+            color: #a0a0a0;
+            font-size: 0.85em;
+        }
+
+        .admin-item-detail {
+            color: #808080;
+            font-size: 0.8em;
+            margin-top: 5px;
+        }
+
+        .admin-item-actions {
+            display: flex;
+            gap: 8px;
+            margin-left: 15px;
+        }
+
+        .admin-btn-approve {
+            background: #2e7d32;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            font-size: 0.85em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 0;
+        }
+
+        .admin-btn-approve:hover {
+            background: #1b5e20;
+        }
+
+        .admin-btn-reject {
+            background: #b22222;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            font-size: 0.85em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 0;
+        }
+
+        .admin-btn-reject:hover {
+            background: #8b0000;
+        }
+
+        .admin-btn-delete {
+            background: #b22222;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 0;
+        }
+
+        .admin-btn-delete:hover {
+            background: #8b0000;
+        }
+
+        .admin-empty-message {
+            padding: 30px;
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            background: #0f1217;
+        }
+
+        /* Скрываем основной контент до авторизации */
         .container {
             display: none;
+        }
+
+        .container.authenticated {
+            display: block;
+        }
+
+        .container {
             max-width: 1000px;
             width: 100%;
             background: #ffffff;
@@ -233,13 +487,10 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             overflow: hidden;
             border: 1px solid #b0b0b0;
+            position: relative;
         }
 
-        .container.authenticated {
-            display: block;
-        }
-
-        /* ========== ВЕРХНЯЯ ПАНЕЛЬ ========== */
+        /* Верхняя панель навигации */
         .top-panel {
             background: linear-gradient(180deg, #1e3c5c 0%, #152f48 100%);
             border-bottom: 2px solid #0a1a2a;
@@ -270,7 +521,7 @@
             padding-right: 20px;
         }
 
-        /* ========== ЕДИНЫЙ СТИЛЬ ДЛЯ ВСЕХ ИКОНОК ========== */
+        /* Единый стиль для всех иконок в верхней панели */
         .quick-item {
             position: relative;
             display: flex;
@@ -304,11 +555,10 @@
             text-align: center;
         }
 
-        /* Иконка админки (выделяется золотым фоном) */
+        /* Иконка админки (выделяется) */
         .admin-icon {
             background: rgba(255, 215, 0, 0.15);
             border-color: #ffd700;
-            margin-right: 5px;
         }
 
         .admin-icon:hover {
@@ -369,12 +619,12 @@
             transform: translateY(-2px);
         }
 
-        /* ========== СЕЛЕКТОР ТЕСТОВ ========== */
+        /* Селектор тестов */
         .test-selector {
             position: relative;
-            min-width: 400px;
+            min-width: 500px;
             flex: 1;
-            max-width: 500px;
+            max-width: 600px;
         }
 
         .test-selector-btn {
@@ -444,6 +694,10 @@
             color: white;
         }
 
+        .test-item:last-child {
+            border-bottom: none;
+        }
+
         .test-item:hover {
             background: #2a4a70;
         }
@@ -457,6 +711,24 @@
             opacity: 0.5;
             cursor: not-allowed;
             pointer-events: none;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .test-item.disabled:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: none;
+        }
+
+        .test-item.disabled .test-code {
+            color: #808080;
+        }
+
+        .test-item.disabled .test-name {
+            color: #a0a0a0;
+        }
+
+        .test-item.disabled .test-desc {
+            color: #606060;
         }
 
         .test-code {
@@ -476,7 +748,77 @@
             margin-top: 2px;
         }
 
-        /* ========== МЕНЮ ========== */
+        /* Контейнер для уведомлений */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #b22222;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+            max-width: 350px;
+            border-left: 4px solid #ffd700;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 700;
+            margin-bottom: 5px;
+            font-size: 1em;
+        }
+
+        .notification-message {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+            padding: 0 5px;
+        }
+
+        .notification-close:hover {
+            opacity: 1;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
         #menu-screen {
             padding: 35px 40px;
         }
@@ -489,12 +831,15 @@
             text-align: center;
             border-bottom: 3px solid #1e3c5c;
             padding-bottom: 15px;
+            letter-spacing: 0.5px;
+            line-height: 1.4;
         }
 
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
+            margin-bottom: 15px;
         }
 
         .block-card {
@@ -502,17 +847,17 @@
             padding: 25px 15px;
             border-radius: 6px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
             border: 1px solid #c0c0c0;
             text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .block-card:hover {
             background: #e8e8e8;
             border-color: #1e3c5c;
             transform: translateY(-2px);
-            box-shadow: 0 5px 10px rgba(30,60,92,0.3);
+            box-shadow: 0 5px 10px rgba(30, 60, 92, 0.3);
         }
 
         .block-card h3 {
@@ -543,396 +888,897 @@
 
         .exam-card:hover {
             background: #2a4a70;
+            border-color: #0a1a2a;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
         }
 
-        .footer-note {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 0.85em;
-            color: #808080;
-            border-top: 1px solid #d0d0d0;
-            padding-top: 15px;
-        }
-
-        /* ========== ПАНЕЛЬ АДМИНИСТРАТОРА ========== */
-        .admin-panel {
-            background: #1a1e24;
-            border-radius: 0;
-            padding: 30px;
-            max-width: 700px;
-            width: 100%;
-            max-height: 85vh;
-            overflow-y: auto;
-            border: 1px solid #333842;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            color: #e0e0e0;
-        }
-
-        .admin-header {
-            background: #0f1217;
-            border-bottom: 3px solid #ffd700;
-            padding: 20px;
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .admin-header h2 {
-            color: #ffd700;
-            font-size: 1.8em;
-            font-weight: 600;
-            letter-spacing: 1px;
-            margin: 0;
-            border: none;
-            text-transform: uppercase;
-        }
-
-        .admin-back-btn {
-            background: #2d323b;
-            border: 1px solid #ffd700;
-            color: #ffd700;
-            padding: 8px 20px;
-            font-size: 0.9em;
-            font-weight: 600;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .admin-back-btn:hover {
-            background: #ffd700;
-            color: #0f1217;
-        }
-
-        /* Единый стиль для иконок в админке */
-        .admin-quick-stats {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .admin-quick-item {
+        .hard-mode-card {
+            background: #4a4a4a;
+            border: 1px solid #2d2d2d;
+            margin-top: 15px;
             position: relative;
-            flex: 1;
+        }
+
+        .hard-mode-card h3 {
+            color: white;
+        }
+
+        .hard-mode-card p {
+            color: #d0d0d0;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            padding: 15px;
-            background: #0f1217;
-            border: 1px solid #333842;
-            cursor: pointer;
-            transition: all 0.2s;
+            gap: 5px;
         }
 
-        .admin-quick-item:hover {
-            background: #1e232b;
-            border-color: #ffd700;
-            transform: translateY(-2px);
+        .hard-mode-card:hover {
+            background: #5a5a5a;
+            border-color: #1e3c5c;
         }
 
-        .admin-quick-icon {
-            font-size: 1.3em;
-            color: #ffd700;
+        .stats-menu-card {
+            background: #f4b400;
+            border: 2px solid #d4a000;
+            margin-top: 15px;
+            position: relative;
         }
 
-        .admin-quick-count {
-            font-size: 1.4em;
-            font-weight: 700;
+        .stats-menu-card h3 {
             color: white;
         }
 
-        .admin-quick-item::after {
-            content: attr(data-tooltip);
+        .stats-menu-card p {
+            color: #fff5e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .stats-menu-card:hover {
+            background: #ffc107;
+            border-color: #1e3c5c;
+        }
+
+        .reset-hard-btn {
             position: absolute;
-            bottom: -35px;
-            left: 50%;
-            transform: translateX(-50%);
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            font-size: 16px;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .reset-hard-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        #quiz-screen, #exam-screen, #exam-review-screen {
+            padding: 25px 30px;
+        }
+
+        #exam-review-screen {
+            display: none;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+            border-bottom: 2px solid #1e3c5c;
+            padding-bottom: 15px;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+            border-bottom: 2px solid #1e3c5c;
+            padding-bottom: 15px;
+        }
+
+        .back-btn {
+            background: none;
+            border: 2px solid #1e3c5c;
+            color: #1e3c5c;
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 15px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .back-btn:hover {
             background: #1e3c5c;
             color: white;
-            padding: 5px 10px;
+            transform: translateX(-3px);
+        }
+
+        .stats {
+            display: flex;
+            gap: 25px;
+            background: #f0f0f0;
+            padding: 8px 25px;
             border-radius: 4px;
-            font-size: 0.75em;
-            white-space: nowrap;
-            border: 1px solid #ffd700;
-            opacity: 0;
-            visibility: hidden;
+            border: 1px solid #c0c0c0;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #1e3c5c;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .stat-icon {
+            font-size: 1.2em;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 0;
+            margin-bottom: 25px;
+            border: 1px solid #b0b0b0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #1e3c5c;
+            transition: width 0.3s ease;
+        }
+
+        .exam-progress {
+            background: #b22222;
+        }
+
+        .question-container {
+            position: relative;
+            background: #f8f8f8;
+            padding: 25px 30px;
+            margin-bottom: 25px;
+            border: 2px solid #c0c0c0;
+            border-left: 6px solid #1e3c5c;
+        }
+
+        .exam-question {
+            border-left: 6px solid #b22222;
+            background: #fff5f5;
+        }
+
+        .review-question {
+            border-left: 6px solid #f4b400;
+            background: #fffaf0;
+        }
+
+        .star-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #b0b0b0;
             transition: all 0.2s;
-            z-index: 100;
+            z-index: 2;
         }
 
-        .admin-quick-item:hover::after {
-            opacity: 1;
-            visibility: visible;
-            bottom: -40px;
+        .star-btn:hover {
+            transform: scale(1.1);
+            color: #f4b400;
         }
 
-        .admin-section {
-            background: #0f1217;
-            border: 1px solid #333842;
+        .star-btn.active {
+            color: #f4b400;
+        }
+
+        .star-btn-small {
+            font-size: 20px;
+            margin-left: 8px;
+            cursor: pointer;
+            color: #b0b0b0;
+            transition: all 0.2s;
+        }
+
+        .star-btn-small:hover {
+            transform: scale(1.2);
+            color: #f4b400;
+        }
+
+        .star-btn-small.active {
+            color: #f4b400;
+        }
+
+        #q-text, #exam-q-text, #review-q-text {
+            font-size: 1.3em;
+            color: #2d2d2d;
+            line-height: 1.5;
+            padding-right: 40px;
+            font-weight: 500;
+        }
+
+        .timer-container {
+            background: #2d2d2d;
+            color: white;
+            padding: 8px 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.3em;
+            font-weight: 700;
+            border: 2px solid #b22222;
+            letter-spacing: 2px;
+        }
+
+        .timer-icon {
+            font-size: 1.3em;
+        }
+
+        .timer-warning {
+            background: #b22222;
+            border-color: #ffd700;
+        }
+
+        .options-box {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
             margin-bottom: 25px;
         }
 
-        .admin-section-header {
-            background: #1e232b;
+        .option-btn {
+            width: 100%;
             padding: 15px 20px;
-            border-bottom: 1px solid #333842;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: white;
+            border: 2px solid #c0c0c0;
+            border-radius: 4px;
+            text-align: left;
+            font-size: 1.05em;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.2s;
+            line-height: 1.4;
         }
 
-        .admin-section-header h3 {
-            color: #ffd700;
-            font-size: 1.1em;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin: 0;
+        .option-btn:hover:not(:disabled) {
+            border-color: #1e3c5c;
+            background: #f0f5ff;
+            transform: translateX(3px);
         }
 
-        .admin-section-header .badge {
-            background: #ffd700;
-            color: #0f1217;
-            padding: 3px 10px;
-            font-size: 0.8em;
-            font-weight: 600;
+        .option-btn.selected {
+            border-color: #1e3c5c;
+            background: #d9e6f2;
+            border-width: 2px;
+            font-weight: 500;
         }
 
-        .admin-list {
-            max-height: 250px;
-            overflow-y: auto;
+        .option-btn.correct {
+            background: #2e7d32 !important;
+            border-color: #1b5e20 !important;
+            color: white;
+            font-weight: 500;
         }
 
-        .admin-item {
-            padding: 15px 20px;
-            border-bottom: 1px solid #2a2f38;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background 0.2s;
+        .option-btn.wrong {
+            background: #b22222 !important;
+            border-color: #8b0000 !important;
+            color: white;
+            font-weight: 500;
         }
 
-        .admin-item:hover {
-            background: #1e232b;
+        .option-btn.review-correct {
+            background: #2e7d32 !important;
+            border-color: #1b5e20 !important;
+            color: white;
+            font-weight: 500;
+            opacity: 0.9;
         }
 
-        .admin-item-info {
-            flex: 1;
+        .option-btn.review-wrong {
+            background: #b22222 !important;
+            border-color: #8b0000 !important;
+            color: white;
+            font-weight: 500;
+            opacity: 0.9;
         }
 
-        .admin-item-title {
-            font-weight: 600;
-            color: #ffd700;
-            font-size: 1.1em;
-            margin-bottom: 5px;
+        .option-btn.review-selected {
+            border-color: #f4b400 !important;
+            border-width: 3px;
+            box-shadow: 0 0 5px #f4b400;
         }
 
-        .admin-item-subtitle {
-            color: #a0a0a0;
-            font-size: 0.85em;
+        .explanation-box {
+            background: #f0f0f0;
+            border-left: 6px solid #1e3c5c;
+            padding: 20px 25px;
+            margin: 25px 0;
+            color: #2d2d2d;
+            font-size: 1.05em;
+            line-height: 1.6;
+            border: 1px solid #c0c0c0;
         }
 
-        .admin-item-detail {
-            color: #808080;
-            font-size: 0.8em;
-            margin-top: 5px;
-        }
-
-        .admin-item-actions {
+        .nav-buttons {
             display: flex;
             gap: 8px;
+            margin-top: 15px;
         }
 
-        .admin-btn-approve {
-            background: #2e7d32;
-            color: white;
+        .nav-btn {
+            flex: 1;
+            padding: 10px;
             border: none;
-            padding: 8px 15px;
-            font-size: 0.85em;
+            font-size: 0.9em;
             font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
             text-transform: uppercase;
-            cursor: pointer;
-        }
-
-        .admin-btn-approve:hover {
-            background: #1b5e20;
-        }
-
-        .admin-btn-reject {
-            background: #b22222;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            font-size: 0.85em;
-            font-weight: 600;
-            text-transform: uppercase;
-            cursor: pointer;
-        }
-
-        .admin-btn-reject:hover {
-            background: #8b0000;
-        }
-
-        .admin-btn-delete {
-            background: #b22222;
-            color: white;
-            border: none;
-            padding: 5px 12px;
-            font-size: 0.8em;
-            font-weight: 600;
-            text-transform: uppercase;
-            cursor: pointer;
-        }
-
-        .admin-btn-delete:hover {
-            background: #8b0000;
-        }
-
-        .admin-empty-message {
-            padding: 30px;
-            text-align: center;
-            color: #666;
-            font-style: italic;
-        }
-
-        /* ========== УВЕДОМЛЕНИЯ ========== */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #2e7d32;
-            color: white;
-            padding: 15px 25px;
-            border-radius: 8px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            animation: slideIn 0.3s ease;
-            border-left: 4px solid #ffd700;
-            max-width: 350px;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        .notification-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.2em;
-            cursor: pointer;
-            opacity: 0.7;
-        }
-
-        .notification-close:hover {
+            letter-spacing: 0.5px;
+            border-radius: 4px;
             opacity: 1;
         }
 
-        /* ========== МОБИЛЬНАЯ АДАПТАЦИЯ ========== */
-        @media (max-width: 768px) {
-            .top-panel {
-                flex-direction: column;
-                align-items: stretch;
-                padding: 12px;
-            }
-            
-            .panel-left {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 10px;
-            }
-            
-            .panel-left h3 {
-                border-right: none;
-                border-bottom: 2px solid #2a4a70;
-                padding-right: 0;
-                padding-bottom: 10px;
-                text-align: center;
-                width: 100%;
-            }
-            
-            .test-selector {
-                min-width: auto;
-                width: 100%;
-            }
-            
-            .quick-stats {
-                margin: 5px 0;
-                width: 100%;
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-            
-            .quick-item {
-                padding: 8px 15px;
-            }
-            
-            .quick-item::after {
-                display: none;
-            }
-            
-            .logout-btn {
-                width: 100%;
-                text-align: center;
-            }
-            
-            .menu-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .exam-card {
-                grid-column: span 1;
-            }
-            
-            .admin-quick-stats {
-                flex-direction: column;
-            }
-            
-            .admin-quick-item::after {
-                display: none;
-            }
-            
-            #menu-screen {
-                padding: 20px;
-            }
-            
-            h2 {
-                font-size: 1.4em;
-            }
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+            pointer-events: none;
         }
 
-        @media (max-width: 480px) {
-            .login-box {
-                max-width: 100%;
-            }
-            
-            .login-header {
-                padding: 20px 15px;
-            }
-            
-            .login-header h2 {
-                font-size: 1.8em;
-            }
-            
-            .login-form {
-                padding: 20px;
-            }
-            
-            .block-card {
-                padding: 20px 10px;
-            }
-            
-            .block-card h3 {
-                font-size: 1.2em;
-            }
+        .nav-btn:disabled:hover {
+            transform: none;
+            box-shadow: none;
         }
 
-        /* ========== СТИЛИ ДЛЯ СТАТИСТИКИ ========== */
+        #check-btn {
+            background: #1e3c5c;
+            color: white;
+            border: 2px solid #0a1a2a;
+        }
+
+        #check-btn:hover:not(:disabled) {
+            background: #2a4a70;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(30, 60, 92, 0.4);
+        }
+
+        #next-btn, #prev-btn, #review-next-btn, #review-prev-btn {
+            background: #2e7d32;
+            color: white;
+            border: 2px solid #1b5e20;
+        }
+
+        #next-btn:hover:not(:disabled), #prev-btn:hover:not(:disabled),
+        #review-next-btn:hover:not(:disabled), #review-prev-btn:hover:not(:disabled) {
+            background: #3c8c40;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(46, 125, 50, 0.4);
+        }
+
+        .pagination {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            justify-content: center;
+            margin: 15px 0;
+            padding: 8px;
+            background: #f8f8f8;
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .page-btn {
+            width: 28px;
+            height: 28px;
+            border: 1px solid #d0d0d0;
+            background: white;
+            color: #666;
+            font-size: 0.8em;
+            font-weight: normal;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: none;
+        }
+
+        .page-btn:hover:not(:disabled) {
+            border-color: #1e3c5c;
+            background: #f0f5ff;
+            color: #1e3c5c;
+            transform: translateY(-1px);
+        }
+
+        .page-btn.active {
+            background: #1e3c5c;
+            color: white;
+            border-color: #0a1a2a;
+            font-weight: 500;
+        }
+
+        .page-btn.answered {
+            background: #e8f0e8;
+            color: #2e7d32;
+            border-color: #c0e0c0;
+            font-weight: normal;
+        }
+
+        .page-btn.correct {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-color: #a5d6a7;
+        }
+
+        .page-btn.wrong {
+            background: #ffebee;
+            color: #b71c1c;
+            border-color: #ffcdd2;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .result-box {
+            text-align: center;
+            padding: 40px 30px;
+            background: #f8f8f8;
+            border: 2px solid #c0c0c0;
+        }
+
+        .result-title {
+            font-size: 2.2em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .result-pass {
+            color: #2e7d32;
+        }
+
+        .result-fail {
+            color: #b22222;
+        }
+
+        .result-score {
+            font-size: 3em;
+            font-weight: 800;
+            margin: 20px 0;
+            color: #1e3c5c;
+        }
+
+        .result-details {
+            font-size: 1.2em;
+            color: #4a4a4a;
+            margin: 20px 0;
+            line-height: 1.8;
+        }
+
+        .result-nav {
+            margin: 30px 0;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 15px;
+            background: #ffffff;
+            border: 1px solid #c0c0c0;
+            border-radius: 4px;
+        }
+
+        .result-question-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            border-bottom: 1px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .result-question-item:hover {
+            background: #f0f5ff;
+        }
+
+        .result-question-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-question-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .result-question-number {
+            font-weight: 700;
+            color: #1e3c5c;
+            min-width: 40px;
+        }
+
+        .result-question-text {
+            font-size: 0.9em;
+            color: #333;
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 400px;
+        }
+
+        .result-question-status {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .status-correct {
+            background: #2e7d32;
+        }
+
+        .status-wrong {
+            background: #b22222;
+        }
+
+        .result-star-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #b0b0b0;
+            transition: all 0.2s;
+            margin-left: 10px;
+        }
+
+        .result-star-btn:hover {
+            transform: scale(1.2);
+            color: #f4b400;
+        }
+
+        .result-star-btn.active {
+            color: #f4b400;
+        }
+
+        .restart-exam-btn {
+            background: #1e3c5c;
+            color: white;
+            padding: 12px 35px;
+            border: 2px solid #0a1a2a;
+            border-radius: 4px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .restart-exam-btn:hover {
+            background: #2a4a70;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(30, 60, 92, 0.4);
+        }
+
+        .review-btn {
+            background: #f4b400;
+            color: white;
+            padding: 12px 35px;
+            border: 2px solid #d4a000;
+            border-radius: 4px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .review-btn:hover {
+            background: #ffc107;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(244, 180, 0, 0.4);
+        }
+
+        /* Стили для статистики */
+        .stats-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stats-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1e3c5c;
+        }
+
+        .stats-header h3 {
+            color: #1e3c5c;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stats-header h3::before {
+            content: '📊';
+            font-size: 1.2em;
+        }
+
+        .stats-reset-btn {
+            background: #f0f0f0;
+            border: 1px solid #c0c0c0;
+            padding: 6px 12px;
+            border-radius: 6px;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9em;
+        }
+
+        .stats-reset-btn:hover {
+            background: #b22222;
+            color: white;
+            border-color: #8b0000;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stats-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #1e3c5c;
+        }
+
+        .stats-card.worst {
+            border-left-color: #b22222;
+        }
+
+        .stats-card-title {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stats-card-value {
+            font-size: 2em;
+            font-weight: 700;
+            color: #1e3c5c;
+        }
+
+        .stats-card.worst .stats-card-value {
+            color: #b22222;
+        }
+
+        .stats-card-label {
+            font-size: 0.8em;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .stats-questions {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .stats-question-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .stats-question-item:hover {
+            background: #f0f5ff;
+        }
+
+        .stats-question-item:last-child {
+            border-bottom: none;
+        }
+
+        .stats-question-id {
+            min-width: 50px;
+            font-weight: 700;
+            color: #1e3c5c;
+        }
+
+        .stats-question-text {
+            flex: 1;
+            margin: 0 15px;
+            font-size: 0.95em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #333;
+        }
+
+        .stats-question-count {
+            background: #b22222;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .stats-chart {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .stats-chart-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .stats-chart-label {
+            min-width: 60px;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .stats-chart-fill {
+            height: 24px;
+            background: linear-gradient(90deg, #1e3c5c, #2a4a70);
+            border-radius: 4px;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            font-size: 0.85em;
+            font-weight: 600;
+            transition: width 0.3s ease;
+        }
+
+        .stats-chart-fill.worst {
+            background: linear-gradient(90deg, #b22222, #d32f2f);
+        }
+
+        .stats-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        .stats-tab {
+            padding: 8px 20px;
+            background: none;
+            border: none;
+            font-size: 1em;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .stats-tab:hover {
+            color: #1e3c5c;
+        }
+
+        .stats-tab.active {
+            color: #1e3c5c;
+        }
+
+        .stats-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #1e3c5c;
+            border-radius: 3px 3px 0 0;
+        }
+
+        .stats-summary {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stats-summary-item {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 10px;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .stats-summary-label {
+            font-size: 0.85em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .stats-summary-value {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #1e3c5c;
+        }
+
+        .stats-summary-value small {
+            font-size: 0.5em;
+            color: #999;
+            font-weight: normal;
+        }
+
+        .stats-badge {
+            background: #b22222;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            font-weight: 700;
+            margin-left: 8px;
+        }
+
+        /* Модальное окно статистики */
         .stats-modal {
             display: none;
             position: fixed;
@@ -987,6 +1833,8 @@
             font-size: 2em;
             cursor: pointer;
             opacity: 0.7;
+            transition: opacity 0.2s;
+            line-height: 1;
         }
 
         .stats-modal-close:hover {
@@ -997,119 +1845,423 @@
             padding: 25px;
         }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
+        /* Анимации */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
         }
 
-        .stats-card {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 15px;
-            border-left: 4px solid #1e3c5c;
+        /* Оверлей для дропдауна */
+        .dropdown-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
         }
 
-        .stats-card.worst {
-            border-left-color: #b22222;
+        .dropdown-overlay.show {
+            display: block;
         }
 
-        .stats-card-title {
-            font-size: 0.9em;
-            color: #666;
-            margin-bottom: 5px;
-            text-transform: uppercase;
+        /* Медиа-запросы для мобильных */
+        @media (max-width: 768px) {
+            .top-panel {
+                flex-direction: column;
+                align-items: stretch;
+                padding: max(12px, env(safe-area-inset-top)) 12px 12px 12px;
+            }
+            
+            .panel-left {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            
+            .panel-left h3 {
+                border-right: none;
+                border-bottom: 2px solid #2a4a70;
+                padding-right: 0;
+                padding-bottom: 10px;
+                text-align: center;
+                width: 100%;
+            }
+            
+            .quick-stats {
+                margin: 5px 0;
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .quick-item {
+                padding: 8px 15px;
+            }
+            
+            .quick-item::after {
+                display: none;
+            }
+            
+            .logout-btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .test-selector {
+                width: 100%;
+                max-width: none;
+                min-width: auto;
+            }
+            
+            .test-selector-btn {
+                padding: 10px 12px;
+                font-size: 0.9em;
+                min-height: 50px;
+                width: 100%;
+            }
+            
+            .test-selector-btn span:first-child {
+                white-space: normal;
+                word-break: break-word;
+                line-height: 1.3;
+                max-width: calc(100% - 30px);
+            }
+            
+            .test-dropdown {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 90%;
+                max-width: 400px;
+                max-height: 70vh;
+                margin-top: 0;
+                border: 3px solid #ffd700;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+                z-index: 1001;
+            }
+            
+            .test-item {
+                padding: 12px 15px;
+                font-size: 0.95em;
+                border-bottom: 1px solid #2a4a70;
+            }
+            
+            .test-group {
+                padding: 8px 15px;
+                font-size: 0.85em;
+            }
+            
+            .test-code {
+                font-size: 0.95em;
+            }
+            
+            .test-name {
+                font-size: 0.95em;
+            }
+            
+            .test-desc {
+                font-size: 0.8em;
+            }
+            
+            .admin-stats-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
-        .stats-card-value {
-            font-size: 2em;
+        @media (max-width: 640px) {
+            #menu-screen, #quiz-screen, #exam-screen, #exam-review-screen {
+                padding: 15px;
+            }
+
+            h2 {
+                font-size: 1.2em;
+                padding-bottom: 10px;
+                margin-bottom: 15px;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .block-card {
+                padding: 12px 10px;
+            }
+
+            .block-card h3 {
+                font-size: 1.1em;
+                margin-bottom: 4px;
+            }
+
+            .block-card p {
+                font-size: 0.85em;
+            }
+
+            .exam-card {
+                grid-column: span 1;
+            }
+
+            .hard-mode-card, .stats-menu-card {
+                margin-top: 10px;
+            }
+
+            .hard-mode-card p, .stats-menu-card p {
+                font-size: 0.9em;
+            }
+
+            .reset-hard-btn {
+                width: 22px;
+                height: 22px;
+                font-size: 14px;
+            }
+
+            .quiz-header, .review-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            #q-text, #exam-q-text, #review-q-text {
+                font-size: 1.1em;
+                padding-right: 30px;
+            }
+
+            .stats {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .timer-container {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+
+            .pagination {
+                max-height: 200px;
+                overflow-y: auto;
+                justify-content: flex-start;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .stats-modal-content {
+                max-height: 95vh;
+            }
+            
+            .stats-summary {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .stats-summary-item {
+                min-width: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .top-panel {
+                padding: max(10px, env(safe-area-inset-top)) 10px 10px 10px;
+            }
+            
+            .panel-left h3 {
+                font-size: 1em;
+                padding-bottom: 5px;
+            }
+            
+            .test-selector-btn {
+                padding: 8px 10px;
+                font-size: 0.85em;
+                min-height: 46px;
+            }
+            
+            .test-selector-btn span:first-child {
+                -webkit-line-clamp: 2;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                max-width: calc(100% - 25px);
+            }
+            
+            .test-dropdown {
+                width: 95%;
+                max-height: 65vh;
+            }
+            
+            .test-item {
+                padding: 10px 12px;
+            }
+            
+            .login-box {
+                max-width: 100%;
+            }
+            
+            .login-header {
+                padding: 25px 15px;
+            }
+            
+            .login-header h2 {
+                font-size: 1.8em;
+            }
+            
+            .login-form {
+                padding: 25px 20px;
+            }
+            
+            .input-group input,
+            .input-group textarea {
+                padding: 10px 12px;
+            }
+            
+            .admin-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .admin-item-actions {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .admin-btn-approve, .admin-btn-reject {
+                flex: 1;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .panel-left h3 {
+                font-size: 0.95em;
+            }
+            
+            .test-selector-btn {
+                padding: 8px 8px;
+                font-size: 0.8em;
+                min-height: 44px;
+            }
+            
+            .test-selector-btn span:first-child {
+                max-width: calc(100% - 22px);
+            }
+            
+            .test-item {
+                padding: 8px 10px;
+                font-size: 0.9em;
+            }
+        }
+
+        /* Для iPhone с челкой */
+        @supports (padding-top: constant(safe-area-inset-top)) or (padding-top: env(safe-area-inset-top)) {
+            .top-panel {
+                padding-top: max(12px, constant(safe-area-inset-top));
+                padding-top: max(12px, env(safe-area-inset-top));
+                padding-left: max(12px, constant(safe-area-inset-left));
+                padding-left: max(12px, env(safe-area-inset-left));
+                padding-right: max(12px, constant(safe-area-inset-right));
+                padding-right: max(12px, env(safe-area-inset-right));
+            }
+            
+            .login-container {
+                padding-top: constant(safe-area-inset-top);
+                padding-top: env(safe-area-inset-top);
+            }
+        }
+
+        .footer-note {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.85em;
+            color: #808080;
+            border-top: 1px solid #d0d0d0;
+            padding-top: 15px;
+            margin-bottom: 30px;
+        }
+
+        .hard-count {
             font-weight: 700;
-            color: #1e3c5c;
+            color: #f4b400;
+            font-size: 1.2em;
+            margin-left: 5px;
+        }
+        
+        .hard-star {
+            color: #f4b400;
+            font-size: 1.2em;
+            margin-left: 3px;
         }
 
-        .stats-card.worst .stats-card-value {
-            color: #b22222;
-        }
-
-        .stats-questions {
-            max-height: 300px;
-            overflow-y: auto;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-        }
-
-        .stats-question-item {
+        .answered-status {
             display: flex;
             align-items: center;
-            padding: 12px 15px;
-            border-bottom: 1px solid #e0e0e0;
-            cursor: pointer;
+            gap: 5px;
+            font-size: 0.9em;
         }
 
-        .stats-question-item:hover {
-            background: #f0f5ff;
+        .answered-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
         }
 
-        .stats-question-id {
-            min-width: 50px;
-            font-weight: 700;
-            color: #1e3c5c;
+        .dot-correct {
+            background: #2e7d32;
         }
 
-        .stats-question-text {
-            flex: 1;
-            margin: 0 15px;
-            font-size: 0.95em;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .stats-question-count {
+        .dot-wrong {
             background: #b22222;
-            color: white;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            font-weight: 600;
         }
 
-        .stats-summary {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+        .dot-pending {
+            background: #ffc107;
         }
 
-        .stats-summary-item {
-            background: #f8f9fa;
-            padding: 15px 20px;
-            border-radius: 10px;
-            flex: 1;
-            min-width: 150px;
+        .dot-unanswered {
+            background: #c0c0c0;
         }
-
-        .stats-summary-label {
-            font-size: 0.85em;
-            color: #666;
-            margin-bottom: 5px;
-        }
-
-        .stats-summary-value {
-            font-size: 1.8em;
-            font-weight: 700;
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2em;
             color: #1e3c5c;
         }
-
-        .stats-summary-value small {
-            font-size: 0.5em;
-            color: #999;
+        
+        .error-message {
+            text-align: center;
+            padding: 30px;
+            color: #b22222;
+            background: #fff5f5;
+            border: 2px solid #b22222;
+            margin: 20px;
+            border-radius: 8px;
+        }
+        
+        .empty-message {
+            text-align: center;
+            padding: 20px;
+            color: #808080;
+            font-style: italic;
         }
     </style>
 </head>
 <body>
-    <!-- ========== ЭКРАН АВТОРИЗАЦИИ ========== -->
+    <!-- Экран авторизации -->
     <div id="login-screen" class="login-container">
         <div class="login-box">
             <div class="login-header">
@@ -1127,7 +2279,7 @@
                 <div class="login-form">
                     <div class="input-group">
                         <label for="username">Логин</label>
-                        <input type="text" id="username" placeholder="Введите логин">
+                        <input type="text" id="username" placeholder="Введите логин" autocomplete="off">
                     </div>
                     <div class="input-group">
                         <label for="password">Пароль</label>
@@ -1155,7 +2307,7 @@
                     </div>
                     <div class="input-group">
                         <label for="reg-reason">Причина доступа</label>
-                        <textarea id="reg-reason" placeholder="Опишите, зачем вам нужен доступ" rows="3"></textarea>
+                        <textarea id="reg-reason" placeholder="Опишите, зачем вам нужен доступ (например: подготовка к экзамену, повышение квалификации)" rows="3"></textarea>
                     </div>
                     <button class="login-btn" onclick="register()">Отправить заявку</button>
                     <div id="register-message" class="login-message"></div>
@@ -1165,29 +2317,29 @@
             <div class="login-footer">
                 <p>Демо-доступ: <span class="demo-credentials">test / test</span></p>
                 <p style="margin-top: 5px;">Супер-пользователь: super / super</p>
+                <p style="margin-top: 5px;">После регистрации ожидайте подтверждения</p>
             </div>
         </div>
 
-        <!-- ========== ПАНЕЛЬ АДМИНИСТРАТОРА ========== -->
+        <!-- Панель администратора -->
         <div id="admin-panel" class="admin-panel" style="display: none;">
             <div class="admin-header">
                 <h2>⚡ ПАНЕЛЬ УПРАВЛЕНИЯ</h2>
                 <button class="admin-back-btn" onclick="adminBack()">← НАЗАД</button>
             </div>
 
-            <!-- Иконки админки в едином стиле -->
-            <div class="admin-quick-stats">
-                <div class="admin-quick-item" onclick="showAllUsers()" oncontextmenu="resetAllUsers(event)" data-tooltip="👥 Все пользователи (правый клик для сброса)">
-                    <span class="admin-quick-icon">👥</span>
-                    <span class="admin-quick-count" id="stat-users">0</span>
+            <div class="admin-stats-grid">
+                <div class="admin-stat-card">
+                    <div class="admin-stat-number" id="stat-users">0</div>
+                    <div class="admin-stat-label">ПОЛЬЗОВАТЕЛЕЙ</div>
                 </div>
-                <div class="admin-quick-item" onclick="showPendingUsers()" oncontextmenu="resetAllPending(event)" data-tooltip="📋 Заявки (правый клик для сброса)">
-                    <span class="admin-quick-icon">📋</span>
-                    <span class="admin-quick-count" id="stat-pending">0</span>
+                <div class="admin-stat-card">
+                    <div class="admin-stat-number" id="stat-pending">0</div>
+                    <div class="admin-stat-label">ЗАЯВОК</div>
                 </div>
-                <div class="admin-quick-item" onclick="showSystemInfo()" oncontextmenu="resetSystemStats(event)" data-tooltip="📊 Системная статистика (правый клик для сброса)">
-                    <span class="admin-quick-icon">📊</span>
-                    <span class="admin-quick-count" id="stat-tests">2</span>
+                <div class="admin-stat-card">
+                    <div class="admin-stat-number" id="stat-tests">2</div>
+                    <div class="admin-stat-label">ТЕСТОВ</div>
                 </div>
             </div>
 
@@ -1209,14 +2361,14 @@
         </div>
     </div>
 
-    <!-- ========== ОСНОВНОЙ КОНТЕЙНЕР ========== -->
+    <!-- Основной контейнер -->
     <div class="container">
-        <!-- Верхняя панель -->
+        <!-- Верхняя панель с навигацией -->
         <div class="top-panel">
             <div class="panel-left">
                 <h3>PRO100 TEST</h3>
                 
-                <!-- Иконка админки (видна только super) -->
+                <!-- Иконка админки (только для super) -->
                 <div id="admin-icon" class="quick-item admin-icon" onclick="openAdminPanel()" data-tooltip="👑 Панель управления" style="display: none;">
                     <span class="quick-icon">👑</span>
                 </div>
@@ -1228,31 +2380,88 @@
                         <span class="arrow">▼</span>
                     </div>
                     <div class="test-dropdown" id="testDropdown">
+                        <!-- Промышленная безопасность -->
                         <div class="test-group">Промышленная безопасность</div>
+                        
+                        <!-- А.1 - неактивен -->
                         <div class="test-item disabled" data-test="a1" onclick="return false;">
                             <span class="test-code">А.1</span>
                             <span class="test-name">Основы промышленной безопасности</span>
                             <div class="test-desc">211 вопросов</div>
                         </div>
+                        
+                        <!-- Б.2.1 - неактивен -->
                         <div class="test-item disabled" data-test="b21" onclick="return false;">
                             <span class="test-code">Б.2.1</span>
-                            <span class="test-name">Эксплуатация объектов</span>
+                            <span class="test-name">Эксплуатация объектов нефтяной и газовой промышленности</span>
                             <div class="test-desc">405 вопросов</div>
                         </div>
+                        
+                        <!-- Б.2.3 - неактивен -->
+                        <div class="test-item disabled" data-test="b23" onclick="return false;">
+                            <span class="test-code">Б.2.3</span>
+                            <span class="test-name">Проектирование, строительство, реконструкция</span>
+                            <div class="test-desc">228 вопросов</div>
+                        </div>
+                        
+                        <!-- Б.2.6 - АКТИВЕН -->
                         <div class="test-item" data-test="b26-marine" onclick="selectTest('b26-marine')">
                             <span class="test-code">Б.2.6</span>
-                            <span class="test-name">Морские месторождения</span>
+                            <span class="test-name">Разведка и разработка морских месторождений</span>
                             <div class="test-desc">187 вопросов</div>
                         </div>
+                        
+                        <!-- Б.2.7 - неактивен -->
+                        <div class="test-item disabled" data-test="b27" onclick="return false;">
+                            <span class="test-code">Б.2.7</span>
+                            <span class="test-name">Магистральные нефтепроводы</span>
+                            <div class="test-desc">155 вопросов</div>
+                        </div>
+                        
+                        <!-- Б.2.8 - неактивен -->
+                        <div class="test-item disabled" data-test="b28" onclick="return false;">
+                            <span class="test-code">Б.2.8</span>
+                            <span class="test-name">Магистральные газопроводы</span>
+                            <div class="test-desc">132 вопроса</div>
+                        </div>
+                        
+                        <!-- Б.2.11 - АКТИВЕН (выбран по умолчанию) -->
                         <div class="test-item selected" data-test="b211" onclick="selectTest('b211')">
                             <span class="test-code">Б.2.11</span>
-                            <span class="test-name">Ремонтные работы</span>
+                            <span class="test-name">Ремонтные, монтажные и пусконаладочные работы</span>
+                            <div class="test-desc">160 вопросов</div>
+                        </div>
+                        
+                        <!-- Электробезопасность -->
+                        <div class="test-group">Электробезопасность</div>
+                        
+                        <div class="test-item disabled" data-test="electro2" onclick="return false;">
+                            <span class="test-code">2 гр.</span>
+                            <span class="test-name">До и выше 1000В</span>
+                            <div class="test-desc">100 вопросов</div>
+                        </div>
+                        
+                        <div class="test-item disabled" data-test="electro3" onclick="return false;">
+                            <span class="test-code">3 гр.</span>
+                            <span class="test-name">До и выше 1000В</span>
+                            <div class="test-desc">120 вопросов</div>
+                        </div>
+                        
+                        <div class="test-item disabled" data-test="electro4" onclick="return false;">
+                            <span class="test-code">4 гр.</span>
+                            <span class="test-name">До и выше 1000В</span>
+                            <div class="test-desc">140 вопросов</div>
+                        </div>
+                        
+                        <div class="test-item disabled" data-test="electro5" onclick="return false;">
+                            <span class="test-code">5 гр.</span>
+                            <span class="test-name">До и выше 1000В</span>
                             <div class="test-desc">160 вопросов</div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Быстрая статистика (единый стиль) -->
+                <!-- Быстрая статистика -->
                 <div class="quick-stats">
                     <div class="quick-item" onclick="startHardMode()" oncontextmenu="resetHardQuestions(event)" data-tooltip="⚠️ Трудные вопросы (правый клик для сброса)">
                         <span class="quick-icon">⚠️</span>
@@ -1272,9 +2481,9 @@
         <!-- Контейнер для уведомлений -->
         <div id="notificationContainer"></div>
 
-        <!-- Главное меню -->
+        <!-- Основной контент -->
         <div id="menu-screen">
-            <h2 id="testTitle">Б.2.11 Промышленная безопасность</h2>
+            <h2 id="testTitle">Б.2.11 Промышленная безопасность<br>"Ремонтные, монтажные и пусконаладочные работы на опасных производственных объектах нефтегазодобычи"</h2>
             <div class="menu-grid">
                 <div class="block-card" onclick="startBlock(1, 0, 40)">
                     <h3>БЛОК 1</h3>
@@ -1297,14 +2506,37 @@
                     <p>20 вопросов | 20 минут | допуск: 2 ошибки</p>
                 </div>
             </div>
+            <div class="block-card hard-mode-card" onclick="startHardMode()">
+                <h3>⚠️ ТРУДНЫЕ ВОПРОСЫ</h3>
+                <p>
+                    Отмеченные: <span id="hard-count-card" class="hard-count">0</span>
+                    <span class="hard-star">★</span>
+                </p>
+                <button class="reset-hard-btn" onclick="resetHardQuestions(event)" title="Сбросить список трудных вопросов">✕</button>
+            </div>
+            <div class="block-card stats-menu-card" onclick="showStats()">
+                <h3>📊 МОЯ СТАТИСТИКА</h3>
+                <p>
+                    Ошибки: <span id="stats-total-errors-card" class="hard-count">0</span>
+                    <span class="hard-star">⚠️</span>
+                </p>
+            </div>
             <div class="footer-note">
                 Система тестирования | Версия 2.0
             </div>
         </div>
 
-        <!-- Экран тестирования -->
+        <!-- Остальные экраны (quiz, exam и т.д.) -->
         <div id="quiz-screen" style="display: none;">
-            <!-- ... содержимое экрана тестирования ... -->
+            <!-- Здесь ваш существующий код экрана тестирования -->
+        </div>
+
+        <div id="exam-screen" style="display: none;">
+            <!-- Здесь ваш существующий код экрана экзамена -->
+        </div>
+
+        <div id="exam-review-screen">
+            <!-- Здесь ваш существующий код экрана просмотра -->
         </div>
     </div>
 
@@ -1315,194 +2547,19 @@
                 <h2>📊 МОЯ СТАТИСТИКА</h2>
                 <button class="stats-modal-close" onclick="closeStats()">&times;</button>
             </div>
-            <div class="stats-modal-body" id="statsContent"></div>
+            <div class="stats-modal-body" id="statsContent">
+                <!-- Статистика будет загружаться сюда -->
+            </div>
         </div>
     </div>
 
     <script>
-        // ========== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ==========
-        let fullBase = [];
-        let activeQuestions = [];
-        let currentIdx = 0;
-        let score = 0;
-        let selectedOptions = [];
-        let hardQuestions = [];
-        let currentTest = 'b211';
-        let answerStates = new Map();
-
-        // Данные пользователей
-        const SUPER_USER = { username: 'super', password: 'super' };
-        const DEMO_USER = { username: 'test', password: 'test' };
-        let USERS = {};
-        let PENDING_USERS = {};
-
-        // ========== ФУНКЦИИ АВТОРИЗАЦИИ ==========
-        function loadUsers() {
-            const saved = localStorage.getItem('users');
-            USERS = saved ? JSON.parse(saved) : {};
-        }
-
-        function loadPendingUsers() {
-            const saved = localStorage.getItem('pending_users');
-            PENDING_USERS = saved ? JSON.parse(saved) : {};
-        }
-
-        function saveUsers() {
-            localStorage.setItem('users', JSON.stringify(USERS));
-        }
-
-        function savePendingUsers() {
-            localStorage.setItem('pending_users', JSON.stringify(PENDING_USERS));
-        }
-
-        loadUsers();
-        loadPendingUsers();
-
-        function showLoginTab(tab) {
-            document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.login-tab-content').forEach(c => c.classList.remove('active'));
-            
-            if (tab === 'login') {
-                document.querySelectorAll('.login-tab')[0].classList.add('active');
-                document.getElementById('login-form').classList.add('active');
-            } else {
-                document.querySelectorAll('.login-tab')[1].classList.add('active');
-                document.getElementById('register-form').classList.add('active');
-            }
-        }
-
-        function register() {
-            const username = document.getElementById('reg-username').value.trim();
-            const password = document.getElementById('reg-password').value;
-            const name = document.getElementById('reg-name').value.trim();
-            const reason = document.getElementById('reg-reason').value.trim();
-            const message = document.getElementById('register-message');
-            
-            if (!username || !password) {
-                message.textContent = 'Логин и пароль обязательны';
-                return;
-            }
-            
-            if (username === SUPER_USER.username || username === DEMO_USER.username) {
-                message.textContent = 'Этот логин зарезервирован';
-                return;
-            }
-            
-            if (USERS[username] || PENDING_USERS[username]) {
-                message.textContent = 'Пользователь уже существует или заявка уже отправлена';
-                return;
-            }
-            
-            PENDING_USERS[username] = {
-                password: password,
-                name: name || username,
-                reason: reason || 'Не указана',
-                registeredAt: new Date().toISOString()
-            };
-            
-            savePendingUsers();
-            message.textContent = '✅ Заявка отправлена! Ожидайте подтверждения.';
-            message.classList.add('login-success');
-            
-            document.getElementById('reg-username').value = '';
-            document.getElementById('reg-password').value = '';
-            document.getElementById('reg-name').value = '';
-            document.getElementById('reg-reason').value = '';
-        }
-
-        function login() {
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value;
-            const errorElement = document.getElementById('login-error');
-            
-            if (!username || !password) {
-                errorElement.textContent = 'Введите логин и пароль';
-                return;
-            }
-            
-            // Супер-пользователь
-            if (username === SUPER_USER.username && password === SUPER_USER.password) {
-                localStorage.setItem('authenticated', 'true');
-                localStorage.setItem('username', 'super');
-                localStorage.setItem('userType', 'super');
-                
-                document.getElementById('login-screen').style.display = 'none';
-                document.querySelector('.container').classList.add('authenticated');
-                document.getElementById('admin-icon').style.display = 'flex';
-                showNotification('Добро пожаловать, супер-пользователь!');
-                return;
-            }
-            
-            // Демо-пользователь
-            if (username === DEMO_USER.username && password === DEMO_USER.password) {
-                localStorage.setItem('authenticated', 'true');
-                localStorage.setItem('username', 'test');
-                localStorage.setItem('userType', 'demo');
-                
-                document.getElementById('login-screen').style.display = 'none';
-                document.querySelector('.container').classList.add('authenticated');
-                showNotification('Добро пожаловать в демо-режим!');
-                return;
-            }
-            
-            // Обычные пользователи
-            const user = USERS[username];
-            if (user && user.password === password) {
-                localStorage.setItem('authenticated', 'true');
-                localStorage.setItem('username', username);
-                localStorage.setItem('userType', 'regular');
-                localStorage.setItem('userName', user.name || username);
-                
-                document.getElementById('login-screen').style.display = 'none';
-                document.querySelector('.container').classList.add('authenticated');
-                showNotification(`Добро пожаловать, ${user.name || username}!`);
-            } else {
-                errorElement.textContent = 'Неверный логин или пароль';
-            }
-        }
-
-        function logout() {
-            if (confirm('Вы действительно хотите выйти?')) {
-                localStorage.removeItem('authenticated');
-                localStorage.removeItem('username');
-                localStorage.removeItem('userType');
-                localStorage.removeItem('userName');
-                
-                document.getElementById('login-screen').style.display = 'flex';
-                document.querySelector('.container').classList.remove('authenticated');
-                document.getElementById('admin-icon').style.display = 'none';
-                showNotification('Вы вышли из системы');
-            }
-        }
-
-        function checkAuth() {
-            const isAuthenticated = localStorage.getItem('authenticated') === 'true';
-            const username = localStorage.getItem('username');
-            const userType = localStorage.getItem('userType');
-            
-            if (isAuthenticated && username) {
-                document.getElementById('login-screen').style.display = 'none';
-                document.querySelector('.container').classList.add('authenticated');
-                
-                if (userType === 'super') {
-                    document.getElementById('admin-icon').style.display = 'flex';
-                }
-            }
-        }
-
-        // ========== ФУНКЦИИ ДЛЯ ИКОНОК ==========
-        function showNotification(message) {
-            const container = document.getElementById('notificationContainer');
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.innerHTML = `
-                <div class="notification-content">${message}</div>
-                <button class="notification-close" onclick="this.parentElement.remove()">×</button>
-            `;
-            container.appendChild(notification);
-            setTimeout(() => notification.remove(), 3000);
-        }
-
+        // ========== СЮДА ВСТАВЬТЕ ВЕСЬ ВАШ СУЩЕСТВУЮЩИЙ JAVASCRIPT ==========
+        // Весь ваш код с переменными, функциями навигации, статистикой и т.д.
+        
+        // Для демонстрации работы новых функций добавьте эти функции:
+        
+        // Функции для иконок
         function startHardMode() {
             if (hardQuestions.length === 0) {
                 showNotification('Нет отмеченных вопросов');
@@ -1517,6 +2574,9 @@
                 hardQuestions = [];
                 localStorage.setItem(`hardQuestions_${currentTest}`, JSON.stringify(hardQuestions));
                 document.getElementById('hard-count').textContent = '0';
+                if (document.getElementById('hard-count-card')) {
+                    document.getElementById('hard-count-card').textContent = '0';
+                }
                 showNotification('✅ Список трудных вопросов очищен');
             }
         }
@@ -1526,7 +2586,7 @@
             document.getElementById('statsContent').innerHTML = `
                 <div style="text-align: center; padding: 20px;">
                     <h3>📊 Статистика</h3>
-                    <p>Здесь будет отображаться статистика</p>
+                    <p>Здесь будет отображаться ваша статистика</p>
                 </div>
             `;
             modal.classList.add('show');
@@ -1542,6 +2602,9 @@
             if (confirm('Сбросить всю статистику?')) {
                 localStorage.removeItem(`stats_${localStorage.getItem('username')}`);
                 document.getElementById('stats-total-errors').textContent = '0';
+                if (document.getElementById('stats-total-errors-card')) {
+                    document.getElementById('stats-total-errors-card').textContent = '0';
+                }
                 showNotification('✅ Статистика сброшена');
             }
         }
@@ -1550,11 +2613,6 @@
             document.getElementById('statsModal').classList.remove('show');
         }
 
-        function updateHardCount() {
-            document.getElementById('hard-count').textContent = hardQuestions.length;
-        }
-
-        // ========== ФУНКЦИИ АДМИНКИ ==========
         function openAdminPanel() {
             document.querySelector('.container').style.display = 'none';
             document.getElementById('login-screen').style.display = 'flex';
@@ -1571,151 +2629,33 @@
         }
 
         function loadAdminPanel() {
+            // Здесь код загрузки админ-панели
             document.getElementById('stat-users').textContent = Object.keys(USERS).length;
             document.getElementById('stat-pending').textContent = Object.keys(PENDING_USERS).length;
             document.getElementById('pending-badge').textContent = Object.keys(PENDING_USERS).length;
             document.getElementById('users-badge').textContent = Object.keys(USERS).length;
+        }
+
+        // Обновите функцию checkAuth для отображения иконки админки
+        function checkAuth() {
+            const isAuthenticated = localStorage.getItem('authenticated') === 'true';
+            const username = localStorage.getItem('username');
+            const userType = localStorage.getItem('userType');
             
-            const pendingList = document.getElementById('pending-list');
-            const usersList = document.getElementById('users-list');
-            
-            pendingList.innerHTML = '';
-            if (Object.keys(PENDING_USERS).length === 0) {
-                pendingList.innerHTML = '<div class="admin-empty-message">Нет новых заявок</div>';
-            } else {
-                Object.entries(PENDING_USERS).forEach(([username, data]) => {
-                    pendingList.innerHTML += `
-                        <div class="admin-item">
-                            <div class="admin-item-info">
-                                <div class="admin-item-title">${username}</div>
-                                <div class="admin-item-subtitle">👤 ${data.name}</div>
-                                <div class="admin-item-detail">📝 ${data.reason}</div>
-                            </div>
-                            <div class="admin-item-actions">
-                                <button class="admin-btn-approve" onclick="approveUser('${username}')">✓</button>
-                                <button class="admin-btn-reject" onclick="rejectUser('${username}')">✗</button>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-            
-            usersList.innerHTML = '';
-            if (Object.keys(USERS).length === 0) {
-                usersList.innerHTML = '<div class="admin-empty-message">Нет пользователей</div>';
-            } else {
-                Object.entries(USERS).forEach(([username, data]) => {
-                    usersList.innerHTML += `
-                        <div class="admin-item">
-                            <div class="admin-item-info">
-                                <div class="admin-item-title">${username}</div>
-                                ${data.name ? `<div class="admin-item-subtitle">👤 ${data.name}</div>` : ''}
-                            </div>
-                            <div class="admin-item-actions">
-                                <button class="admin-btn-delete" onclick="deleteUser('${username}')">🗑️</button>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-        }
-
-        function approveUser(username) {
-            const userData = PENDING_USERS[username];
-            USERS[username] = {
-                password: userData.password,
-                name: userData.name,
-                registeredAt: userData.registeredAt
-            };
-            delete PENDING_USERS[username];
-            saveUsers();
-            savePendingUsers();
-            loadAdminPanel();
-        }
-
-        function rejectUser(username) {
-            delete PENDING_USERS[username];
-            savePendingUsers();
-            loadAdminPanel();
-        }
-
-        function deleteUser(username) {
-            delete USERS[username];
-            saveUsers();
-            loadAdminPanel();
-        }
-
-        function showAllUsers() {
-            document.getElementById('pending-list').style.display = 'block';
-            document.getElementById('users-list').style.display = 'block';
-        }
-
-        function showPendingUsers() {
-            document.getElementById('pending-list').style.display = 'block';
-            document.getElementById('users-list').style.display = 'block';
-        }
-
-        function showSystemInfo() {
-            showNotification(`Пользователей: ${Object.keys(USERS).length}, Заявок: ${Object.keys(PENDING_USERS).length}`);
-        }
-
-        function resetAllUsers(e) {
-            e.preventDefault();
-            if (confirm('Сбросить всех пользователей?')) {
-                USERS = {};
-                saveUsers();
-                loadAdminPanel();
-            }
-        }
-
-        function resetAllPending(e) {
-            e.preventDefault();
-            if (confirm('Сбросить все заявки?')) {
-                PENDING_USERS = {};
-                savePendingUsers();
-                loadAdminPanel();
-            }
-        }
-
-        function resetSystemStats(e) {
-            e.preventDefault();
-            if (confirm('Сбросить системную статистику?')) {
-                showNotification('Системная статистика сброшена');
-            }
-        }
-
-        // ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==========
-        function toggleTestDropdown() {
-            document.getElementById('testDropdown').classList.toggle('show');
-            document.getElementById('testSelectorBtn').classList.toggle('active');
-        }
-
-        function selectTest(testId) {
-            showNotification(`Выбран тест ${testId}`);
-            document.getElementById('testDropdown').classList.remove('show');
-        }
-
-        function startBlock(num, start, end) {
-            showNotification(`Запуск блока ${num}`);
-        }
-
-        function startExam() {
-            showNotification('Запуск экзамена');
-        }
-
-        // Инициализация
-        document.addEventListener('DOMContentLoaded', function() {
-            checkAuth();
-            updateHardCount();
-            
-            // Закрытие дропдауна при клике вне
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.test-selector')) {
-                    document.getElementById('testDropdown').classList.remove('show');
-                    document.getElementById('testSelectorBtn').classList.remove('active');
+            if (isAuthenticated && username) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.querySelector('.container').classList.add('authenticated');
+                
+                // Показываем иконку админки только для супер-пользователя
+                const adminIcon = document.getElementById('admin-icon');
+                if (userType === 'super') {
+                    adminIcon.style.display = 'flex';
                 }
-            });
-        });
+            } else {
+                document.getElementById('login-screen').style.display = 'flex';
+                document.querySelector('.container').classList.remove('authenticated');
+            }
+        }
     </script>
 </body>
 </html>
