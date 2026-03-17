@@ -1,0 +1,37 @@
+{
+  "name": "Промышленная безопасность",
+  "short_name": "Промбез",
+  "description": "Тестирование по промышленной безопасности",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#1e3c5c",
+  "theme_color": "#1e3c5c",
+  "orientation": "portrait",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-167x167.png",
+      "sizes": "167x167",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-180x180.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
