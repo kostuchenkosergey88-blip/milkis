@@ -4279,6 +4279,45 @@
             updateHardCount();
             updateWrongCount();
         });
+		// ВРЕМЕННО: для теста, если файл не грузится
+setTimeout(() => {
+    if (fullBase.length === 0) {
+        console.log('⚠️ Загружаю тестовые данные');
+        fullBase = Array(160).fill().map((_, i) => ({
+            id: i + 1,
+            q: `Тестовый вопрос ${i + 1}?`,
+            o: ['Вариант 1', 'Вариант 2', 'Вариант 3', 'Вариант 4'],
+            c: [0],
+            e: 'Пояснение к вопросу'
+        }));
+        showNotification('⚠️ Используются тестовые данные');
+        
+        // Показываем блоки
+        const menuGrid = document.querySelector('.menu-grid');
+        if (menuGrid && menuGrid.children.length === 0) {
+            const config = TEST_CONFIGS['b211'];
+            config.blocks.forEach(block => {
+                const blockCard = document.createElement('div');
+                blockCard.className = 'block-card';
+                blockCard.innerHTML = `
+                    <h3>БЛОК ${block.num}</h3>
+                    <p>${block.desc}</p>
+                    <div style="margin-top: 10px; display: flex; gap: 10px; justify-content: center;">
+                        <button class="train-btn" style="padding: 8px 15px; font-size: 0.9em; background: #4caf50; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;" 
+                                onclick="event.stopPropagation(); startBlock('b211', ${block.num}, ${block.start}, ${block.end})">
+                            ТРЕНИРОВКА
+                        </button>
+                        <button class="test-btn" style="padding: 8px 15px; font-size: 0.9em; background: #2196f3; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;"
+                                onclick="event.stopPropagation(); startTestMode('b211', ${block.num}, ${block.start}, ${block.end})">
+                            ТЕСТ
+                        </button>
+                    </div>
+                `;
+                menuGrid.appendChild(blockCard);
+            });
+        }
+    }
+}, 1000);
     </script>
 </body>
 </html>
