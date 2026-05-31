@@ -957,8 +957,6 @@ const EXAM_CONFIG = {
   PASS_PERCENT: 70
 };
 
-// 🔧 ИСПРАВЛЕНИЕ 3: Безопасный fallback для конфигурации
-const AVAILABLE_TESTS = (typeof TEST_CONFIGS !== 'undefined' && TEST_CONFIGS) ? Object.keys(TEST_CONFIGS) : [];
 
 // ========== ОСНОВНЫЕ ПЕРЕМЕННЫЕ ==========
 let fullBase = [];
@@ -1430,10 +1428,7 @@ function resetAllScreens() {
   document.querySelector('.timer-container')?.classList.remove('timer-warning');
 }
 
-function selectTest(testId) {
-  // 🔧 ИСПРАВЛЕНИЕ 3: Защита от undefined TEST_CONFIGS
-  if (typeof TEST_CONFIGS === 'undefined' || !TEST_CONFIGS[testId]) {
-    showNotification('⚠️ Конфигурация тестов не загружена'); return;
+
   }
   const username = localStorage.getItem('username');
   const userType = localStorage.getItem('userType');
@@ -1475,10 +1470,7 @@ function selectTest(testId) {
   loadQuestions(testId);
 }
 
-async function loadQuestions(testId) {
-  // 🔧 ИСПРАВЛЕНИЕ 3: Проверка перед fetch
-  if (typeof TEST_CONFIGS === 'undefined' || !TEST_CONFIGS[testId]) return;
-  const config = TEST_CONFIGS[testId];
+
   try {
     const response = await fetch(`${config.jsonFile}?t=${Date.now()}`, { cache: 'no-store' });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
