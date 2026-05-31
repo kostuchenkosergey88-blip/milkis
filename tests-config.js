@@ -1,5 +1,5 @@
 // ========== КОНФИГУРАЦИЯ ТЕСТОВ ==========
-const AVAILABLE_TESTS = ['b211', 'b26-marine'];
+const AVAILABLE_TESTS = ['b211', 'b26-marine', 'b28'];
 
 const TEST_CONFIGS = {
     a1: {
