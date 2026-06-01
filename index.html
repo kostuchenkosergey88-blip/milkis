@@ -4,3710 +4,760 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-<!-- PWA для iOS -->
-<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Промбезопасность">
-<!-- Иконки для iOS -->
 <link rel="apple-touch-icon" href="icons/icon-152x152.png">
-<link rel="apple-touch-icon" sizes="167x167" href="icons/icon-167x167.png">
-<link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180x180.png">
-<link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512x512.png">
-<!-- Manifest для Android/PWA -->
 <link rel="manifest" href="manifest.json">
-<!-- Splash screen для iPhone -->
-<link rel="apple-touch-startup-image" href="icons/splash.png">
 <title>Промышленная безопасность | Система тестирования</title>
 <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-152x152.png">
-<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-512x512.png">
-<link rel="icon" type="image/x-icon" href="icons/favicon.ico">
 <link rel="mask-icon" href="icons/safari-pinned-tab.svg" color="#1e3c5c">
 <meta name="theme-color" content="#1e3c5c">
-<meta name="msapplication-TileColor" content="#1e3c5c">
-<!-- Подключаем конфигурацию тестов -->
-<script src="tests-config.js"></script>
+
 <style>
-* {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-}
-body {
-background: #1e3c5c;
-min-height: 100vh;
-display: flex;
-justify-content: center;
-align-items: center;
-padding: 20px;
-padding-top: env(safe-area-inset-top);
-padding-bottom: env(safe-area-inset-bottom);
-padding-left: env(safe-area-inset-left);
-padding-right: env(safe-area-inset-right);
-position: relative;
-}
-/* Экран авторизации */
-.login-container {
-position: fixed;
-top: 0;
-left: 0;
-right: 0;
-bottom: 0;
-background: linear-gradient(135deg, #1e3c5c 0%, #0a1a2a 100%);
-display: flex;
-justify-content: center;
-align-items: center;
-z-index: 10000;
-padding: 20px;
-}
-.login-box {
-background: white;
-border-radius: 16px;
-box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-width: 100%;
-max-width: 450px;
-overflow: hidden;
-animation: slideInUp 0.5s ease;
-}
-@keyframes slideInUp {
-from { transform: translateY(30px); opacity: 0; }
-to { transform: translateY(0); opacity: 1; }
-}
-/* 🔥 ДОБАВЛЕНА АНИМАЦИЯ ТРЯСКИ */
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-8px); }
-  40%, 80% { transform: translateX(8px); }
-}
-.login-header {
-background: linear-gradient(135deg, #1e3c5c 0%, #152f48 100%);
-color: white;
-padding: 30px 20px;
-text-align: center;
-}
-.login-header h2 {
-color: #ffd700;
-font-size: 2em;
-margin-bottom: 10px;
-border: none;
-}
-.login-header p {
-color: #e0e0e0;
-font-size: 1em;
-opacity: 0.9;
-}
-.login-tabs {
-display: flex;
-gap: 5px;
-margin-bottom: 20px;
-border-bottom: 2px solid #e0e0e0;
-padding-bottom: 5px;
-}
-.login-tab {
-flex: 1;
-padding: 10px;
-background: none;
-border: none;
-font-size: 1em;
-font-weight: 600;
-color: #666;
-cursor: pointer;
-transition: all 0.3s;
-border-radius: 6px 6px 0 0;
-}
-.login-tab:hover {
-color: #1e3c5c;
-background: #f0f0f0;
-}
-.login-tab.active {
-color: #1e3c5c;
-border-bottom: 3px solid #1e3c5c;
-}
-.login-tab-content {
-display: none;
-}
-.login-tab-content.active {
-display: block;
-}
-.login-form {
-padding: 0 25px 30px 25px;
-}
-.input-group {
-margin-bottom: 20px;
-}
-.input-group label {
-display: block;
-margin-bottom: 8px;
-color: #333;
-font-weight: 600;
-font-size: 0.95em;
-}
-.input-group input,
-.input-group textarea {
-width: 100%;
-padding: 12px 15px;
-border: 2px solid #e0e0e0;
-border-radius: 8px;
-font-size: 1em;
-transition: all 0.3s;
-outline: none;
-font-family: inherit;
-}
-.input-group textarea {
-resize: vertical;
-min-height: 80px;
-}
-.input-group input:focus,
-.input-group textarea:focus {
-border-color: #1e3c5c;
-box-shadow: 0 0 0 3px rgba(30, 60, 92, 0.1);
-}
-.input-group input.error {
-border-color: #b22222;
-background: #fff5f5;
-}
-.login-btn {
-width: 100%;
-padding: 14px;
-background: #1e3c5c;
-color: white;
-border: none;
-border-radius: 8px;
-font-size: 1.1em;
-font-weight: 600;
-cursor: pointer;
-transition: all 0.3s;
-margin-top: 10px;
-}
-.login-btn:hover {
-background: #2a4a70;
-transform: translateY(-2px);
-box-shadow: 0 5px 15px rgba(30, 60, 92, 0.3);
-}
-.login-btn:active {
-transform: translateY(0);
-}
-.login-message {
-color: #b22222;
-font-size: 0.9em;
-margin-top: 15px;
-text-align: center;
-min-height: 20px;
-}
-.login-success {
-color: #2e7d32;
-}
-.login-footer {
-background: #f5f5f5;
-padding: 15px 20px;
-text-align: center;
-border-top: 1px solid #e0e0e0;
-}
-.login-footer p {
-color: #666;
-font-size: 0.9em;
-}
-/* Скрываем основной контент до авторизации */
-.container {
-display: none;
-}
-.container.authenticated {
-display: block;
-}
-.container {
-max-width: 1000px;
-width: 100%;
-background: #ffffff;
-border-radius: 8px;
-box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-overflow: hidden;
-border: 1px solid #b0b0b0;
-position: relative;
-}
-/* Верхняя панель навигации */
-.top-panel {
-background: linear-gradient(180deg, #1e3c5c 0%, #152f48 100%);
-border-bottom: 2px solid #0a1a2a;
-padding: 12px 20px;
-color: white;
-display: flex;
-align-items: center;
-justify-content: flex-start;
-flex-wrap: wrap;
-gap: 15px;
-}
-.panel-left {
-display: flex;
-align-items: center;
-gap: 15px;
-flex-wrap: wrap;
-flex: 1;
-}
-.panel-left h3 {
-font-size: 1.2em;
-font-weight: 600;
-color: #ffd700;
-text-transform: uppercase;
-letter-spacing: 1px;
-border-right: 2px solid #2a4a70;
-padding-right: 20px;
-}
-/* Квадратные кнопки */
-.nav-buttons-panel {
-display: flex;
-gap: 10px;
-margin-left: auto;
-margin-right: 15px;
-}
-.nav-square {
-background: rgba(255, 255, 255, 0.1);
-border: 2px solid #2a4a70;
-border-radius: 4px;
-padding: 8px 16px;
-color: white;
-font-size: 0.9em;
-font-weight: 600;
-cursor: pointer;
-transition: all 0.2s;
-text-transform: uppercase;
-letter-spacing: 0.5px;
-white-space: nowrap;
-min-width: 70px;
-text-align: center;
-display: flex;
-align-items: center;
-justify-content: center;
-gap: 6px;
-}
-.nav-square:hover {
-background: rgba(255, 255, 255, 0.15);
-border-color: #ffd700;
-transform: translateY(-2px);
-}
-/* Админка - желтый акцент */
-.nav-square.admin {
-border-color: #ffd700;
-background: rgba(255, 215, 0, 0.15);
-}
-.nav-square.admin:hover {
-background: #ffd700;
-color: #1e3c5c;
-}
-/* Выход - красный */
-.nav-square.logout {
-border-color: #b22222;
-}
-.nav-square.logout:hover {
-background: #b22222;
-color: white;
-border-color: #8b0000;
-}
-/* Селектор тестов */
-.test-selector {
-position: relative;
-min-width: 500px;
-flex: 1;
-max-width: 600px;
-}
-.test-selector-btn {
-background: rgba(255, 255, 255, 0.1);
-border: 2px solid #2a4a70;
-border-radius: 4px;
-padding: 8px 15px;
-color: white;
-display: flex;
-align-items: center;
-justify-content: space-between;
-cursor: pointer;
-transition: all 0.2s;
-font-size: 0.95em;
-}
-.test-selector-btn:hover {
-background: rgba(255, 255, 255, 0.15);
-border-color: #ffd700;
-}
-.test-selector-btn .arrow {
-font-size: 1.2em;
-color: #ffd700;
-transition: transform 0.2s;
-}
-.test-selector-btn.active .arrow {
-transform: rotate(180deg);
-}
-.test-dropdown {
-position: absolute;
-top: 100%;
-left: 0;
-right: 0;
-margin-top: 5px;
-background: #1e3c5c;
-border: 2px solid #ffd700;
-border-radius: 4px;
-max-height: 450px;
-overflow-y: auto;
-z-index: 1000;
-display: none;
-box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-}
-.test-dropdown.show {
-display: block;
-}
-.test-group {
-padding: 6px 12px;
-background: rgba(255, 255, 255, 0.1);
-color: #ffd700;
-font-weight: 600;
-font-size: 0.8em;
-text-transform: uppercase;
-border-bottom: 1px solid #2a4a70;
-}
-/* ЯРКИЕ АКТИВНЫЕ ТЕСТЫ - ПРОСТО И СОЧНО */
-.test-item {
-padding: 10px 15px;
-cursor: pointer;
-transition: all 0.2s;
-border-bottom: 1px solid #ffd700;
-background: #2a4a70;
-color: white;
-font-weight: 500;
-}
-.test-item:hover {
-background: #3a6a9a;
-border-left: 4px solid #ffd700;
-}
-.test-item.selected {
-background: #ffd700;
-border-left: 4px solid white;
-color: #1e3c5c;
-font-weight: 700;
-}
-.test-item.selected .test-code {
-color: #1e3c5c;
-}
-.test-item.selected .test-name {
-color: #1e3c5c;
-font-weight: 700;
-}
-.test-item.selected .test-desc {
-color: #1e3c5c;
-opacity: 0.9;
-}
-.test-item.disabled {
-opacity: 0.3;
-background: #1a1a1a;
-border-bottom: 1px solid #333;
-pointer-events: none;
-}
-.test-code {
-color: #ffd700;
-font-weight: 700;
-margin-right: 10px;
-font-size: 1em;
-}
-.test-name {
-color: #e0e0e0;
-font-size: 0.85em;
-}
-.test-desc {
-color: #b0d0ff;
-font-size: 0.8em;
-margin-top: 2px;
-margin-left: 45px;
-}
-/* Контейнер для уведомлений */
-.notification {
-position: fixed;
-top: 20px;
-right: 20px;
-background: #b22222;
-color: white;
-padding: 15px 25px;
-border-radius: 4px;
-box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-z-index: 2000;
-display: flex;
-align-items: center;
-gap: 15px;
-animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
-max-width: 350px;
-border-left: 4px solid #ffd700;
-}
-.notification-content {
-flex: 1;
-}
-.notification-title {
-font-weight: 700;
-margin-bottom: 5px;
-font-size: 1em;
-}
-.notification-message {
-font-size: 0.9em;
-opacity: 0.9;
-}
-.notification-close {
-background: none;
-border: none;
-color: white;
-font-size: 1.2em;
-cursor: pointer;
-opacity: 0.7;
-transition: opacity 0.2s;
-padding: 0 5px;
-}
-.notification-close:hover {
-opacity: 1;
-}
-@keyframes slideIn {
-from { transform: translateX(100%); opacity: 0; }
-to { transform: translateX(0); opacity: 1; }
-}
-@keyframes fadeOut {
-from { transform: translateX(0); opacity: 1; }
-to { transform: translateX(100%); opacity: 0; }
-}
-#menu-screen {
-padding: 35px 40px;
-}
-h2 {
-font-size: 1.8em;
-font-weight: 600;
-color: #1e3c5c;
-margin-bottom: 25px;
-text-align: center;
-border-bottom: 3px solid #1e3c5c;
-padding-bottom: 15px;
-letter-spacing: 0.5px;
-line-height: 1.4;
-}
-.menu-grid {
-display: grid;
-grid-template-columns: repeat(2, 1fr);
-gap: 15px;
-margin-bottom: 15px;
-}
-.block-card {
-background: #f5f5f5;
-padding: 25px 15px;
-border-radius: 4px;
-cursor: pointer;
-transition: all 0.2s ease;
-border: 1px solid #c0c0c0;
-text-align: center;
-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-.block-card:hover {
-background: #e8e8e8;
-border-color: #1e3c5c;
-transform: translateY(-2px);
-box-shadow: 0 5px 10px rgba(30, 60, 92, 0.3);
-}
-.block-card h3 {
-font-size: 1.4em;
-color: #1e3c5c;
-margin-bottom: 8px;
-font-weight: 600;
-}
-.block-card p {
-color: #4a4a4a;
-font-size: 0.95em;
-}
-.exam-card {
-background: #1e3c5c;
-border: 2px solid #0a1a2a;
-grid-column: span 2;
-}
-.exam-card h3 {
-color: white;
-}
-.exam-card p {
-color: #e0e0e0;
-}
-.exam-card:hover {
-background: #2a4a70;
-border-color: #0a1a2a;
-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-}
-/* Специальные блоки внизу */
-.special-grid {
-display: grid;
-grid-template-columns: repeat(2, 1fr);
-gap: 15px;
-margin-top: 25px;
-margin-bottom: 15px;
-}
-.special-card {
-background: #f5f5f5;
-padding: 20px 15px;
-border-radius: 4px;
-cursor: pointer;
-transition: all 0.2s ease;
-border: 1px solid #c0c0c0;
-text-align: center;
-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-position: relative;
-}
-.special-card:hover {
-background: #e8e8e8;
-border-color: #1e3c5c;
-transform: translateY(-2px);
-box-shadow: 0 5px 10px rgba(30, 60, 92, 0.3);
-}
-.special-card h3 {
-font-size: 1.2em;
-color: #1e3c5c;
-margin-bottom: 8px;
-font-weight: 600;
-}
-.special-card p {
-color: #4a4a4a;
-font-size: 0.9em;
-display: flex;
-align-items: center;
-justify-content: center;
-gap: 8px;
-}
-.special-count {
-background: #1e3c5c;
-color: white;
-border-radius: 4px;
-padding: 2px 8px;
-font-size: 0.9em;
-font-weight: 700;
-}
-.special-card.hard {
-border-left: 4px solid #f4b400;
-}
-.special-card.wrong {
-border-left: 4px solid #b22222;
-}
-.reset-special-btn {
-position: absolute;
-top: 8px;
-right: 8px;
-background: rgba(0,0,0,0.1);
-border: 1px solid rgba(0,0,0,0.2);
-color: #666;
-width: 22px;
-height: 22px;
-border-radius: 4px;
-cursor: pointer;
-font-size: 14px;
-display: flex;
-align-items: center;
-justify-content: center;
-transition: all 0.2s;
-}
-.reset-special-btn:hover {
-background: #b22222;
-color: white;
-border-color: #8b0000;
-}
-#quiz-screen, #test-screen, #exam-screen, #exam-review-screen, #hard-mode-screen, #wrong-mode-screen {
-padding: 25px 30px;
-display: none;
-}
-.quiz-header {
-display: flex;
-justify-content: space-between;
-align-items: center;
-margin-bottom: 20px;
-flex-wrap: wrap;
-gap: 15px;
-border-bottom: 2px solid #1e3c5c;
-padding-bottom: 15px;
-}
-.test-header {
-display: flex;
-justify-content: space-between;
-align-items: center;
-margin-bottom: 20px;
-flex-wrap: wrap;
-gap: 15px;
-border-bottom: 2px solid #b22222;
-padding-bottom: 15px;
-}
-.back-btn {
-background: none;
-border: 2px solid #1e3c5c;
-color: #1e3c5c;
-font-size: 0.9em;
-font-weight: 600;
-cursor: pointer;
-display: flex;
-align-items: center;
-gap: 5px;
-padding: 6px 15px;
-border-radius: 4px;
-transition: all 0.2s;
-text-transform: uppercase;
-letter-spacing: 0.5px;
-}
-.back-btn:hover {
-background: #1e3c5c;
-color: white;
-transform: translateX(-3px);
-}
-.stats {
-display: flex;
-gap: 25px;
-background: #f0f0f0;
-padding: 8px 25px;
-border-radius: 4px;
-border: 1px solid #c0c0c0;
-}
-.stat-item {
-display: flex;
-align-items: center;
-gap: 8px;
-color: #1e3c5c;
-font-weight: 600;
-font-size: 1.1em;
-}
-.stat-icon {
-font-size: 1.2em;
-}
-.progress-container {
-width: 100%;
-height: 10px;
-background: #e0e0e0;
-border-radius: 0;
-margin-bottom: 25px;
-border: 1px solid #b0b0b0;
-}
-.progress-fill {
-height: 100%;
-background: #1e3c5c;
-transition: width 0.3s ease;
-}
-.test-progress {
-background: #b22222;
-}
-.exam-progress {
-background: #b22222;
-}
-.hard-progress {
-background: #f4b400;
-}
-.wrong-progress {
-background: #b22222;
-}
-.question-container {
-position: relative;
-background: #f8f8f8;
-padding: 25px 30px;
-margin-bottom: 25px;
-border: 2px solid #c0c0c0;
-border-left: 6px solid #1e3c5c;
-}
-.test-question {
-border-left: 6px solid #b22222;
-background: #fff5f5;
-}
-.exam-question {
-border-left: 6px solid #b22222;
-background: #fff5f5;
-}
-.review-question {
-border-left: 6px solid #f4b400;
-background: #fffaf0;
-}
-.hard-question {
-border-left: 6px solid #f4b400;
-background: #fffaf0;
-}
-.wrong-question {
-border-left: 6px solid #b22222;
-background: #fff5f5;
-}
-.star-btn {
-position: absolute;
-top: 15px;
-right: 20px;
-background: none;
-border: none;
-font-size: 28px;
-cursor: pointer;
-color: #b0b0b0;
-transition: all 0.2s;
-z-index: 2;
-}
-.star-btn:hover {
-transform: scale(1.1);
-color: #f4b400;
-}
-.star-btn.active {
-color: #f4b400;
-}
-.star-btn-small {
-font-size: 20px;
-margin-left: 8px;
-cursor: pointer;
-color: #b0b0b0;
-transition: all 0.2s;
-}
-.star-btn-small:hover {
-transform: scale(1.2);
-color: #f4b400;
-}
-.star-btn-small.active {
-color: #f4b400;
-}
-#q-text, #test-q-text, #exam-q-text, #review-q-text, #hard-q-text, #wrong-q-text {
-font-size: 1.3em;
-color: #2d2d2d;
-line-height: 1.5;
-padding-right: 60px;
-font-weight: 500;
-}
-.timer-container {
-background: #2d2d2d;
-color: white;
-padding: 8px 20px;
-display: inline-flex;
-align-items: center;
-gap: 15px;
-font-size: 1.3em;
-font-weight: 700;
-border: 2px solid #b22222;
-letter-spacing: 2px;
-}
-.timer-icon {
-font-size: 1.3em;
-}
-.timer-warning {
-background: #b22222;
-border-color: #ffd700;
-}
-.options-box {
-display: flex;
-flex-direction: column;
-gap: 10px;
-margin-bottom: 25px;
-}
-.option-btn {
-width: 100%;
-padding: 15px 20px;
-background: white;
-border: 2px solid #c0c0c0;
-border-radius: 4px;
-text-align: left;
-font-size: 1.05em;
-color: #333;
-cursor: pointer;
-transition: all 0.2s;
-line-height: 1.4;
-}
-.option-btn:hover:not(:disabled) {
-border-color: #1e3c5c;
-background: #f0f5ff;
-transform: translateX(3px);
-}
-.option-btn.selected {
-border-color: #1e3c5c;
-background: #d9e6f2;
-border-width: 2px;
-font-weight: 500;
-}
-.option-btn.correct {
-background: #2e7d32 !important;
-border-color: #1b5e20 !important;
-color: white;
-font-weight: 500;
-}
-.option-btn.wrong {
-background: #b22222 !important;
-border-color: #8b0000 !important;
-color: white;
-font-weight: 500;
-}
-.option-btn.review-correct {
-background: #2e7d32 !important;
-border-color: #1b5e20 !important;
-color: white;
-font-weight: 500;
-opacity: 0.9;
-}
-.option-btn.review-wrong {
-background: #b22222 !important;
-border-color: #8b0000 !important;
-color: white;
-font-weight: 500;
-opacity: 0.9;
-}
-.option-btn.review-selected {
-border-color: #f4b400 !important;
-border-width: 3px;
-box-shadow: 0 0 5px #f4b400;
-}
-.explanation-box {
-background: #f0f0f0;
-border-left: 6px solid #1e3c5c;
-padding: 20px 25px;
-margin: 25px 0;
-color: #2d2d2d;
-font-size: 1.05em;
-line-height: 1.6;
-border: 1px solid #c0c0c0;
-}
-.test-explanation-box {
-display: none;
-}
-.nav-buttons {
-display: flex;
-gap: 8px;
-margin-top: 15px;
-}
-.nav-btn {
-flex: 1;
-padding: 10px;
-border: none;
-font-size: 0.9em;
-font-weight: 600;
-cursor: pointer;
-transition: all 0.2s;
-text-transform: uppercase;
-letter-spacing: 0.5px;
-border-radius: 4px;
-opacity: 1;
-}
-.nav-btn:disabled {
-opacity: 0.4;
-cursor: not-allowed;
-transform: none !important;
-pointer-events: none;
-}
-#check-btn, #hard-check-btn, #wrong-check-btn {
-background: #1e3c5c;
-color: white;
-border: 2px solid #0a1a2a;
-}
-#check-btn:hover:not(:disabled), #hard-check-btn:hover:not(:disabled), #wrong-check-btn:hover:not(:disabled) {
-background: #2a4a70;
-transform: translateY(-2px);
-box-shadow: 0 5px 10px rgba(30, 60, 92, 0.4);
-}
-#test-confirm-btn {
-background: #1e3c5c;
-color: white;
-border: 2px solid #0a1a2a;
-}
-#test-confirm-btn:hover:not(:disabled) {
-background: #2a4a70;
-transform: translateY(-2px);
-box-shadow: 0 5px 10px rgba(30, 60, 92, 0.4);
-}
-#finish-test-btn {
-background: #b22222;
-color: white;
-border: 2px solid #8b0000;
-}
-#finish-test-btn:hover:not(:disabled) {
-background: #8b0000;
-transform: translateY(-2px);
-}
-#next-btn, #prev-btn, #review-next-btn, #review-prev-btn,
-#hard-next-btn, #hard-prev-btn, #wrong-next-btn, #wrong-prev-btn {
-background: #2e7d32;
-color: white;
-border: 2px solid #1b5e20;
-}
-#next-btn:hover:not(:disabled), #prev-btn:hover:not(:disabled),
-#review-next-btn:hover:not(:disabled), #review-prev-btn:hover:not(:disabled),
-#hard-next-btn:hover:not(:disabled), #hard-prev-btn:hover:not(:disabled),
-#wrong-next-btn:hover:not(:disabled), #wrong-prev-btn:hover:not(:disabled) {
-background: #3c8c40;
-transform: translateY(-2px);
-box-shadow: 0 5px 10px rgba(46, 125, 50, 0.4);
-}
-.train-btn, .test-btn {
-box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-font-weight: 600;
-transition: all 0.2s;
-}
-.train-btn:hover, .test-btn:hover {
-transform: translateY(-2px);
-box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-}
-.result-box {
-text-align: center;
-padding: 40px 30px;
-background: #f8f8f8;
-border: 2px solid #c0c0c0;
-}
-.result-title {
-font-size: 2.2em;
-font-weight: 700;
-margin-bottom: 20px;
-text-transform: uppercase;
-}
-.result-pass {
-color: #2e7d32;
-}
-.result-fail {
-color: #b22222;
-}
-.result-score {
-font-size: 3em;
-font-weight: 800;
-margin: 20px 0;
-color: #1e3c5c;
-}
-.result-details {
-font-size: 1.2em;
-color: #4a4a4a;
-margin: 20px 0;
-line-height: 1.8;
-}
-.result-nav {
-margin: 30px 0;
-max-height: 300px;
-overflow-y: auto;
-padding: 15px;
-background: #ffffff;
-border: 1px solid #c0c0c0;
-border-radius: 4px;
-}
-.result-question-item {
-display: flex;
-align-items: center;
-justify-content: space-between;
-padding: 8px 12px;
-border-bottom: 1px solid #e0e0e0;
-cursor: pointer;
-transition: all 0.2s;
-}
-.result-question-item:hover {
-background: #f0f5ff;
-}
-.result-question-info {
-display: flex;
-align-items: center;
-gap: 10px;
-flex: 1;
-}
-.result-question-number {
-font-weight: 700;
-color: #1e3c5c;
-min-width: 40px;
-}
-.result-question-text {
-font-size: 0.9em;
-color: #333;
-flex: 1;
-white-space: nowrap;
-overflow: hidden;
-text-overflow: ellipsis;
-max-width: 400px;
-}
-.result-question-status {
-width: 20px;
-height: 20px;
-border-radius: 50%;
-display: inline-block;
-}
-.status-correct {
-background: #2e7d32;
-}
-.status-wrong {
-background: #b22222;
-}
-.result-star-btn {
-background: none;
-border: none;
-font-size: 20px;
-cursor: pointer;
-color: #b0b0b0;
-transition: all 0.2s;
-margin-left: 10px;
-}
-.result-star-btn:hover {
-transform: scale(1.2);
-color: #f4b400;
-}
-.result-star-btn.active {
-color: #f4b400;
-}
-.restart-exam-btn {
-background: #1e3c5c;
-color: white;
-padding: 12px 35px;
-border: 2px solid #0a1a2a;
-border-radius: 4px;
-font-size: 1.1em;
-font-weight: 600;
-cursor: pointer;
-transition: all 0.2s;
-margin: 10px;
-text-transform: uppercase;
-letter-spacing: 0.5px;
-}
-.restart-exam-btn:hover {
-background: #2a4a70;
-transform: translateY(-2px);
-box-shadow: 0 5px 10px rgba(30, 60, 92, 0.4);
-}
-.review-btn {
-background: #f4b400;
-color: white;
-padding: 12px 35px;
-border: 2px solid #d4a000;
-border-radius: 4px;
-font-size: 1.1em;
-font-weight: 600;
-cursor: pointer;
-transition: all 0.2s;
-margin: 10px;
-text-transform: uppercase;
-letter-spacing: 0.5px;
-}
-.review-btn:hover {
-background: #ffc107;
-transform: translateY(-2px);
-box-shadow: 0 5px 10px rgba(244, 180, 0, 0.4);
-}
-/* Стили для панели администратора */
-.admin-panel {
-position: fixed;
-top: 50%;
-left: 50%;
-transform: translate(-50%, -50%);
-background: #0a0e14;
-border: 2px solid #2a3a50;
-border-top: 4px solid #ffd700;
-border-radius: 0;
-padding: 25px;
-max-width: 750px;
-width: 90%;
-max-height: 85vh;
-overflow-y: auto;
-box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
-color: #e0e0e0;
-z-index: 20000;
-display: none;
-}
-.admin-panel.show {
-display: block !important;
-}
-.admin-header {
-background: #0f1217;
-border-bottom: 2px solid #ffd700;
-padding: 15px 20px;
-margin-bottom: 20px;
-display: flex;
-justify-content: space-between;
-align-items: center;
-}
-.admin-header h2 {
-color: #ffd700;
-font-size: 1.5em;
-font-weight: 600;
-letter-spacing: 1px;
-margin: 0;
-border: none;
-text-transform: uppercase;
-}
-.admin-back-btn {
-background: #2a3a50;
-border: 1px solid #ffd700;
-color: #ffd700;
-padding: 8px 20px;
-font-size: 0.9em;
-font-weight: 600;
-text-transform: uppercase;
-cursor: pointer;
-transition: all 0.2s;
-border-radius: 0;
-}
-.admin-back-btn:hover {
-background: #ffd700;
-color: #0a0e14;
-}
-.admin-stats-grid {
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-gap: 15px;
-margin-bottom: 25px;
-}
-.admin-stat-card {
-background: #0f1217;
-border: 1px solid #2a3a50;
-padding: 15px 10px;
-text-align: center;
-border-radius: 0;
-}
-.admin-stat-number {
-font-size: 2.2em;
-font-weight: 700;
-color: #ffd700;
-line-height: 1;
-margin-bottom: 5px;
-}
-.admin-stat-label {
-color: #a0a0a0;
-font-size: 0.75em;
-text-transform: uppercase;
-letter-spacing: 1px;
-}
-.admin-section {
-background: #0f1217;
-border: 1px solid #2a3a50;
-margin-bottom: 20px;
-border-radius: 0;
-}
-.admin-section-header {
-background: #1a1f2a;
-padding: 12px 15px;
-border-bottom: 1px solid #2a3a50;
-display: flex;
-justify-content: space-between;
-align-items: center;
-}
-.admin-section-header h3 {
-color: #ffd700;
-font-size: 1em;
-text-transform: uppercase;
-letter-spacing: 1px;
-margin: 0;
-}
-.admin-section-header .badge {
-background: #ffd700;
-color: #0a0e14;
-padding: 2px 8px;
-font-size: 0.8em;
-font-weight: 600;
-border-radius: 0;
-}
-.admin-list {
-max-height: 250px;
-overflow-y: auto;
-}
-.admin-item {
-padding: 12px 15px;
-border-bottom: 1px solid #2a3a50;
-display: flex;
-justify-content: space-between;
-align-items: center;
-transition: background 0.2s;
-}
-.admin-item:last-child {
-border-bottom: none;
-}
-.admin-item:hover {
-background: #1a1f2a;
-}
-.admin-item-info {
-flex: 1;
-}
-.admin-item-title {
-font-weight: 600;
-color: #ffd700;
-font-size: 1em;
-margin-bottom: 3px;
-}
-.admin-item-subtitle {
-color: #a0a0a0;
-font-size: 0.8em;
-}
-.admin-item-detail {
-color: #808080;
-font-size: 0.75em;
-margin-top: 3px;
-}
-.admin-item-actions {
-display: flex;
-gap: 8px;
-margin-left: 15px;
-}
-.admin-btn-approve {
-background: #2e7d32;
-color: white;
-border: none;
-padding: 6px 12px;
-font-size: 0.8em;
-font-weight: 600;
-text-transform: uppercase;
-cursor: pointer;
-transition: all 0.2s;
-border-radius: 0;
-}
-.admin-btn-approve:hover {
-background: #1b5e20;
-}
-.admin-btn-reject {
-background: #b22222;
-color: white;
-border: none;
-padding: 6px 12px;
-font-size: 0.8em;
-font-weight: 600;
-text-transform: uppercase;
-cursor: pointer;
-transition: all 0.2s;
-border-radius: 0;
-}
-.admin-btn-reject:hover {
-background: #8b0000;
-}
-.admin-btn-delete {
-background: #b22222;
-color: white;
-border: none;
-padding: 4px 10px;
-font-size: 0.75em;
-font-weight: 600;
-text-transform: uppercase;
-cursor: pointer;
-transition: all 0.2s;
-border-radius: 0;
-}
-.admin-btn-delete:hover {
-background: #8b0000;
-}
-.admin-empty-message {
-padding: 25px;
-text-align: center;
-color: #666;
-font-style: italic;
-background: #0f1217;
-}
-.footer-note {
-margin-top: 20px;
-text-align: center;
-font-size: 0.85em;
-color: #808080;
-border-top: 1px solid #d0d0d0;
-padding-top: 15px;
-margin-bottom: 30px;
-}
-.hard-count, .wrong-count {
-border-radius: 4px;
-padding: 2px 6px;
-font-size: 0.85em;
-font-weight: 700;
-min-width: 24px;
-text-align: center;
-}
-.hard-count {
-background: #f4b400;
-color: #1e3c5c;
-}
-.wrong-count {
-background: #b22222;
-color: white;
-}
-.answered-status {
-display: flex;
-align-items: center;
-gap: 5px;
-font-size: 0.9em;
-}
-.answered-dot {
-width: 10px;
-height: 10px;
-border-radius: 50%;
-display: inline-block;
-}
-.dot-correct {
-background: #2e7d32;
-}
-.dot-wrong {
-background: #b22222;
-}
-.dot-pending {
-background: #ffc107;
-}
-.dot-unanswered {
-background: #c0c0c0;
-}
-.loading {
-text-align: center;
-padding: 50px;
-font-size: 1.2em;
-color: #1e3c5c;
-}
-.error-message {
-text-align: center;
-padding: 30px;
-color: #b22222;
-background: #fff5f5;
-border: 2px solid #b22222;
-margin: 20px;
-border-radius: 4px;
-}
-.empty-message {
-text-align: center;
-padding: 20px;
-color: #808080;
-font-style: italic;
-}
-/* Медиа-запросы для мобильных */
+:root {
+  --primary: #1e3c5c;
+  --primary-dark: #152f48;
+  --accent: #ffd700;
+  --danger: #b22222;
+  --success: #2e7d32;
+  --warning: #f4b400;
+  --bg-light: #f8f8f8;
+  --border: #c0c0c0;
+  --text-main: #2d2d2d;
+  --text-muted: #808080;
+  --radius: 8px;
+  --shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+body { background: var(--primary); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+
+/* Login */
+.login-container { position: fixed; inset: 0; background: linear-gradient(135deg, var(--primary) 0%, #0a1a2a 100%); display: flex; justify-content: center; align-items: center; z-index: 10000; }
+.login-box { background: white; border-radius: var(--radius); box-shadow: var(--shadow); width: 100%; max-width: 450px; overflow: hidden; animation: slideInUp 0.4s ease; }
+@keyframes slideInUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.login-header { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; padding: 30px 20px; text-align: center; }
+.login-header h2 { color: var(--accent); font-size: 2em; margin-bottom: 10px; }
+.login-form { padding: 0 25px 30px; }
+.input-group { margin-bottom: 20px; }
+.input-group label { display: block; margin-bottom: 8px; color: #333; font-weight: 600; }
+.input-group input { width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: var(--radius); font-size: 1em; transition: 0.3s; }
+.input-group input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(30,60,92,0.1); }
+.input-group input.error { border-color: var(--danger); background: #fff5f5; }
+.login-btn { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: var(--radius); font-size: 1.1em; font-weight: 600; cursor: pointer; transition: 0.3s; }
+.login-btn:hover { background: #2a4a70; transform: translateY(-2px); }
+.login-footer { background: #f5f5f5; padding: 15px; text-align: center; border-top: 1px solid #e0e0e0; color: #666; font-size: 0.9em; }
+
+/* Main Container */
+.container { display: none; max-width: 1000px; width: 100%; background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+.container.authenticated { display: block; }
+
+/* Top Panel */
+.top-panel { background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%); padding: 12px 20px; color: white; display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+.panel-left { display: flex; align-items: center; gap: 15px; flex: 1; flex-wrap: wrap; }
+.panel-left h3 { color: var(--accent); font-size: 1.2em; border-right: 2px solid #2a4a70; padding-right: 20px; }
+.nav-buttons-panel { display: flex; gap: 10px; margin-left: auto; }
+.nav-square { background: rgba(255,255,255,0.1); border: 2px solid #2a4a70; padding: 8px 16px; color: white; cursor: pointer; border-radius: 4px; font-weight: 600; transition: 0.2s; }
+.nav-square:hover { background: rgba(255,255,255,0.2); border-color: var(--accent); }
+.nav-square.admin { border-color: var(--accent); background: rgba(255,215,0,0.15); }
+.nav-square.logout { border-color: var(--danger); }
+.nav-square.logout:hover { background: var(--danger); }
+
+/* Test Selector */
+.test-selector { position: relative; min-width: 300px; flex: 1; }
+.test-selector-btn { background: rgba(255,255,255,0.1); border: 2px solid #2a4a70; padding: 8px 15px; color: white; display: flex; align-items: center; justify-content: space-between; cursor: pointer; border-radius: 4px; }
+.test-selector-btn:hover { background: rgba(255,255,255,0.15); border-color: var(--accent); }
+.test-dropdown { position: absolute; top: 100%; left: 0; right: 0; margin-top: 5px; background: var(--primary); border: 2px solid var(--accent); border-radius: 4px; max-height: 400px; overflow-y: auto; display: none; z-index: 1000; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
+.test-dropdown.show { display: block; }
+.test-item { padding: 10px 15px; cursor: pointer; transition: 0.2s; background: #2a4a70; color: white; border-bottom: 1px solid var(--accent); }
+.test-item:hover { background: #3a6a9a; }
+.test-item.selected { background: var(--accent); color: var(--primary); font-weight: 700; }
+.test-item.disabled { opacity: 0.4; pointer-events: none; background: #1a1a1a; }
+
+/* Screens */
+.screen { display: none; padding: 30px; }
+.screen.active { display: block; }
+#menu-screen h2 { color: var(--primary); font-size: 1.6em; margin-bottom: 20px; text-align: center; border-bottom: 3px solid var(--primary); padding-bottom: 10px; }
+.menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 20px; }
+.block-card { background: var(--bg-light); padding: 20px; border-radius: var(--radius); cursor: pointer; border: 1px solid var(--border); transition: 0.2s; text-align: center; }
+.block-card:hover { transform: translateY(-2px); box-shadow: 0 5px 10px rgba(0,0,0,0.1); border-color: var(--primary); }
+.exam-card { background: var(--primary); border: 2px solid #0a1a2a; color: white; }
+.exam-card h3 { color: white; margin-bottom: 5px; }
+.special-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+.special-card { background: var(--bg-light); padding: 15px; border-radius: var(--radius); cursor: pointer; border: 1px solid var(--border); text-align: center; position: relative; }
+.special-card.hard { border-left: 4px solid var(--warning); }
+.special-card.wrong { border-left: 4px solid var(--danger); }
+.special-count { background: var(--primary); color: white; padding: 2px 8px; border-radius: 4px; font-weight: 700; }
+.reset-btn { position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.1); border: none; width: 24px; height: 24px; border-radius: 4px; cursor: pointer; }
+
+/* Quiz/Test/Exam UI */
+.quiz-header, .test-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
+.back-btn { background: none; border: 2px solid var(--primary); color: var(--primary); padding: 6px 15px; border-radius: 4px; cursor: pointer; font-weight: 600; }
+.back-btn:hover { background: var(--primary); color: white; }
+.stats { background: #f0f0f0; padding: 6px 15px; border-radius: 4px; display: flex; gap: 15px; font-weight: 600; }
+.progress-bar { height: 8px; background: #e0e0e0; border-radius: 4px; margin-bottom: 20px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--primary); transition: width 0.3s; }
+.question-box { background: var(--bg-light); padding: 20px; border-radius: var(--radius); border-left: 6px solid var(--primary); margin-bottom: 20px; position: relative; }
+.question-box.test, .question-box.exam { border-left-color: var(--danger); background: #fff5f5; }
+.star-btn { position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 24px; cursor: pointer; color: #b0b0b0; transition: 0.2s; }
+.star-btn:hover, .star-btn.active { color: var(--warning); }
+.options-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.option-btn { padding: 12px; background: white; border: 2px solid var(--border); border-radius: 4px; cursor: pointer; text-align: left; transition: 0.2s; }
+.option-btn:hover:not(:disabled) { border-color: var(--primary); background: #f0f5ff; }
+.option-btn.selected { border-color: var(--primary); background: #d9e6f2; }
+.option-btn.correct { background: var(--success); color: white; border-color: var(--success); }
+.option-btn.wrong { background: var(--danger); color: white; border-color: var(--danger); }
+.nav-buttons { display: flex; gap: 10px; }
+.nav-btn { flex: 1; padding: 12px; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; transition: 0.2s; background: var(--primary); color: white; }
+.nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.nav-btn.secondary { background: #2e7d32; }
+.nav-btn.danger { background: var(--danger); }
+
+/* Timer */
+.timer-container { background: #2d2d2d; color: white; padding: 8px 15px; display: inline-flex; align-items: center; gap: 10px; font-weight: 700; border-radius: 4px; border: 2px solid var(--danger); }
+.timer-container.warning { background: var(--danger); border-color: var(--accent); }
+
+/* Result Screen (Fixed DOM bug) */
+#result-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 20px; }
+#result-overlay.active { display: flex; }
+.result-box { background: white; padding: 40px; border-radius: var(--radius); max-width: 600px; width: 100%; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+.result-title { font-size: 2em; font-weight: 700; margin-bottom: 15px; }
+.result-pass { color: var(--success); }
+.result-fail { color: var(--danger); }
+.result-score { font-size: 3em; font-weight: 800; margin: 15px 0; color: var(--primary); }
+.result-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+
+/* Admin Panel */
+.admin-panel { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 3000; }
+.admin-panel.active { display: flex; }
+.admin-content { background: #0a0e14; color: #e0e0e0; padding: 25px; border-radius: 8px; max-width: 700px; width: 90%; max-height: 85vh; overflow-y: auto; border-top: 4px solid var(--accent); }
+.admin-header { display: flex; justify-content: space-between; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+.admin-header h2 { color: var(--accent); font-size: 1.5em; }
+.admin-item { background: #1a1f2a; padding: 10px; margin-bottom: 8px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; }
+
+/* Notifications */
+.notification { position: fixed; top: 20px; right: 20px; background: var(--danger); color: white; padding: 15px; border-radius: 4px; z-index: 5000; animation: slideIn 0.3s, fadeOut 0.3s 2.7s forwards; max-width: 350px; }
+@keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@keyframes fadeOut { to { opacity: 0; transform: translateX(100%); } }
+
 @media (max-width: 768px) {
-.top-panel {
-flex-direction: column;
-align-items: stretch;
-padding: 12px;
-}
-.panel-left {
-flex-direction: column;
-align-items: stretch;
-gap: 10px;
-}
-.panel-left h3 {
-border-right: none;
-border-bottom: 2px solid #2a4a70;
-padding-right: 0;
-padding-bottom: 10px;
-text-align: center;
-width: 100%;
-}
-.nav-buttons-panel {
-margin: 5px 0;
-width: 100%;
-justify-content: center;
-flex-wrap: wrap;
-}
-.nav-square {
-padding: 8px 12px;
-min-width: 60px;
-font-size: 0.85em;
-}
-.test-selector {
-min-width: auto;
-width: 100%;
-}
-.test-selector-btn {
-padding: 10px 12px;
-font-size: 0.9em;
-min-height: 44px;
-width: 100%;
-}
-/* 🔥 ФИКС ДЛЯ МОБИЛЬНОГО ДРОПДАУНА */
-.test-dropdown {
-position: fixed;
-top: max(70px, env(safe-area-inset-top, 60px));
-left: 10px;
-right: 10px;
-width: auto;
-max-height: 70vh;
-z-index: 9999;
-}
-.test-item {
-padding: 12px 10px;
-}
-#menu-screen {
-padding: 20px;
-}
-h2 {
-font-size: 1.4em;
-}
-.menu-grid {
-grid-template-columns: 1fr;
-}
-.exam-card {
-grid-column: span 1;
-}
-.special-grid {
-grid-template-columns: 1fr;
-gap: 10px;
-}
-.quiz-header, .test-header {
-flex-direction: column;
-align-items: flex-start;
-}
-#q-text, #test-q-text, #exam-q-text, #review-q-text, #hard-q-text, #wrong-q-text {
-font-size: 1.1em;
-padding-right: 60px;
-}
-.stats {
-width: 100%;
-justify-content: space-between;
-}
-.timer-container {
-width: 100%;
-justify-content: center;
-}
-.nav-buttons {
-flex-direction: column;
-}
-.block-card, .special-card {
-padding: 20px 10px;
-}
-.block-card h3, .special-card h3 {
-font-size: 1.2em;
-}
-.star-btn {
-font-size: 24px;
-top: 10px;
-right: 10px;
-}
-}
-@media (max-width: 480px) {
-.test-selector-btn {
-font-size: 0.85em;
-padding: 8px 10px;
-}
-.test-code {
-min-width: 35px;
-}
-.test-dropdown {
-top: max(65px, env(safe-area-inset-top, 50px));
-}
-.login-box {
-max-width: 100%;
-}
-.login-header {
-padding: 25px 15px;
-}
-.login-header h2 {
-font-size: 1.8em;
-}
-.login-form {
-padding: 25px 20px;
-}
-.input-group input,
-.input-group textarea {
-padding: 10px 12px;
-}
-.admin-item {
-flex-direction: column;
-align-items: flex-start;
-gap: 10px;
-}
-.admin-item-actions {
-margin-left: 0;
-width: 100%;
-}
-.admin-btn-approve, .admin-btn-reject {
-flex: 1;
-}
-.nav-square {
-padding: 6px 10px;
-font-size: 0.8em;
-min-width: 50px;
-}
-}
-@media (max-width: 375px) {
-.panel-left h3 {
-font-size: 0.95em;
-}
-.test-selector-btn {
-padding: 8px 8px;
-font-size: 0.8em;
-}
-}
-/* Для iPhone с челкой */
-@supports (padding-top: constant(safe-area-inset-top)) or (padding-top: env(safe-area-inset-top)) {
-.top-panel {
-padding-top: max(12px, constant(safe-area-inset-top));
-padding-top: max(12px, env(safe-area-inset-top));
-padding-left: max(12px, constant(safe-area-inset-left));
-padding-left: max(12px, env(safe-area-inset-left));
-padding-right: max(12px, constant(safe-area-inset-right));
-padding-right: max(12px, env(safe-area-inset-right));
-}
-.login-container {
-padding-top: constant(safe-area-inset-top);
-padding-top: env(safe-area-inset-top);
-}
-}
-.pagination {
-display: flex;
-flex-wrap: wrap;
-gap: 4px;
-justify-content: center;
-margin: 15px 0;
-padding: 8px;
-background: #f8f8f8;
-border-radius: 4px;
-border: 1px solid #e0e0e0;
-max-height: 200px;
-overflow-y: auto;
-}
-.page-btn {
-width: 32px;
-height: 32px;
-border: 1px solid #d0d0d0;
-background: white;
-color: #1e3c5c;
-font-size: 0.9em;
-font-weight: 600;
-cursor: pointer;
-border-radius: 4px;
-transition: all 0.2s ease;
-display: flex;
-align-items: center;
-justify-content: center;
-margin: 2px;
-box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-.page-btn:hover:not(:disabled) {
-border-color: #1e3c5c;
-background: #f0f5ff;
-transform: translateY(-2px);
-box-shadow: 0 3px 6px rgba(30,60,92,0.2);
-}
-.page-btn.active {
-background: #1e3c5c;
-color: white;
-border-color: #0a1a2a;
-font-weight: 500;
-}
-.page-btn.answered {
-background: #e8f0e8;
-color: #2e7d32;
-border-color: #c0e0c0;
-}
-.page-btn.correct {
-background: #e8f5e9;
-color: #2e7d32;
-border-color: #a5d6a7;
-}
-.page-btn.wrong {
-background: #ffebee;
-color: #b71c1c;
-border-color: #ffcdd2;
-}
-.reset-hard-btn, .reset-wrong-btn {
-background: #b22222;
-color: white;
-border: none;
-padding: 8px 15px;
-border-radius: 4px;
-cursor: pointer;
-font-weight: 600;
-font-size: 0.9em;
-transition: all 0.2s;
-text-transform: uppercase;
-letter-spacing: 0.5px;
-}
-.reset-hard-btn:hover, .reset-wrong-btn:hover {
-background: #8b0000;
-transform: translateY(-2px);
-box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
-/* Стили для переключателей в админке */
-.switch {
-position: relative;
-display: inline-block;
-width: 46px;
-height: 22px;
-}
-.switch input {
-opacity: 0;
-width: 0;
-height: 0;
-}
-.slider {
-position: absolute;
-cursor: pointer;
-top: 0;
-left: 0;
-right: 0;
-bottom: 0;
-background-color: #b22222;
-transition: .2s;
-border-radius: 0;
-}
-.slider:before {
-position: absolute;
-content: "";
-height: 18px;
-width: 18px;
-left: 2px;
-bottom: 2px;
-background-color: white;
-transition: .2s;
-border-radius: 0;
-}
-input:checked + .slider {
-background-color: #2e7d32;
-}
-input:checked + .slider:before {
-transform: translateX(24px);
-}
-.test-row {
-display: flex;
-align-items: center;
-justify-content: space-between;
-padding: 10px 12px;
-background: #1a1f2a;
-border-left: 3px solid #ffd700;
-margin-bottom: 5px;
-}
-.test-row:hover {
-background: #222835;
-}
-.test-info {
-display: flex;
-align-items: center;
-gap: 12px;
-}
-.test-code {
-color: #ffd700;
-font-weight: 700;
-min-width: 60px;
-font-size: 0.9em;
+  .top-panel { flex-direction: column; align-items: stretch; }
+  .panel-left { border-right: none; border-bottom: 2px solid #2a4a70; padding-bottom: 10px; }
+  .nav-buttons-panel { justify-content: center; }
+  .test-selector { min-width: auto; width: 100%; }
+  .special-grid, .menu-grid { grid-template-columns: 1fr; }
+  .quiz-header, .test-header { flex-direction: column; align-items: flex-start; }
+  .timer-container { width: 100%; justify-content: center; }
 }
 </style>
 </head>
 <body>
-<!-- Экран авторизации -->
-<div id="login-screen" class="login-container">
-<div class="login-box">
-<div class="login-header">
-<h2>PRO100 TEST</h2>
-<p>Система тестирования по промышленной безопасности</p>
-</div>
-<div class="login-tabs">
-<button class="login-tab active" onclick="showLoginTab('login')">Вход</button>
-<button class="login-tab" onclick="showLoginTab('register')">Регистрация</button>
-</div>
-<!-- Форма входа -->
-<div id="login-form" class="login-tab-content active">
-<div class="login-form">
-<div class="input-group">
-<label for="username">Логин</label>
-<input type="text" id="username" placeholder="Введите логин" autocomplete="off">
-</div>
-<div class="input-group">
-<label for="password">Пароль</label>
-<input type="password" id="password" placeholder="Введите пароль">
-</div>
-<button class="login-btn" onclick="login()">Войти</button>
-<div id="login-error" class="login-message"></div>
-</div>
-</div>
-<!-- Форма регистрации -->
-<div id="register-form" class="login-tab-content">
-<div class="login-form">
-<div class="input-group">
-<label for="reg-username">Желаемый логин *</label>
-<input type="text" id="reg-username" placeholder="Введите логин">
-</div>
-<div class="input-group">
-<label for="reg-password">Пароль *</label>
-<input type="password" id="reg-password" placeholder="Введите пароль">
-</div>
-<div class="input-group">
-<label for="reg-name">Ваше имя</label>
-<input type="text" id="reg-name" placeholder="Как к вам обращаться">
-</div>
-<div class="input-group">
-<label for="reg-reason">Причина доступа</label>
-<textarea id="reg-reason" placeholder="Опишите, зачем вам нужен доступ" rows="3"></textarea>
-</div>
-<button class="login-btn" onclick="register()">Отправить заявку</button>
-<div id="register-message" class="login-message"></div>
-</div>
-</div>
-<div class="login-footer">
-<p>После регистрации ожидайте подтверждения</p>
-</div>
-</div>
-<!-- Панель администратора -->
-<div id="admin-panel" class="admin-panel" style="display: none;">
-<div class="admin-header">
-<h2>⚡ ПАНЕЛЬ УПРАВЛЕНИЯ</h2>
-<button class="admin-back-btn" onclick="adminBack()">← НАЗАД</button>
-</div>
-<div class="admin-stats-grid">
-<div class="admin-stat-card">
-<div class="admin-stat-number" id="stat-users">0</div>
-<div class="admin-stat-label">ПОЛЬЗОВАТЕЛЕЙ</div>
-</div>
-<div class="admin-stat-card">
-<div class="admin-stat-number" id="stat-pending">0</div>
-<div class="admin-stat-label">ЗАЯВОК</div>
-</div>
-<div class="admin-stat-card">
-<div class="admin-stat-number" id="stat-tests">2</div>
-<div class="admin-stat-label">ТЕСТОВ</div>
-</div>
-</div>
-<div class="admin-section">
-<div class="admin-section-header">
-<h3>📋 НОВЫЕ ЗАЯВКИ</h3>
-<span class="badge" id="pending-badge">0</span>
-</div>
-<div class="admin-list" id="pending-list"></div>
-</div>
-<div class="admin-section">
-<div class="admin-section-header">
-<h3>👥 ПОДТВЕРЖДЕННЫЕ ПОЛЬЗОВАТЕЛИ</h3>
-<span class="badge" id="users-badge">0</span>
-</div>
-<div class="admin-list" id="users-list"></div>
-</div>
-</div>
-</div>
-<!-- Основной контейнер -->
-<div class="container">
-<!-- Верхняя панель с навигацией -->
-<div class="top-panel">
-<div class="panel-left">
-<h3>PRO100 TEST</h3>
-<!-- Селектор тестов -->
-<div class="test-selector">
-<div class="test-selector-btn" id="testSelectorBtn" onclick="toggleTestDropdown()">
-<span id="selectedTestDisplay">Б.2.11 Ремонтные, монтажные и пусконаладочные работы</span>
-<span class="arrow">▼</span>
-</div>
-<div class="test-dropdown" id="testDropdown">
-<!-- Промышленная безопасность -->
-<div class="test-group">Промышленная безопасность</div>
-<!-- А.1 - неактивен -->
-<div class="test-item disabled" data-test="a1" onclick="return false;">
-<span class="test-code">А.1</span>
-<span class="test-name">Основы промышленной безопасности</span>
-<div class="test-desc">211 вопросов</div>
-</div>
-<!-- Б.2.1 - неактивен -->
-<div class="test-item disabled" data-test="b21" onclick="return false;">
-<span class="test-code">Б.2.1</span>
-<span class="test-name">Эксплуатация объектов нефтяной и газовой промышленности</span>
-<div class="test-desc">405 вопросов</div>
-</div>
-<!-- Б.2.3 - неактивен -->
-<div class="test-item disabled" data-test="b23" onclick="return false;">
-<span class="test-code">Б.2.3</span>
-<span class="test-name">Проектирование, строительство, реконструкция</span>
-<div class="test-desc">228 вопросов</div>
-</div>
-<!-- Б.2.6 - АКТИВЕН -->
-<div class="test-item" data-test="b26-marine" onclick="selectTest('b26-marine')">
-<span class="test-code">Б.2.6</span>
-<span class="test-name">Разведка и разработка морских месторождений</span>
-<div class="test-desc">187 вопросов</div>
-</div>
-<!-- Б.2.7 - неактивен -->
-<div class="test-item disabled" data-test="b27" onclick="return false;">
-<span class="test-code">Б.2.7</span>
-<span class="test-name">Магистральные нефтепроводы</span>
-<div class="test-desc">155 вопросов</div>
-</div>
-<!-- Б.2.8 - неактивен -->
-<div class="test-item disabled" data-test="b28" onclick="return false;">
-<span class="test-code">Б.2.8</span>
-<span class="test-name">Магистральные газопроводы</span>
-<div class="test-desc">132 вопроса</div>
-</div>
-<!-- Б.2.11 - АКТИВЕН (выбран по умолчанию) -->
-<div class="test-item selected" data-test="b211" onclick="selectTest('b211')">
-<span class="test-code">Б.2.11</span>
-<span class="test-name">Ремонтные, монтажные и пусконаладочные работы</span>
-<div class="test-desc">160 вопросов</div>
-</div>
-<!-- Электробезопасность -->
-<div class="test-group">Электробезопасность</div>
-<div class="test-item disabled" data-test="electro2" onclick="return false;">
-<span class="test-code">2 гр.</span>
-<span class="test-name">До и выше 1000В</span>
-<div class="test-desc">100 вопросов</div>
-</div>
-<div class="test-item disabled" data-test="electro3" onclick="return false;">
-<span class="test-code">3 гр.</span>
-<span class="test-name">До и выше 1000В</span>
-<div class="test-desc">120 вопросов</div>
-</div>
-<div class="test-item disabled" data-test="electro4" onclick="return false;">
-<span class="test-code">4 гр.</span>
-<span class="test-name">До и выше 1000В</span>
-<div class="test-desc">140 вопросов</div>
-</div>
-<div class="test-item disabled" data-test="electro5" onclick="return false;">
-<span class="test-code">5 гр.</span>
-<span class="test-name">До и выше 1000В</span>
-<div class="test-desc">160 вопросов</div>
-</div>
-</div>
-</div>
-<!-- Квадратные кнопки навигации -->
-<div class="nav-buttons-panel">
-<!-- Админка (только для super) -->
-<div id="admin-icon" class="nav-square admin" onclick="openAdminPanel()" style="display: none;">
-АДМИН
-</div>
-<!-- Выход -->
-<div class="nav-square logout" onclick="logout()">
-ВЫЙТИ
-</div>
-</div>
-</div>
-</div>
-<!-- Контейнер для уведомлений -->
-<div id="notificationContainer"></div>
-<!-- Основной контент -->
-<div id="menu-screen">
-<h2 id="testTitle">Б.2.11 Промышленная безопасность<br>"Ремонтные, монтажные и пусконаладочные работы на опасных производственных объектах нефтегазодобычи"</h2>
-<!-- Основные блоки -->
-<div class="menu-grid" id="blocksContainer">
-<!-- Блоки будут загружаться динамически при выборе теста -->
-</div>
-<!-- Итоговое тестирование -->
-<div class="exam-card block-card" onclick="startExam()">
-<h3>ИТОГОВОЕ ТЕСТИРОВАНИЕ</h3>
-<p>20 вопросов | 20 минут | допуск: 2 ошибки</p>
-</div>
-<!-- Специальные режимы (внизу) -->
-<div class="special-grid">
-<!-- Трудные вопросы -->
-<div class="special-card hard" onclick="startHardMode()">
-<h3>⭐ ТРУДНЫЕ ВОПРОСЫ</h3>
-<p>
-<span class="special-count" id="hard-count">0</span>
-</p>
-<button class="reset-special-btn" onclick="resetHardQuestions(event)" title="Очистить">✕</button>
-</div>
-<!-- Ошибочные вопросы -->
-<div class="special-card wrong" onclick="startWrongMode()">
-<h3>❌ ОШИБОЧНЫЕ</h3>
-<p>
-<span class="special-count" id="wrong-count">0</span>
-</p>
-<button class="reset-special-btn" onclick="resetWrongQuestions(event)" title="Очистить">✕</button>
-</div>
-</div>
-<div class="footer-note">
-Система тестирования | Версия 4.0 (Оптимизированная)
-</div>
-</div>
-<!-- Экран тренировки (обычный режим) -->
-<div id="quiz-screen" style="display: none;">
-<div class="quiz-header">
-<button class="back-btn" onclick="showMenu()">
-← НАЗАД
-</button>
-<div class="stats">
-<div class="stat-item">
-<span class="stat-icon">📄</span>
-<span id="q-counter">0/0</span>
-</div>
-<div class="stat-item">
-<span class="stat-icon">✓</span>
-<span id="score-display">0</span>
-</div>
-</div>
-</div>
-<div class="progress-container">
-<div class="progress-fill" id="progress-fill"></div>
-</div>
-<div class="question-container">
-<button class="star-btn" id="star-btn" onclick="toggleHard()">★</button>
-<div id="q-text"></div>
-</div>
-<div class="options-box" id="options-box"></div>
-<div class="explanation-box" id="exp-box" style="display: none;"></div>
-<div class="pagination" id="pagination"></div>
-<div class="nav-buttons">
-<button class="nav-btn" id="prev-btn" onclick="prevQuestion()" disabled>
-← ПРЕД
-</button>
-<button class="nav-btn" id="check-btn" onclick="checkAnswer()" disabled>
-ОТВЕТИТЬ
-</button>
-<button class="nav-btn" id="next-btn" onclick="nextQuestion()" disabled>
-СЛЕД →
-</button>
-</div>
-</div>
-<!-- Экран тестирования (без подсказок) -->
-<div id="test-screen" style="display: none;">
-<div class="test-header">
-<button class="back-btn" onclick="showMenu()">
-← НАЗАД
-</button>
-<div class="stats">
-<div class="stat-item">
-<span class="stat-icon">📄</span>
-<span id="test-counter">0/0</span>
-</div>
-<div class="stat-item">
-<span class="stat-icon">✓</span>
-<span id="test-score">0</span>
-</div>
-</div>
-</div>
-<div class="progress-container">
-<div class="progress-fill test-progress" id="test-progress-fill"></div>
-</div>
-<div class="question-container test-question">
-<button class="star-btn" id="test-star-btn" onclick="toggleHard()">★</button>
-<div id="test-q-text"></div>
-</div>
-<div class="options-box" id="test-options-box"></div>
-<div class="nav-buttons">
-<button class="nav-btn" id="test-confirm-btn" onclick="confirmTestAnswer()" disabled>
-ПОДТВЕРДИТЬ
-</button>
-<button class="nav-btn" id="finish-test-btn" onclick="finishTest()">
-ЗАВЕРШИТЬ
-</button>
-</div>
-</div>
-<!-- Экран трудных вопросов -->
-<div id="hard-mode-screen" style="display: none;">
-<div class="quiz-header">
-<button class="back-btn" onclick="showMenu()">
-← НАЗАД
-</button>
-<div class="stats">
-<div class="stat-item">
-<span class="stat-icon">📄</span>
-<span id="hard-counter">0/0</span>
-</div>
-<div class="stat-item">
-<span class="stat-icon">✓</span>
-<span id="hard-score">0</span>
-</div>
-</div>
-<button class="reset-hard-btn" onclick="resetHardQuestions(event)">СБРОСИТЬ</button>
-</div>
-<div class="progress-container">
-<div class="progress-fill hard-progress" id="hard-progress-fill"></div>
-</div>
-<div class="question-container hard-question">
-<button class="star-btn" id="hard-star-btn" onclick="toggleHardFromMode()">★</button>
-<div id="hard-q-text"></div>
-</div>
-<div class="options-box" id="hard-options-box"></div>
-<div class="explanation-box" id="hard-exp-box" style="display: none;"></div>
-<div class="pagination" id="hard-pagination"></div>
-<div class="nav-buttons">
-<button class="nav-btn" id="hard-prev-btn" onclick="prevModeQuestion()" disabled>
-← ПРЕД
-</button>
-<button class="nav-btn" id="hard-check-btn" onclick="checkModeAnswer()" disabled>
-ОТВЕТИТЬ
-</button>
-<button class="nav-btn" id="hard-next-btn" onclick="nextModeQuestion()" disabled>
-СЛЕД →
-</button>
-</div>
-</div>
-<!-- Экран ошибочных вопросов -->
-<div id="wrong-mode-screen" style="display: none;">
-<div class="quiz-header">
-<button class="back-btn" onclick="showMenu()">
-← НАЗАД
-</button>
-<div class="stats">
-<div class="stat-item">
-<span class="stat-icon">📄</span>
-<span id="wrong-counter">0/0</span>
-</div>
-<div class="stat-item">
-<span class="stat-icon">✓</span>
-<span id="wrong-score">0</span>
-</div>
-</div>
-<button class="reset-hard-btn" onclick="resetWrongQuestions(event)">СБРОСИТЬ</button>
-</div>
-<div class="progress-container">
-<div class="progress-fill wrong-progress" id="wrong-progress-fill"></div>
-</div>
-<div class="question-container wrong-question">
-<button class="star-btn" id="wrong-star-btn" onclick="toggleHardFromMode()">★</button>
-<div id="wrong-q-text"></div>
-</div>
-<div class="options-box" id="wrong-options-box"></div>
-<div class="explanation-box" id="wrong-exp-box" style="display: none;"></div>
-<div class="pagination" id="wrong-pagination"></div>
-<div class="nav-buttons">
-<button class="nav-btn" id="wrong-prev-btn" onclick="prevModeQuestion()" disabled>
-← ПРЕД
-</button>
-<button class="nav-btn" id="wrong-check-btn" onclick="checkModeAnswer()" disabled>
-ОТВЕТИТЬ
-</button>
-<button class="nav-btn" id="wrong-next-btn" onclick="nextModeQuestion()" disabled>
-СЛЕД →
-</button>
-</div>
-</div>
-<!-- Экран экзамена -->
-<div id="exam-screen" style="display: none;">
-<div class="quiz-header">
-<button class="back-btn" onclick="showMenu()">
-← В МЕНЮ
-</button>
-<div class="timer-container" id="timer">
-<span class="timer-icon">⏱</span>
-<span id="timer-display">20:00</span>
-</div>
-<div class="stats">
-<div class="stat-item">
-<span class="stat-icon">📄</span>
-<span id="exam-counter">0/20</span>
-</div>
-<div class="stat-item">
-<span class="stat-icon">✗</span>
-<span id="exam-errors">0</span>/2
-</div>
-</div>
-</div>
-<div class="progress-container">
-<div class="progress-fill exam-progress" id="exam-progress-fill"></div>
-</div>
-<div class="question-container exam-question" id="exam-question-container">
-<div id="exam-q-text"></div>
-</div>
-<div class="options-box" id="exam-options-box"></div>
-<div id="exam-result" style="display: none;" class="result-box">
-<div class="result-title" id="exam-result-title"></div>
-<div class="result-score" id="exam-result-score"></div>
-<div class="result-details" id="exam-result-details"></div>
-<div class="result-nav">
-<h4 style="margin-bottom: 10px; color: #1e3c5c;">Навигация по вопросам:</h4>
-<div id="exam-result-questions"></div>
-</div>
-<div>
-<button class="review-btn" onclick="startReview()">ПРОСМОТР ВОПРОСОВ</button>
-<button class="restart-exam-btn" onclick="restartExam()">НАЧАТЬ ЗАНОВО</button>
-<button class="restart-exam-btn" onclick="showMenu()">ГЛАВНОЕ МЕНЮ</button>
-</div>
-</div>
-<button class="nav-btn" id="exam-next-btn" onclick="nextExamQuestion()" style="display: none;">
-ПОДТВЕРДИТЬ И ДАЛЕЕ →
-</button>
-</div>
-<!-- Экран просмотра результатов -->
-<div id="exam-review-screen" style="display: none;">
-<div class="review-header">
-<button class="back-btn" onclick="showExamResults()">
-← К РЕЗУЛЬТАТАМ
-</button>
-<div class="stats">
-<div class="stat-item">
-<span class="stat-icon">📄</span>
-<span id="review-counter">0/20</span>
-</div>
-<div class="stat-item">
-<span class="stat-icon">★</span>
-<span id="review-hard-count">0</span>
-</div>
-</div>
-</div>
-<div class="progress-container">
-<div class="progress-fill" id="review-progress-fill"></div>
-</div>
-<div class="question-container review-question">
-<button class="star-btn" id="review-star-btn" onclick="toggleReviewHard()">★</button>
-<div id="review-q-text"></div>
-</div>
-<div class="options-box" id="review-options-box"></div>
-<div class="explanation-box" id="review-exp-box"></div>
-<div class="pagination" id="review-pagination"></div>
-<div class="nav-buttons">
-<button class="nav-btn" id="review-prev-btn" onclick="prevReviewQuestion()" disabled>
-← ПРЕД
-</button>
-<button class="nav-btn" id="review-next-btn" onclick="nextReviewQuestion()" disabled>
-СЛЕД →
-</button>
-</div>
-</div>
-</div>
-<script>
-// ========== ИНИЦИАЛИЗАЦИЯ ==========
-// Конфигурация загружается из tests-config.js
-// (убедись что файл подключен выше)
-// ========== ОСНОВНЫЕ ПЕРЕМЕННЫЕ ==========
-let fullBase = [];
-let activeQuestions = [];
-let currentIdx = 0;
-let score = 0;
-let selectedOptions = [];
-let hardQuestions = [];
-let wrongQuestions = [];
-let examQuestions = [];
-let examCurrentIdx = 0;
-let examErrors = 0;
-let examTimer = null;
-let examTimeLeft = 1200;
-let examAnswers = [];
-let examResults = [];
-let reviewCurrentIdx = 0;
-let answeredQuestionsCount = 0;
-let currentTest = 'b211';
-let answerStates = new Map();
-// Переменные для режимов
-let modeQuestions = [];
-let modeCurrentIdx = 0;
-let modeScore = 0;
-let modeAnswerStates = new Map();
-let currentMode = ''; // 'hard' или 'wrong'
-// Переменные для тестового режима
-let testQuestions = [];
-let testCurrentIdx = 0;
-let testScore = 0;
-let testAnswers = [];
-// Состояние тренировки
-let trainingState = {
-activeQuestions: [],
-currentIdx: 0,
-score: 0,
-blockNum: null,
-questionStates: []
-};
-// Фикс для AVAILABLE_TESTS, если он вдруг не подгрузился из конфига
-if (typeof AVAILABLE_TESTS === 'undefined') window.AVAILABLE_TESTS = ['b211', 'b26-marine'];
 
-// ========== ФУНКЦИИ ДЛЯ ТРУДНЫХ ВОПРОСОВ ==========
-function getHardKey() {
-const username = localStorage.getItem('username') || 'guest';
-return `hardQuestions_${username}_${currentTest}`;
-}
-function loadHardQuestions() {
-const key = getHardKey();
-const saved = localStorage.getItem(key);
-try {
-hardQuestions = saved ? JSON.parse(saved) : [];
-if (!Array.isArray(hardQuestions)) hardQuestions = [];
-} catch (e) {
-hardQuestions = [];
-}
-updateHardCount();
-}
-function saveHardQuestions() {
-const key = getHardKey();
-localStorage.setItem(key, JSON.stringify(hardQuestions));
-}
-function updateHardCount() {
-const count = hardQuestions.length;
-const hardCountElement = document.getElementById('hard-count');
-const reviewHardCountElement = document.getElementById('review-hard-count');
-if (hardCountElement) hardCountElement.innerText = count;
-if (reviewHardCountElement) reviewHardCountElement.innerText = count;
-}
-function resetHardQuestions(event) {
-if (event) {
-event.preventDefault();
-event.stopPropagation();
-}
-if (confirm('Очистить список трудных вопросов?')) {
-hardQuestions = [];
-saveHardQuestions();
-updateHardCount();
-if (document.getElementById('hard-mode-screen').style.display === 'block') {
-showMenu();
-}
-showNotification('✅ Список трудных вопросов очищен');
-}
-return false;
-}
-// ========== ФУНКЦИИ ДЛЯ ОШИБОЧНЫХ ВОПРОСОВ ==========
-function getWrongKey() {
-const username = localStorage.getItem('username') || 'guest';
-return `wrongQuestions_${username}_${currentTest}`;
-}
-function loadWrongQuestions() {
-const key = getWrongKey();
-const saved = localStorage.getItem(key);
-try {
-wrongQuestions = saved ? JSON.parse(saved) : [];
-if (!Array.isArray(wrongQuestions)) wrongQuestions = [];
-} catch (e) {
-wrongQuestions = [];
-}
-updateWrongCount();
-}
-function saveWrongQuestions() {
-const key = getWrongKey();
-localStorage.setItem(key, JSON.stringify(wrongQuestions));
-}
-function updateWrongCount() {
-const count = wrongQuestions.length;
-const wrongCountElement = document.getElementById('wrong-count');
-if (wrongCountElement) wrongCountElement.innerText = count;
-}
-function resetWrongQuestions(event) {
-if (event) {
-event.preventDefault();
-event.stopPropagation();
-}
-if (confirm('Очистить список ошибочных вопросов?')) {
-wrongQuestions = [];
-saveWrongQuestions();
-updateWrongCount();
-if (document.getElementById('wrong-mode-screen').style.display === 'block') {
-showMenu();
-}
-showNotification('✅ Список ошибочных вопросов очищен');
-}
-return false;
-}
-function addToWrongQuestions(questionId) {
-if (!wrongQuestions.includes(questionId)) {
-wrongQuestions.push(questionId);
-saveWrongQuestions();
-updateWrongCount();
-}
-}
-// ========== ФУНКЦИИ ДЛЯ РЕЖИМОВ (объединенные) ==========
-function startMode(mode, questionIds) {
-if (fullBase.length === 0) {
-alert('База вопросов загружается...');
-return;
-}
-const questions = fullBase.filter(q => questionIds.includes(q.id));
-if (questions.length === 0) {
-showNotification(`Нет ${mode === 'hard' ? 'отмеченных' : 'ошибочных'} вопросов`);
-return;
-}
-modeQuestions = questions.map(q => shuffleQuestionOptions({...q, c: [...q.c]}));
-currentMode = mode;
-modeCurrentIdx = 0;
-modeScore = 0;
-modeAnswerStates.clear();
-document.getElementById('menu-screen').style.display = 'none';
-document.getElementById(`${mode}-mode-screen`).style.display = 'block';
-updateModeDisplay();
-renderModePagination();
-loadModeQuestion();
-updateModeNavigationButtons();
-}
-function startHardMode() {
-startMode('hard', hardQuestions);
-}
-function startWrongMode() {
-startMode('wrong', wrongQuestions);
-}
-function updateModeDisplay() {
-const screen = currentMode;
-document.getElementById(`${screen}-counter`).innerText =
-`${modeCurrentIdx + 1}/${modeQuestions.length}`;
-document.getElementById(`${screen}-score`).innerText = modeScore;
-}
-function renderModePagination() {
-const paginationId = `${currentMode}-pagination`;
-const pagination = document.getElementById(paginationId);
-if (!pagination) return;
-pagination.innerHTML = '';
-modeQuestions.forEach((q, index) => {
-const btn = document.createElement('button');
-btn.className = 'page-btn';
-btn.innerText = index + 1;
-const state = modeAnswerStates.get(q.id);
-if (state?.isChecked) {
-btn.classList.add(state.isCorrect ? 'correct' : 'wrong');
-} else if (state?.selected?.length) {
-btn.classList.add('answered');
-}
-if (index === modeCurrentIdx) btn.classList.add('active');
-btn.onclick = () => jumpToModeQuestion(index);
-pagination.appendChild(btn);
-});
-}
-function updateModePaginationActive() {
-const selector = `#${currentMode}-pagination .page-btn`;
-document.querySelectorAll(selector).forEach((btn, i) => {
-btn.classList.toggle('active', i === modeCurrentIdx);
-});
-}
-function jumpToModeQuestion(index) {
-if (index < 0 || index >= modeQuestions.length) return;
-modeCurrentIdx = index;
-loadModeQuestion();
-updateModePaginationActive();
-updateModeNavigationButtons();
-}
-function loadModeQuestion() {
-const q = modeQuestions[modeCurrentIdx];
-const savedState = modeAnswerStates.get(q.id);
-const selectedOpts = savedState?.selected ? [...savedState.selected] : [];
-const screen = currentMode;
-document.getElementById(`${screen}-q-text`).innerText = q.q;
-document.getElementById(`${screen}-counter`).innerText =
-`${modeCurrentIdx + 1}/${modeQuestions.length}`;
-document.getElementById(`${screen}-score`).innerText = modeScore;
-const starBtn = document.getElementById(`${screen}-star-btn`);
-if (starBtn) {
-starBtn.classList.toggle('active', hardQuestions.includes(q.id));
-}
-const box = document.getElementById(`${screen}-options-box`);
-box.innerHTML = '';
-q.o.forEach((opt, i) => {
-const btn = document.createElement('button');
-btn.className = 'option-btn';
-btn.innerText = opt;
-if (savedState?.isChecked) {
-btn.disabled = true;
-if (q.c.includes(i)) btn.classList.add('correct');
-else if (savedState.selected.includes(i)) btn.classList.add('wrong');
-} else {
-if (selectedOpts.includes(i)) btn.classList.add('selected');
-btn.onclick = () => selectModeOption(i, btn);
-}
-box.appendChild(btn);
-});
-const expBox = document.getElementById(`${screen}-exp-box`);
-if (savedState?.isChecked) {
-expBox.innerHTML = formatExplanation(q.e);
-expBox.style.display = 'block';
-} else {
-expBox.style.display = 'none';
-}
-updateModeProgress();
-}
-function selectModeOption(idx, btn) {
-const q = modeQuestions[modeCurrentIdx];
-const isMultiple = q.c.length > 1;
-const savedState = modeAnswerStates.get(q.id);
-let selectedOpts = savedState?.selected ? [...savedState.selected] : [];
-if (isMultiple) {
-if (selectedOpts.includes(idx)) {
-selectedOpts = selectedOpts.filter(i => i !== idx);
-btn.classList.remove('selected');
-} else if (selectedOpts.length < q.c.length) {
-selectedOpts.push(idx);
-btn.classList.add('selected');
-}
-} else {
-const container = `${currentMode}-options-box`;
-document.querySelectorAll(`#${container} .option-btn`).forEach(b => b.classList.remove('selected'));
-selectedOpts = [idx];
-btn.classList.add('selected');
-}
-modeAnswerStates.set(q.id, { selected: selectedOpts, isChecked: false });
-const checkBtnId = `${currentMode}-check-btn`;
-document.getElementById(checkBtnId).disabled = selectedOpts.length !== q.c.length;
-renderModePagination();
-}
-function checkModeAnswer() {
-const q = modeQuestions[modeCurrentIdx];
-const savedState = modeAnswerStates.get(q.id);
-if (!savedState) return;
-const isCorrect = q.c.length === savedState.selected.length &&
-q.c.every(v => savedState.selected.includes(v));
-const screen = currentMode;
-document.querySelectorAll(`#${screen}-options-box .option-btn`).forEach((btn, i) => {
-btn.disabled = true;
-if (q.c.includes(i)) btn.classList.add('correct');
-else if (savedState.selected.includes(i)) btn.classList.add('wrong');
-});
-modeAnswerStates.set(q.id, {
-selected: savedState.selected,
-isChecked: true,
-isCorrect: isCorrect
-});
-if (isCorrect) {
-modeScore++;
-document.getElementById(`${screen}-score`).innerText = modeScore;
-}
-document.getElementById(`${screen}-exp-box`).innerHTML = formatExplanation(q.e);
-document.getElementById(`${screen}-exp-box`).style.display = 'block';
-updateModeNavigationButtons();
-renderModePagination();
-}
-function toggleHardFromMode() {
-const q = modeQuestions[modeCurrentIdx];
-if (!q) return;
-if (hardQuestions.includes(q.id)) {
-hardQuestions = hardQuestions.filter(h => h !== q.id);
-} else {
-hardQuestions.push(q.id);
-}
-saveHardQuestions();
-const screen = currentMode;
-document.getElementById(`${screen}-star-btn`).classList.toggle('active');
-updateHardCount();
-}
-function updateModeNavigationButtons() {
-const prevBtn = document.getElementById(`${currentMode}-prev-btn`);
-const nextBtn = document.getElementById(`${currentMode}-next-btn`);
-const checkBtn = document.getElementById(`${currentMode}-check-btn`);
-if (prevBtn) prevBtn.disabled = modeCurrentIdx <= 0;
-if (nextBtn) nextBtn.disabled = modeCurrentIdx >= modeQuestions.length - 1;
-const q = modeQuestions[modeCurrentIdx];
-const savedState = modeAnswerStates.get(q?.id);
-if (savedState?.isChecked) {
-checkBtn.style.display = 'none';
-} else {
-checkBtn.style.display = 'block';
-checkBtn.disabled = !savedState || savedState.selected.length !== q.c.length;
-}
-}
-function prevModeQuestion() {
-if (modeCurrentIdx > 0) {
-modeCurrentIdx--;
-loadModeQuestion();
-updateModePaginationActive();
-updateModeNavigationButtons();
-}
-}
-function nextModeQuestion() {
-if (modeCurrentIdx < modeQuestions.length - 1) {
-modeCurrentIdx++;
-loadModeQuestion();
-updateModePaginationActive();
-updateModeNavigationButtons();
-}
-}
-function updateModeProgress() {
-const progress = ((modeCurrentIdx + 1) / modeQuestions.length) * 100;
-const fillId = `${currentMode}-progress-fill`;
-document.getElementById(fillId).style.width = progress + '%';
-}
-// ========== ФУНКЦИИ ДЛЯ ТЕСТОВОГО РЕЖИМА ==========
-function startTestMode(testId, blockNum, start, end) {
-currentTest = testId;
-if (fullBase.length === 0) {
-alert('База вопросов загружается...');
-return;
-}
-testQuestions = fullBase.slice(start, end).map(q => ({
-...q,
-c: [...q.c]
-})).map(q => shuffleQuestionOptions(q)).sort(() => Math.random() - 0.5);
-testCurrentIdx = 0;
-testScore = 0;
-testAnswers = new Array(testQuestions.length).fill(null);
-document.getElementById('menu-screen').style.display = 'none';
-document.getElementById('test-screen').style.display = 'block';
-updateTestDisplay();
-loadTestQuestion();
-updateTestConfirmButton();
-}
-function updateTestDisplay() {
-document.getElementById('test-counter').innerText =
-`${testCurrentIdx + 1}/${testQuestions.length}`;
-document.getElementById('test-score').innerText = testScore;
-}
-function loadTestQuestion() {
-const q = testQuestions[testCurrentIdx];
-const savedAnswer = testAnswers[testCurrentIdx];
-document.getElementById('test-q-text').innerText = q.q;
-document.getElementById('test-counter').innerText =
-`${testCurrentIdx + 1}/${testQuestions.length}`;
-document.getElementById('test-score').innerText = testScore;
-// Обновляем звездочку
-const starBtn = document.getElementById('test-star-btn');
-if (starBtn) {
-starBtn.classList.toggle('active', hardQuestions.includes(q.id));
-}
-const box = document.getElementById('test-options-box');
-box.innerHTML = '';
-const isMultiple = q.c.length > 1;
-q.o.forEach((opt, i) => {
-const btn = document.createElement('button');
-btn.className = 'option-btn';
-btn.innerText = opt;
-if (savedAnswer && savedAnswer.confirmed) {
-btn.disabled = true;
-if (q.c.includes(i)) {
-btn.classList.add('correct');
-} else if (savedAnswer.selected === i ||
-(Array.isArray(savedAnswer.selected) && savedAnswer.selected.includes(i))) {
-btn.classList.add('wrong');
-}
-} else {
-if (savedAnswer) {
-if (isMultiple) {
-if (Array.isArray(savedAnswer.selected) && savedAnswer.selected.includes(i)) {
-btn.classList.add('selected');
-}
-} else {
-if (savedAnswer.selected === i) {
-btn.classList.add('selected');
-}
-}
-}
-btn.onclick = () => selectTestOption(i, btn);
-}
-box.appendChild(btn);
-});
-updateTestProgress();
-}
-function selectTestOption(idx, btn) {
-const q = testQuestions[testCurrentIdx];
-const isMultiple = q.c.length > 1;
-let currentAnswer = testAnswers[testCurrentIdx];
-if (currentAnswer && currentAnswer.confirmed) return;
-if (isMultiple) {
-if (!currentAnswer || !Array.isArray(currentAnswer.selected)) {
-currentAnswer = { selected: [] };
-}
-if (currentAnswer.selected.includes(idx)) {
-currentAnswer.selected = currentAnswer.selected.filter(i => i !== idx);
-btn.classList.remove('selected');
-} else if (currentAnswer.selected.length < q.c.length) {
-currentAnswer.selected.push(idx);
-btn.classList.add('selected');
-}
-testAnswers[testCurrentIdx] = currentAnswer;
-} else {
-document.querySelectorAll('#test-options-box .option-btn').forEach(b => b.classList.remove('selected'));
-btn.classList.add('selected');
-testAnswers[testCurrentIdx] = { selected: idx };
-}
-updateTestConfirmButton();
-}
-function confirmTestAnswer() {
-const q = testQuestions[testCurrentIdx];
-const answer = testAnswers[testCurrentIdx];
-if (!answer) {
-alert('Выберите вариант ответа!');
-return;
-}
-const isMultiple = q.c.length > 1;
-let isCorrect;
-if (isMultiple) {
-isCorrect = q.c.length === answer.selected.length &&
-q.c.every(v => answer.selected.includes(v));
-} else {
-isCorrect = q.c.includes(answer.selected);
-}
-answer.confirmed = true;
-answer.isCorrect = isCorrect;
-testAnswers[testCurrentIdx] = answer;
-if (isCorrect) {
-testScore++;
-document.getElementById('test-score').innerText = testScore;
-}
-document.querySelectorAll('#test-options-box .option-btn').forEach((btn, i) => {
-btn.disabled = true;
-if (q.c.includes(i)) {
-btn.classList.add('correct');
-} else if (isMultiple) {
-if (answer.selected.includes(i)) {
-btn.classList.add('wrong');
-}
-} else {
-if (answer.selected === i) {
-btn.classList.add('wrong');
-}
-}
-});
-if (testCurrentIdx < testQuestions.length - 1) {
-testCurrentIdx++;
-loadTestQuestion();
-updateTestConfirmButton();
-} else {
-finishTest();
-}
-}
-function updateTestConfirmButton() {
-const answer = testAnswers[testCurrentIdx];
-const confirmBtn = document.getElementById('test-confirm-btn');
-confirmBtn.disabled = !(answer && !answer.confirmed);
-}
-function finishTest() {
-let correctCount = 0;
-let totalAnswered = 0;
-const wrongInTest = [];
-testAnswers.forEach((answer, index) => {
-if (answer && answer.confirmed) {
-totalAnswered++;
-if (answer.isCorrect) {
-correctCount++;
-} else {
-const q = testQuestions[index];
-if (!wrongQuestions.includes(q.id)) {
-wrongQuestions.push(q.id);
-}
-wrongInTest.push({ index, question: q, selected: answer.selected });
-}
-}
-});
-saveWrongQuestions();
-updateWrongCount();
-const totalQuestions = testQuestions.length;
-const percentage = totalAnswered > 0 ? (correctCount / totalQuestions) * 100 : 0;
-const resultHtml = `
-<div class="result-box">
-<div class="result-title ${percentage >= 70 ? 'result-pass' : 'result-fail'}">
-ТЕСТИРОВАНИЕ ЗАВЕРШЕНО
+<!-- Login -->
+<div id="login-screen" class="login-container">
+  <div class="login-box">
+    <div class="login-header">
+      <h2>PRO100 TEST</h2>
+      <p>SiLовская система тестирования по промышленной безопасности</p>
+    </div>
+    <form id="login-form" class="login-form" onsubmit="handleLogin(event)">
+      <div class="input-group">
+        <label for="username">Логин</label>
+        <input type="text" id="username" required autocomplete="username">
+      </div>
+      <div class="input-group">
+        <label for="password">Пароль</label>
+        <input type="password" id="password" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="login-btn">Войти</button>
+      <div id="login-error" style="color:var(--danger); text-align:center; margin-top:10px; min-height:20px;"></div>
+    </form>
+    <div class="login-footer">Вход только для авторизованных пользователей</div>
+  </div>
 </div>
-<div class="result-score">${correctCount}/${totalQuestions}</div>
-<div class="result-details">
-Правильных ответов: ${correctCount} из ${totalQuestions}<br>
-${totalAnswered < totalQuestions ? `Пропущено: ${totalQuestions - totalAnswered}<br>` : ''}
-Ошибок: ${totalQuestions - correctCount}<br>
-Процент правильных: ${percentage.toFixed(1)}%<br>
-${wrongInTest.length > 0 ? '<br>❌ Неправильные вопросы добавлены в блок ошибок' : '<br>✅ Отлично! Ошибок нет!'}
+
+<!-- Admin -->
+<div id="admin-panel" class="admin-panel">
+  <div class="admin-content">
+    <div class="admin-header">
+      <h2>⚡ ПАНЕЛЬ УПРАВЛЕНИЯ</h2>
+      <button class="back-btn" onclick="closeAdmin()">← ЗАКРЫТЬ</button>
+    </div>
+    <div class="menu-grid" id="admin-stats" style="margin-bottom:20px;">
+      <div class="block-card"><h3 id="stat-users">0</h3><p>ПОЛЬЗОВАТЕЛЕЙ</p></div>
+      <div class="block-card"><h3 id="stat-tests">2</h3><p>ТЕСТОВ</p></div>
+    </div>
+    <div id="admin-users-list"></div>
+  </div>
 </div>
-<div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px; flex-wrap: wrap;">
-<button class="restart-exam-btn" onclick="showMenu()">ГЛАВНОЕ МЕНЮ</button>
-<button class="back-btn" onclick="location.reload()">← НАЗАД</button>
-${wrongInTest.length > 0 ?
-'<button class="review-btn" onclick="startWrongMode()">ПРОРАБОТАТЬ ОШИБКИ</button>' :
-''}
+
+<!-- Notification Container -->
+<div id="notification-container"></div>
+
+<!-- Result Overlay (FIXED DOM BUG) -->
+<div id="result-overlay">
+  <div class="result-box" id="result-content"></div>
 </div>
+
+<!-- Main App -->
+<div class="container" id="main-app">
+  <div class="top-panel">
+    <div class="panel-left">
+      <h3>PRO100 TEST</h3>
+      <div class="test-selector">
+        <div class="test-selector-btn" onclick="toggleDropdown()">
+          <span id="selected-test-name">Б.2.11 Ремонтные работы</span>
+          <span>▼</span>
+        </div>
+        <div class="test-dropdown" id="test-dropdown"></div>
+      </div>
+    </div>
+    <div class="nav-buttons-panel">
+      <div id="admin-btn" class="nav-square admin" style="display:none;" onclick="openAdmin()">АДМИН</div>
+      <div class="nav-square logout" onclick="logout()">ВЫЙТИ</div>
+    </div>
+  </div>
+
+  <!-- Screens -->
+  <div id="menu-screen" class="screen active">
+    <h2 id="test-title">Б.2.11 Промышленная безопасность</h2>
+    <div class="menu-grid" id="blocks-container"></div>
+    <div class="block-card exam-card" onclick="startExam()">
+      <h3>ИТОГОВОЕ ТЕСТИРОВАНИЕ</h3>
+      <p>20 вопросов | 20 минут | допуск: 2 ошибки</p>
+    </div>
+    <div class="special-grid">
+      <div class="special-card hard" onclick="startMode('hard')">
+        <h3>⭐ ТРУДНЫЕ</h3>
+        <p><span class="special-count" id="hard-count">0</span></p>
+        <button class="reset-btn" onclick="resetList('hard', event)">✕</button>
+      </div>
+      <div class="special-card wrong" onclick="startMode('wrong')">
+        <h3>❌ ОШИБОЧНЫЕ</h3>
+        <p><span class="special-count" id="wrong-count">0</span></p>
+        <button class="reset-btn" onclick="resetList('wrong', event)">✕</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="quiz-screen" class="screen">
+    <div class="quiz-header">
+      <button class="back-btn" onclick="showScreen('menu')">← НАЗАД</button>
+      <div class="stats">
+        <span>📄 <span id="q-counter">0/0</span></span>
+        <span>✓ <span id="q-score">0</span></span>
+      </div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="q-progress"></div></div>
+    <div class="question-box">
+      <button class="star-btn" id="star-btn" onclick="toggleStar()">★</button>
+      <div id="q-text"></div>
+    </div>
+    <div class="options-grid" id="q-options"></div>
+    <div class="nav-buttons">
+      <button class="nav-btn secondary" id="q-prev" onclick="navQuestion(-1)">← ПРЕД</button>
+      <button class="nav-btn" id="q-check" onclick="checkAnswer()">ОТВЕТИТЬ</button>
+      <button class="nav-btn secondary" id="q-next" onclick="navQuestion(1)">СЛЕД →</button>
+    </div>
+  </div>
+
+  <div id="test-screen" class="screen">
+    <div class="test-header">
+      <button class="back-btn" onclick="showScreen('menu')">← НАЗАД</button>
+      <div class="stats">
+        <span>📄 <span id="t-counter">0/0</span></span>
+        <span>✓ <span id="t-score">0</span></span>
+      </div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="t-progress"></div></div>
+    <div class="question-box test">
+      <button class="star-btn" id="test-star-btn" onclick="toggleStar()">★</button>
+      <div id="test-q-text"></div>
+    </div>
+    <div class="options-grid" id="test-options"></div>
+    <div class="nav-buttons">
+      <button class="nav-btn" id="t-confirm" onclick="confirmTest()">ПОДТВЕРДИТЬ</button>
+      <button class="nav-btn danger" onclick="finishTest()">ЗАВЕРШИТЬ</button>
+    </div>
+  </div>
+
+  <div id="exam-screen" class="screen">
+    <div class="quiz-header">
+      <button class="back-btn" onclick="showScreen('menu')">← В МЕНЮ</button>
+      <div class="timer-container" id="timer-box" aria-live="polite" role="timer">
+        <span>⏱</span><span id="timer-display">20:00</span>
+      </div>
+      <div class="stats">
+        <span>📄 <span id="e-counter">0/20</span></span>
+        <span>✗ <span id="e-errors">0</span>/2</span>
+      </div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="e-progress"></div></div>
+    <div class="question-box exam">
+      <div id="exam-q-text"></div>
+    </div>
+    <div class="options-grid" id="exam-options"></div>
+    <button class="nav-btn" id="exam-next" onclick="nextExam()" style="display:none;">ДАЛЕЕ →</button>
+  </div>
 </div>
-`;
-document.getElementById('test-screen').innerHTML = resultHtml;
-}
-function updateTestProgress() {
-const progress = ((testCurrentIdx + 1) / testQuestions.length) * 100;
-document.getElementById('test-progress-fill').style.width = progress + '%';
-}
-// ========== ФУНКЦИИ АВТОРИЗАЦИИ ==========
-const SUPER_USER = { username: 'super', password: 'super' };
-let USERS = {};
-let PENDING_USERS = {};
-function loadUsers() {
-const saved = localStorage.getItem('users');
-USERS = saved ? JSON.parse(saved) : {};
-}
-function saveUsers() {
-localStorage.setItem('users', JSON.stringify(USERS));
-}
-function loadPendingUsers() {
-const saved = localStorage.getItem('pending_users');
-PENDING_USERS = saved ? JSON.parse(saved) : {};
-}
-function savePendingUsers() {
-localStorage.setItem('pending_users', JSON.stringify(PENDING_USERS));
-}
-loadUsers();
-loadPendingUsers();
-function showLoginTab(tab) {
-document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
-document.querySelectorAll('.login-tab-content').forEach(c => c.classList.remove('active'));
-if (tab === 'login') {
-document.querySelectorAll('.login-tab')[0].classList.add('active');
-document.getElementById('login-form').classList.add('active');
-} else {
-document.querySelectorAll('.login-tab')[1].classList.add('active');
-document.getElementById('register-form').classList.add('active');
-}
-}
-function register() {
-const username = document.getElementById('reg-username').value.trim();
-const password = document.getElementById('reg-password').value;
-const name = document.getElementById('reg-name').value.trim();
-const reason = document.getElementById('reg-reason').value.trim();
-const message = document.getElementById('register-message');
-message.textContent = '';
-message.className = 'login-message';
-if (!username || !password) {
-message.textContent = 'Логин и пароль обязательны';
-return;
-}
-if (username === SUPER_USER.username) {
-message.textContent = 'Этот логин зарезервирован';
-return;
-}
-if (USERS[username]) {
-message.textContent = 'Пользователь с таким логином уже существует';
-return;
-}
-if (PENDING_USERS[username]) {
-message.textContent = 'Заявка уже отправлена, ожидайте подтверждения';
-return;
-}
-PENDING_USERS[username] = {
-password, name: name || username, reason: reason || 'Не указана',
-registeredAt: new Date().toISOString()
+
+<script>
+// ========== CONFIG ==========
+const TESTS = {
+  b211: { name: 'Б.2.11 Ремонтные, монтажные и пусконаладочные работы', file: 'questions_b211.json', blocks: [{n:1,s:0,e:40},{n:2,s:40,e:80},{n:3,s:80,e:120},{n:4,s:120,e:160}] },
+  b26:  { name: 'Б.2.6 Морские месторождения', file: 'questions_b26.json', blocks: [{n:1,s:0,e:47},{n:2,s:47,e:94},{n:3,s:94,e:141},{n:4,s:141,e:187}] }
 };
-savePendingUsers();
-message.textContent = '✅ Заявка отправлена! Ожидайте подтверждения.';
-message.classList.add('login-success');
-document.getElementById('reg-username').value = '';
-document.getElementById('reg-password').value = '';
-document.getElementById('reg-name').value = '';
-document.getElementById('reg-reason').value = '';
+const USERS = { 'kostyuchenko': { p: '84242558911', name: 'Сергей', admin: true }, 'Dimon': { p: '12345678Qwerty', name: 'Дмитрий' }, 'Sergey': { p: '84242558911', name: 'Костюченко' } };
+
+// ========== STATE ==========
+let state = {
+  user: null, test: 'b211', questions: [], answers: new Map(), idx: 0, score: 0,
+  hard: [], wrong: [], exam: { q: [], idx: 0, errors: 0, time: 1200, timer: null, answers: [], results: [] },
+  mode: null, modeQ: [], modeIdx: 0, modeScore: 0
+};
+
+// ========== AUTH ==========
+async function handleLogin(e) {
+  e.preventDefault();
+  const u = document.getElementById('username').value.trim();
+  const p = document.getElementById('password').value;
+  const err = document.getElementById('login-error');
+  
+  if (!u || !p) { err.textContent = 'Заполните все поля'; return; }
+  
+  // Session check
+  const saved = localStorage.getItem('session');
+  if (saved) {
+    const data = JSON.parse(saved);
+    if (data.u === u && Date.now() - data.t < 86400000) {
+      enterApp(data.role);
+      return;
+    }
+  }
+
+  const user = USERS[u];
+  if (user && user.p === p) {
+    localStorage.setItem('session', JSON.stringify({ u, t: Date.now(), role: user.admin ? 'admin' : 'user' }));
+    enterApp(user.admin ? 'admin' : 'user');
+  } else {
+    err.textContent = 'Неверный логин или пароль';
+  }
 }
-function login() {
-const username = document.getElementById('username').value.trim();
-const password = document.getElementById('password').value;
-const errorElement = document.getElementById('login-error');
-errorElement.textContent = '';
-document.getElementById('username').classList.remove('error');
-document.getElementById('password').classList.remove('error');
-if (!username) {
-errorElement.textContent = 'Введите логин';
-document.getElementById('username').classList.add('error');
-return;
+
+function enterApp(role) {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('main-app').classList.add('authenticated');
+  if (role === 'admin') document.getElementById('admin-btn').style.display = 'block';
+  loadTest(state.test);
+  notify('✅ Вход выполнен');
 }
-if (!password) {
-errorElement.textContent = 'Введите пароль';
-document.getElementById('password').classList.add('error');
-return;
-}
-if (username === SUPER_USER.username && password === SUPER_USER.password) {
-localStorage.setItem('authenticated', 'true');
-localStorage.setItem('username', 'super');
-localStorage.setItem('userType', 'super');
-localStorage.setItem('loginTime', new Date().toISOString());
-const loginScreen = document.getElementById('login-screen');
-loginScreen.style.animation = 'fadeOut 0.3s ease forwards';
-setTimeout(() => {
-loginScreen.style.display = 'none';
-document.querySelector('.container').classList.add('authenticated');
-document.getElementById('admin-icon').style.display = 'flex';
-loadQuestions(currentTest);
-showNotification('Добро пожаловать, супер-пользователь!');
-}, 300);
-return;
-}
-const user = USERS[username];
-if (user && user.password === password) {
-localStorage.setItem('authenticated', 'true');
-localStorage.setItem('username', username);
-localStorage.setItem('userType', 'regular');
-localStorage.setItem('userName', user.name || username);
-localStorage.setItem('loginTime', new Date().toISOString());
-const loginScreen = document.getElementById('login-screen');
-loginScreen.style.animation = 'fadeOut 0.3s ease forwards';
-setTimeout(() => {
-loginScreen.style.display = 'none';
-document.querySelector('.container').classList.add('authenticated');
-loadQuestions(currentTest);
-showNotification(`Добро пожаловать, ${user.name || username}!`);
-}, 300);
-} else {
-errorElement.textContent = 'Неверный логин или пароль';
-document.getElementById('username').classList.add('error');
-document.getElementById('password').classList.add('error');
-document.getElementById('password').value = '';
-document.querySelector('.login-box').style.animation = 'shake 0.5s ease';
-setTimeout(() => {
-document.querySelector('.login-box').style.animation = '';
-}, 500);
-}
-}
-// 🔥 ИСПРАВЛЕННЫЙ LOGOUT
+
 function logout() {
-if (confirm('Вы действительно хотите выйти?')) {
-// Безопасная остановка таймера
-if (examTimer) {
-clearInterval(examTimer);
-examTimer = null;
+  localStorage.removeItem('session');
+  location.reload();
 }
-// Очистка сессии текущего пользователя
-const username = localStorage.getItem('username') || 'guest';
-const clearPrefix = (prefix) => {
-Object.keys(localStorage).forEach(key => {
-if (key.startsWith(prefix) && key.includes(username)) {
-localStorage.removeItem(key);
-}
-});
-};
-clearPrefix('hardQuestions_');
-clearPrefix('wrongQuestions_');
-clearPrefix('trainingState_');
-hardQuestions = [];
-wrongQuestions = [];
-updateHardCount();
-updateWrongCount();
-localStorage.removeItem('authenticated');
-localStorage.removeItem('username');
-localStorage.removeItem('userType');
-localStorage.removeItem('userName');
-localStorage.removeItem('loginTime');
-document.getElementById('login-screen').style.display = 'flex';
-document.getElementById('login-screen').style.animation = '';
-document.querySelector('.container').classList.remove('authenticated');
-document.getElementById('admin-icon').style.display = 'none';
-document.getElementById('username').value = '';
-document.getElementById('password').value = '';
-showNotification('Вы вышли из системы');
-}
-}
+
 function checkAuth() {
-const isAuthenticated = localStorage.getItem('authenticated') === 'true';
-const username = localStorage.getItem('username');
-const userType = localStorage.getItem('userType');
-if (isAuthenticated && username) {
-document.getElementById('login-screen').style.display = 'none';
-document.querySelector('.container').classList.add('authenticated');
-if (userType === 'super') {
-document.getElementById('admin-icon').style.display = 'flex';
+  const s = localStorage.getItem('session');
+  if (s) {
+    const data = JSON.parse(s);
+    if (Date.now() - data.t < 86400000) enterApp(data.role);
+    else localStorage.removeItem('session');
+  }
 }
-} else {
-document.getElementById('login-screen').style.display = 'flex';
-document.querySelector('.container').classList.remove('authenticated');
+
+// ========== UI HELPERS ==========
+function notify(msg) {
+  const c = document.getElementById('notification-container');
+  const n = document.createElement('div'); n.className = 'notification'; n.textContent = msg;
+  c.appendChild(n); setTimeout(() => n.remove(), 3000);
 }
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id === 'menu' ? 'menu-screen' : `${id}-screen`).classList.add('active');
+  if (state.exam.timer) clearInterval(state.exam.timer);
+  document.getElementById('timer-box').classList.remove('warning');
+  document.getElementById('timer-display').textContent = '20:00';
+  if (id === 'menu') updateCounts();
 }
-// ========== ФУНКЦИИ ДЛЯ УПРАВЛЕНИЯ ТЕСТАМИ ПОЛЬЗОВАТЕЛЕЙ ==========
-function toggleUserTest(username, testId, checked) {
-if (!USERS[username]) return;
-if (!USERS[username].availableTests) {
-USERS[username].availableTests = ['b211'];
+
+// ========== DATA & TESTS ==========
+async function loadTest(id) {
+  const cfg = TESTS[id];
+  if (!cfg) return notify('Тест не найден');
+  try {
+    const res = await fetch(`${cfg.file}?t=${Date.now()}`);
+    if (!res.ok) throw new Error('Network');
+    const data = await res.json();
+    state.questions = Array.isArray(data) ? data : (data[id] || []);
+    renderMenu(cfg);
+    notify(`✅ Загружено ${state.questions.length} вопросов`);
+  } catch { notify('❌ Ошибка загрузки'); state.questions = []; }
 }
-if (checked) {
-if (!USERS[username].availableTests.includes(testId)) {
-USERS[username].availableTests.push(testId);
+
+function renderMenu(cfg) {
+  state.test = cfg.name;
+  document.getElementById('test-title').textContent = cfg.name;
+  document.getElementById('selected-test-name').textContent = cfg.name;
+  const grid = document.getElementById('blocks-container');
+  grid.innerHTML = '';
+  cfg.blocks.forEach(b => {
+    grid.innerHTML += `
+      <div class="block-card">
+        <h3>БЛОК ${b.n}</h3>
+        <p>Вопросы ${b.s+1} - ${b.e}</p>
+        <div style="display:flex; gap:10px; justify-content:center; margin-top:10px;">
+          <button class="nav-btn secondary" style="padding:8px;" onclick="startBlock(${b.s}, ${b.e})">ТРЕНИРОВКА</button>
+          <button class="nav-btn" style="padding:8px;" onclick="startTestMode(${b.s}, ${b.e})">ТЕСТ</button>
+        </div>
+      </div>`;
+  });
 }
-} else {
-USERS[username].availableTests = USERS[username].availableTests.filter(t => t !== testId);
+
+function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+function shuffleQ(q) {
+  if (q._shuffled) return q;
+  const o = [...q.o], c = [...q.c];
+  const map = o.map((t, i) => ({ t, i }));
+  shuffle(map);
+  q.o = map.map(m => m.t);
+  q.c = c.map(ci => map.findIndex(m => m.i === ci));
+  q._shuffled = true;
+  return q;
 }
-saveUsers();
-showNotification(`✅ Тест ${checked ? 'активирован' : 'деактивирован'} для пользователя ${username}`);
+
+// ========== BLOCK / TRAINING ==========
+function startBlock(s, e) {
+  if (!state.questions.length) return notify('Загрузите тест');
+  state.idx = 0; state.score = 0; state.answers.clear();
+  state.activeQ = shuffle(state.questions.slice(s, e)).map(shuffleQ);
+  showScreen('quiz'); renderQuiz();
 }
-// ========== ОСНОВНЫЕ ФУНКЦИИ ==========
-function formatExplanation(text) {
-if (!text) return text;
-return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+function renderQuiz() {
+  const q = state.activeQ[state.idx];
+  document.getElementById('q-text').textContent = q.q;
+  document.getElementById('q-counter').textContent = `${state.idx+1}/${state.activeQ.length}`;
+  document.getElementById('q-score').textContent = state.score;
+  document.getElementById('q-progress').style.width = `${((state.idx+1)/state.activeQ.length)*100}%`;
+  document.getElementById('star-btn').classList.toggle('active', state.hard.includes(q.id));
+  
+  const box = document.getElementById('q-options'); box.innerHTML = '';
+  const saved = state.answers.get(q.id);
+  q.o.forEach((opt, i) => {
+    const btn = document.createElement('button'); btn.className = 'option-btn'; btn.textContent = opt;
+    if (saved?.checked) {
+      btn.disabled = true;
+      if (q.c.includes(i)) btn.classList.add('correct');
+      else if (saved.sel.includes(i)) btn.classList.add('wrong');
+    } else {
+      if (saved?.sel.includes(i)) btn.classList.add('selected');
+      btn.onclick = () => selectOpt(i, btn, 'quiz');
+    }
+    box.appendChild(btn);
+  });
+  
+  document.getElementById('q-check').style.display = saved?.checked ? 'none' : 'block';
+  document.getElementById('q-check').disabled = !saved || saved.sel.length !== q.c.length;
+  document.getElementById('q-prev').disabled = state.idx === 0;
+  document.getElementById('q-next').disabled = state.idx === state.activeQ.length - 1;
 }
-if ('serviceWorker' in navigator) {
-window.addEventListener('load', function() {
-navigator.serviceWorker.register('sw.js').then(function(registration) {
-console.log('ServiceWorker успешно зарегистрирован');
-}).catch(function(err) {
-console.log('Ошибка регистрации ServiceWorker: ', err);
-});
-});
+
+function selectOpt(i, btn, ctx) {
+  const q = ctx === 'quiz' ? state.activeQ[state.idx] : (state.mode === 'hard' ? state.modeQ[state.modeIdx] : state.modeQ[state.modeIdx]);
+  const isMulti = q.c.length > 1;
+  let sel = state.answers.get(q.id)?.sel || [];
+  
+  if (isMulti) {
+    sel = sel.includes(i) ? sel.filter(x => x !== i) : (sel.length < q.c.length ? [...sel, i] : sel);
+  } else {
+    sel = [i];
+    document.querySelectorAll(`#${ctx === 'quiz' ? 'q' : 'test'}-options .option-btn`).forEach(b => b.classList.remove('selected'));
+  }
+  
+  state.answers.set(q.id, { sel, checked: false });
+  btn.classList.add('selected');
+  document.getElementById(`${ctx === 'quiz' ? 'q' : 't'}-check`).disabled = sel.length !== q.c.length;
 }
-function showNotification(message) {
-const container = document.getElementById('notificationContainer');
-const notification = document.createElement('div');
-notification.className = 'notification';
-notification.innerHTML = `
-<div class="notification-content">
-<div class="notification-title">⚡ Информация</div>
-<div class="notification-message">${message}</div>
-</div>
-<button class="notification-close" onclick="this.parentElement.remove()">×</button>
-`;
-container.appendChild(notification);
-setTimeout(() => notification.remove(), 3000);
-}
-function toggleTestDropdown() {
-document.getElementById('testDropdown').classList.toggle('show');
-document.getElementById('testSelectorBtn').classList.toggle('active');
-}
-document.addEventListener('click', function(event) {
-const selector = document.querySelector('.test-selector');
-if (selector && !selector.contains(event.target)) {
-document.getElementById('testDropdown').classList.remove('show');
-document.getElementById('testSelectorBtn').classList.remove('active');
-}
-});
-function resetAllScreens() {
-document.getElementById('menu-screen').style.display = 'block';
-document.getElementById('quiz-screen').style.display = 'none';
-document.getElementById('test-screen').style.display = 'none';
-document.getElementById('exam-screen').style.display = 'none';
-document.getElementById('exam-review-screen').style.display = 'none';
-document.getElementById('hard-mode-screen').style.display = 'none';
-document.getElementById('wrong-mode-screen').style.display = 'none';
-const examQuestionContainer = document.getElementById('exam-question-container');
-const examOptionsBox = document.getElementById('exam-options-box');
-const examNextBtn = document.getElementById('exam-next-btn');
-const examResult = document.getElementById('exam-result');
-if (examQuestionContainer) examQuestionContainer.style.display = 'block';
-if (examOptionsBox) examOptionsBox.style.display = 'flex';
-if (examNextBtn) examNextBtn.style.display = 'none';
-if (examResult) examResult.style.display = 'none';
-const timerDisplay = document.getElementById('timer-display');
-if (timerDisplay) timerDisplay.innerText = '20:00';
-const timerContainer = document.querySelector('.timer-container');
-if (timerContainer) timerContainer.classList.remove('timer-warning');
-}
-// 🔥 ДОБАВЛЕНА ЗАЩИТА ОТ UNDEFINED TEST_CONFIGS
-function selectTest(testId) {
-if (typeof TEST_CONFIGS === 'undefined') {
-showNotification('⚠️ Конфигурация тестов не загружена. Проверьте подключение tests-config.js');
-return;
-}
-const username = localStorage.getItem('username');
-const userType = localStorage.getItem('userType');
-if (userType !== 'super') {
-const user = USERS[username];
-const availableTests = user?.availableTests || ['b211'];
-if (!availableTests.includes(testId)) {
-showNotification('❌ У вас нет доступа к этому тесту');
-return;
-}
-}
-if (!TEST_CONFIGS[testId]) {
-showNotification('Тест появится в скором времени');
-return;
-}
-if (!AVAILABLE_TESTS.includes(testId)) {
-showNotification(`Тест "${TEST_CONFIGS[testId].name}" появится в ближайшее время`);
-return;
-}
-console.log('Переключение на тест:', testId);
-resetAllScreens();
-fullBase = [];
-activeQuestions = [];
-hardQuestions = [];
-wrongQuestions = [];
-examQuestions = [];
-examAnswers = [];
-examResults = [];
-currentIdx = 0;
-score = 0;
-examCurrentIdx = 0;
-examErrors = 0;
-examTimeLeft = 1200;
-answeredQuestionsCount = 0;
-reviewCurrentIdx = 0;
-answerStates.clear();
-selectedOptions = [];
-if (examTimer) {
-clearInterval(examTimer);
-examTimer = null;
-}
-clearTrainingState();
-currentTest = testId;
-const config = TEST_CONFIGS[testId];
-let displayName = `${config.code} ${config.name}`;
-if (window.innerWidth <= 480) {
-const shortNames = {
-'b211': 'Б.2.11 Ремонтные работы',
-'b26-marine': 'Б.2.6 Морские'
-};
-displayName = shortNames[testId] || `${config.code} ${config.name}`;
-}
-document.getElementById('selectedTestDisplay').innerText = displayName;
-document.getElementById('testTitle').innerHTML = config.fullName;
-const menuGrid = document.querySelector('.menu-grid');
-if (menuGrid) {
-menuGrid.innerHTML = '';
-if (config && config.blocks) {
-config.blocks.forEach(block => {
-const blockCard = document.createElement('div');
-blockCard.className = 'block-card';
-blockCard.innerHTML = `
-<h3>БЛОК ${block.num}</h3>
-<p>${block.desc}</p>
-<div style="margin-top: 10px; display: flex; gap: 10px; justify-content: center;">
-<button class="train-btn" style="padding: 8px 15px; font-size: 0.9em; background: #4caf50; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;"
-onclick="event.stopPropagation(); startBlock('${testId}', ${block.num}, ${block.start}, ${block.end})">
-ТРЕНИРОВКА
-</button>
-<button class="test-btn" style="padding: 8px 15px; font-size: 0.9em; background: #2196f3; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;"
-onclick="event.stopPropagation(); startTestMode('${testId}', ${block.num}, ${block.start}, ${block.end})">
-ТЕСТ
-</button>
-</div>
-`;
-menuGrid.appendChild(blockCard);
-});
-}
-}
-document.querySelectorAll('.test-item').forEach(item => {
-item.classList.remove('selected');
-});
-const selectedItem = document.querySelector(`.test-item[data-test="${testId}"]`);
-if (selectedItem) selectedItem.classList.add('selected');
-document.getElementById('testDropdown').classList.remove('show');
-document.getElementById('testSelectorBtn').classList.remove('active');
-loadQuestions(testId);
-}
-async function loadQuestions(testId) {
-const config = TEST_CONFIGS[testId];
-if (!config) return;
-try {
-console.log(`Загрузка вопросов для ${testId} из файла ${config.jsonFile}`);
-const response = await fetch(`${config.jsonFile}?t=${Date.now()}`, { cache: 'no-store' });
-if (!response.ok) {
-throw new Error(`HTTP error! status: ${response.status}`);
-}
-const data = await response.json();
-if (testId === 'b26-marine') {
-fullBase = data.b26 || [];
-} else {
-fullBase = data[testId] || [];
-}
-if (fullBase.length === 0) {
-throw new Error('Вопросы не найдены');
-}
-loadHardQuestions();
-loadWrongQuestions();
-updateHardCount();
-updateWrongCount();
-showNotification(`Загружено ${fullBase.length} вопросов`);
-} catch (error) {
-console.error('Ошибка загрузки:', error);
-showNotification(`❌ Не удалось загрузить тест "${config.name}". Проверьте файл.`);
-fullBase = [];
-}
-}
-function shuffleArray(array) {
-for (let i = array.length - 1; i > 0; i--) {
-const j = Math.floor(Math.random() * (i + 1));
-[array[i], array[j]] = [array[j], array[i]];
-}
-return array;
-}
-function shuffleQuestionOptions(question) {
-if (question.originalOptions) return question;
-const options = [...question.o];
-const correctIndices = [...question.c];
-const optionsWithIndex = options.map((text, index) => ({ text, originalIndex: index }));
-const shuffled = shuffleArray([...optionsWithIndex]);
-const newCorrectIndices = [];
-shuffled.forEach((item, newIndex) => {
-if (correctIndices.includes(item.originalIndex)) newCorrectIndices.push(newIndex);
-});
-return {
-...question,
-originalOptions: options,
-originalCorrect: correctIndices,
-o: shuffled.map(item => item.text),
-c: newCorrectIndices.sort((a, b) => a - b)
-};
-}
-function loadTrainingState() {
-const username = localStorage.getItem('username') || 'guest';
-const saved = localStorage.getItem(`trainingState_${currentTest}_${username}`);
-if (saved) {
-try {
-trainingState = JSON.parse(saved);
-if (trainingState.activeQuestions && trainingState.activeQuestions.length > 0) {
-return trainingState;
-}
-} catch (e) {}
-}
-return null;
-}
-function saveTrainingState() {
-if (activeQuestions.length > 0 && document.getElementById('quiz-screen').style.display === 'block') {
-const questionStates = activeQuestions.map(q => ({
-id: q.id,
-isHard: hardQuestions.includes(q.id),
-answerState: answerStates.get(q.id) || null
-}));
-trainingState = {
-activeQuestions: activeQuestions.map(q => ({...q})),
-currentIdx, score,
-blockNum: trainingState.blockNum,
-questionStates
-};
-const username = localStorage.getItem('username') || 'guest';
-localStorage.setItem(`trainingState_${currentTest}_${username}`, JSON.stringify(trainingState));
-}
-}
-function clearTrainingState() {
-const username = localStorage.getItem('username') || 'guest';
-localStorage.removeItem(`trainingState_${currentTest}_${username}`);
-trainingState = { activeQuestions: [], currentIdx: 0, score: 0, blockNum: null, questionStates: [] };
-}
-function startBlock(testId, num, start, end) {
-currentTest = testId;
-if (fullBase.length === 0) {
-alert('База вопросов обновляется. Пожалуйста, подождите.');
-return;
-}
-const savedState = loadTrainingState();
-if (savedState && savedState.blockNum === num && savedState.activeQuestions.length > 0) {
-if (confirm('Обнаружено сохраненное состояние блока. Продолжить с того же места?')) {
-activeQuestions = savedState.activeQuestions.map(q => shuffleQuestionOptions(q));
-currentIdx = savedState.currentIdx;
-score = savedState.score;
-answerStates.clear();
-savedState.questionStates.forEach(state => {
-if (state.answerState) answerStates.set(state.id, state.answerState);
-if (state.isHard && !hardQuestions.includes(state.id)) {
-hardQuestions.push(state.id);
-}
-});
-saveHardQuestions();
-initQuiz();
-return;
-} else {
-clearTrainingState();
-}
-}
-activeQuestions = fullBase.slice(start, end)
-.map(q => shuffleQuestionOptions({...q, c: [...q.c]}))
-.sort(() => Math.random() - 0.5);
-answerStates.clear();
-trainingState.blockNum = num;
-clearTrainingState();
-initQuiz();
-}
-function initQuiz() {
-if (!activeQuestions.length) return;
-document.getElementById('menu-screen').style.display = 'none';
-document.getElementById('quiz-screen').style.display = 'block';
-document.getElementById('test-screen').style.display = 'none';
-document.getElementById('hard-mode-screen').style.display = 'none';
-document.getElementById('wrong-mode-screen').style.display = 'none';
-currentMode = '';
-renderPagination();
-loadQuestion();
-updateNavigationButtons();
-}
-function renderPagination() {
-const pagination = document.getElementById('pagination');
-if (!pagination) return;
-pagination.innerHTML = '';
-activeQuestions.forEach((q, index) => {
-const btn = document.createElement('button');
-btn.className = 'page-btn';
-btn.innerText = index + 1;
-const state = answerStates.get(q.id);
-if (state?.isChecked) {
-btn.classList.add(state.isCorrect ? 'correct' : 'wrong');
-} else if (state?.selected?.length) {
-btn.classList.add('answered');
-}
-if (index === currentIdx) btn.classList.add('active');
-btn.onclick = () => jumpToQuestion(index);
-pagination.appendChild(btn);
-});
-}
-function updatePaginationActive() {
-document.querySelectorAll('#pagination .page-btn').forEach((btn, i) => {
-btn.classList.toggle('active', i === currentIdx);
-});
-}
-function jumpToQuestion(index) {
-if (index < 0 || index >= activeQuestions.length) return;
-currentIdx = index;
-loadQuestion();
-updatePaginationActive();
-updateNavigationButtons();
-saveTrainingState();
-}
-function updateNavigationButtons() {
-const prevBtn = document.getElementById('prev-btn');
-const nextBtn = document.getElementById('next-btn');
-const checkBtn = document.getElementById('check-btn');
-const q = activeQuestions[currentIdx];
-const savedState = answerStates.get(q?.id);
-prevBtn.disabled = currentIdx <= 0;
-nextBtn.disabled = currentIdx >= activeQuestions.length - 1;
-if (savedState?.isChecked) {
-checkBtn.style.display = 'none';
-} else {
-checkBtn.style.display = 'block';
-checkBtn.disabled = selectedOptions.length !== q.c.length;
-}
-}
-function prevQuestion() {
-if (currentIdx > 0) jumpToQuestion(currentIdx - 1);
-}
-function loadQuestion() {
-const q = activeQuestions[currentIdx];
-const savedState = answerStates.get(q.id);
-selectedOptions = savedState?.selected ? [...savedState.selected] : [];
-document.getElementById('q-text').innerText = q.q;
-document.getElementById('q-counter').innerText = `${currentIdx + 1}/${activeQuestions.length}`;
-document.getElementById('score-display').innerText = score;
-document.getElementById('star-btn').classList.toggle('active', hardQuestions.includes(q.id));
-const box = document.getElementById('options-box');
-box.innerHTML = '';
-q.o.forEach((opt, i) => {
-const btn = document.createElement('button');
-btn.className = 'option-btn';
-btn.innerText = opt;
-if (savedState?.isChecked) {
-btn.disabled = true;
-if (q.c.includes(i)) btn.classList.add('correct');
-else if (savedState.selected.includes(i)) btn.classList.add('wrong');
-} else {
-if (selectedOptions.includes(i)) btn.classList.add('selected');
-btn.onclick = () => selectOption(i, btn);
-}
-box.appendChild(btn);
-});
-const expBox = document.getElementById('exp-box');
-if (savedState?.isChecked) {
-expBox.innerHTML = formatExplanation(q.e);
-expBox.style.display = 'block';
-} else {
-expBox.style.display = 'none';
-}
-updateProgress();
-}
-function selectOption(idx, btn) {
-const q = activeQuestions[currentIdx];
-const isMultiple = q.c.length > 1;
-if (isMultiple) {
-if (selectedOptions.includes(idx)) {
-selectedOptions = selectedOptions.filter(i => i !== idx);
-btn.classList.remove('selected');
-} else if (selectedOptions.length < q.c.length) {
-selectedOptions.push(idx);
-btn.classList.add('selected');
-}
-} else {
-document.querySelectorAll('#options-box .option-btn').forEach(b => b.classList.remove('selected'));
-selectedOptions = [idx];
-btn.classList.add('selected');
-}
-answerStates.set(q.id, { selected: [...selectedOptions], isChecked: false });
-document.getElementById('check-btn').disabled = selectedOptions.length !== q.c.length;
-renderPagination();
-}
+
 function checkAnswer() {
-const q = activeQuestions[currentIdx];
-const isCorrect = q.c.length === selectedOptions.length && q.c.every(v => selectedOptions.includes(v));
-document.querySelectorAll('#options-box .option-btn').forEach((btn, i) => {
-btn.disabled = true;
-if (q.c.includes(i)) btn.classList.add('correct');
-else if (selectedOptions.includes(i)) btn.classList.add('wrong');
-});
-answerStates.set(q.id, { selected: [...selectedOptions], isChecked: true, isCorrect });
-if (isCorrect) {
-score++;
-document.getElementById('score-display').innerText = score;
+  const q = state.activeQ[state.idx];
+  const saved = state.answers.get(q.id);
+  if (!saved || saved.checked) return;
+  
+  const isCorrect = q.c.length === saved.sel.length && q.c.every(c => saved.sel.includes(c));
+  saved.checked = true; saved.correct = isCorrect;
+  
+  document.querySelectorAll('#q-options .option-btn').forEach((b, i) => {
+    b.disabled = true;
+    if (q.c.includes(i)) b.classList.add('correct');
+    else if (saved.sel.includes(i)) b.classList.add('wrong');
+  });
+  
+  if (isCorrect) state.score++;
+  else addToWrong(q.id);
+  
+  document.getElementById('q-score').textContent = state.score;
+  document.getElementById('q-check').style.display = 'none';
+  notify(isCorrect ? '✅ Верно' : '❌ Ошибка');
 }
-document.getElementById('exp-box').innerHTML = formatExplanation(q.e);
-document.getElementById('exp-box').style.display = 'block';
-updateNavigationButtons();
-renderPagination();
-saveTrainingState();
+
+function navQuestion(dir) {
+  state.idx += dir;
+  renderQuiz();
 }
-function toggleHard() {
-const id = activeQuestions[currentIdx].id;
-if (hardQuestions.includes(id)) {
-hardQuestions = hardQuestions.filter(h => h !== id);
-} else {
-hardQuestions.push(id);
+
+// ========== TEST MODE ==========
+function startTestMode(s, e) {
+  if (!state.questions.length) return notify('Загрузите тест');
+  state.idx = 0; state.score = 0;
+  state.testQ = shuffle(state.questions.slice(s, e)).map(shuffleQ);
+  state.testAnswers = new Array(state.testQ.length).fill(null);
+  showScreen('test'); renderTest();
 }
-saveHardQuestions();
-document.getElementById('star-btn').classList.toggle('active');
-updateHardCount();
-saveTrainingState();
+
+function renderTest() {
+  const q = state.testQ[state.idx];
+  document.getElementById('test-q-text').textContent = q.q;
+  document.getElementById('t-counter').textContent = `${state.idx+1}/${state.testQ.length}`;
+  document.getElementById('t-score').textContent = state.score;
+  document.getElementById('t-progress').style.width = `${((state.idx+1)/state.testQ.length)*100}%`;
+  document.getElementById('test-star-btn').classList.toggle('active', state.hard.includes(q.id));
+  
+  const box = document.getElementById('test-options'); box.innerHTML = '';
+  const saved = state.testAnswers[state.idx];
+  q.o.forEach((opt, i) => {
+    const btn = document.createElement('button'); btn.className = 'option-btn'; btn.textContent = opt;
+    if (saved?.confirmed) {
+      btn.disabled = true;
+      if (q.c.includes(i)) btn.classList.add('correct');
+      else if (Array.isArray(saved.sel) ? saved.sel.includes(i) : saved.sel === i) btn.classList.add('wrong');
+    } else {
+      if (saved) {
+        if (Array.isArray(saved.sel) ? saved.sel.includes(i) : saved.sel === i) btn.classList.add('selected');
+      }
+      btn.onclick = () => selectTestOpt(i, btn);
+    }
+    box.appendChild(btn);
+  });
+  document.getElementById('t-confirm').disabled = !saved || saved.confirmed;
 }
-function nextQuestion() {
-if (currentIdx < activeQuestions.length - 1) jumpToQuestion(currentIdx + 1);
+
+function selectTestOpt(i, btn) {
+  const q = state.testQ[state.idx];
+  const isMulti = q.c.length > 1;
+  let ans = state.testAnswers[state.idx] || {};
+  
+  if (isMulti) {
+    ans.sel = ans.sel || [];
+    ans.sel = ans.sel.includes(i) ? ans.sel.filter(x => x !== i) : [...ans.sel, i];
+  } else {
+    document.querySelectorAll('#test-options .option-btn').forEach(b => b.classList.remove('selected'));
+    ans.sel = i;
+  }
+  state.testAnswers[state.idx] = ans;
+  btn.classList.add('selected');
+  document.getElementById('t-confirm').disabled = false;
 }
-function updateProgress() {
-const progress = ((currentIdx + 1) / activeQuestions.length) * 100;
-document.getElementById('progress-fill').style.width = progress + '%';
+
+function confirmTest() {
+  const q = state.testQ[state.idx];
+  const ans = state.testAnswers[state.idx];
+  if (!ans || ans.confirmed) return;
+  
+  const isCorrect = q.c.length === (Array.isArray(ans.sel) ? ans.sel.length : 1) && 
+                    q.c.every(c => Array.isArray(ans.sel) ? ans.sel.includes(c) : ans.sel === c);
+  ans.confirmed = true; ans.isCorrect = isCorrect;
+  
+  if (isCorrect) state.score++;
+  else addToWrong(q.id);
+  document.getElementById('t-score').textContent = state.score;
+  
+  document.querySelectorAll('#test-options .option-btn').forEach((b, i) => {
+    b.disabled = true;
+    if (q.c.includes(i)) b.classList.add('correct');
+    else if (Array.isArray(ans.sel) ? ans.sel.includes(i) : ans.sel === i) b.classList.add('wrong');
+  });
+  
+  if (state.idx < state.testQ.length - 1) { state.idx++; renderTest(); }
+  else finishTest();
 }
-// 🔥 ИСПРАВЛЕННЫЙ SHOWMENU (безопасная очистка таймера)
-function showMenu() {
-if (examTimer) {
-clearInterval(examTimer);
-examTimer = null;
+
+function finishTest() {
+  let correct = 0, total = 0;
+  state.testAnswers.forEach(a => {
+    if (a?.confirmed) { total++; if (a.isCorrect) correct++; }
+  });
+  const pct = total > 0 ? (correct / state.testQ.length) * 100 : 0;
+  showResult(pct >= 70, `${correct}/${state.testQ.length}`, `Процент: ${pct.toFixed(1)}%`, 'test');
 }
-if (activeQuestions.length > 0 && currentIdx < activeQuestions.length) {
-if (!confirm('Прогресс текущего блока будет сохранен. Вернуться в меню?')) return;
-saveTrainingState();
-}
-document.getElementById('menu-screen').style.display = 'block';
-document.getElementById('quiz-screen').style.display = 'none';
-document.getElementById('test-screen').style.display = 'none';
-document.getElementById('exam-screen').style.display = 'none';
-document.getElementById('exam-review-screen').style.display = 'none';
-document.getElementById('hard-mode-screen').style.display = 'none';
-document.getElementById('wrong-mode-screen').style.display = 'none';
-updateHardCount();
-updateWrongCount();
-}
-// ========== ФУНКЦИИ АДМИНКИ ==========
-function openAdminPanel() {
-document.querySelector('.container').style.display = 'none';
-document.getElementById('login-screen').style.display = 'flex';
-document.querySelector('.login-box').style.display = 'none';
-const adminPanel = document.getElementById('admin-panel');
-adminPanel.style.display = 'block';
-adminPanel.classList.add('show');
-loadAdminPanel();
-}
-function adminBack() {
-document.getElementById('admin-panel').style.display = 'none';
-document.getElementById('admin-panel').classList.remove('show');
-document.querySelector('.login-box').style.display = 'block';
-document.querySelector('.container').style.display = 'block';
-document.getElementById('login-screen').style.display = 'none';
-}
-function loadAdminPanel() {
-document.getElementById('stat-users').textContent = Object.keys(USERS).length;
-document.getElementById('stat-pending').textContent = Object.keys(PENDING_USERS).length;
-document.getElementById('pending-badge').textContent = Object.keys(PENDING_USERS).length;
-document.getElementById('users-badge').textContent = Object.keys(USERS).length;
-const pendingList = document.getElementById('pending-list');
-const usersList = document.getElementById('users-list');
-pendingList.innerHTML = '';
-if (Object.keys(PENDING_USERS).length === 0) {
-pendingList.innerHTML = '<div class="admin-empty-message">Нет новых заявок</div>';
-} else {
-Object.entries(PENDING_USERS).forEach(([username, data]) => {
-const date = new Date(data.registeredAt).toLocaleString('ru');
-pendingList.innerHTML += `
-<div class="admin-item">
-<div class="admin-item-info">
-<div class="admin-item-title">${username}</div>
-<div class="admin-item-subtitle">👤 ${data.name}</div>
-<div class="admin-item-detail">📝 ${data.reason}</div>
-<div class="admin-item-detail">📅 ${date}</div>
-</div>
-<div class="admin-item-actions">
-<button class="admin-btn-approve" onclick="approveUser('${username}')">✓</button>
-<button class="admin-btn-reject" onclick="rejectUser('${username}')">✗</button>
-</div>
-</div>
-`;
-});
-}
-usersList.innerHTML = '';
-if (Object.keys(USERS).length === 0) {
-usersList.innerHTML = '<div class="admin-empty-message">Нет пользователей</div>';
-} else {
-Object.entries(USERS).forEach(([username, data]) => {
-const date = new Date(data.registeredAt).toLocaleString('ru');
-const tests = data.availableTests || ['b211'];
-usersList.innerHTML += `
-<div class="admin-item" style="flex-direction: column; align-items: flex-start;">
-<div style="display: flex; justify-content: space-between; width: 100%; margin-bottom: 10px;">
-<div>
-<div class="admin-item-title">${username}</div>
-${data.name ? `<div class="admin-item-subtitle">👤 ${data.name}</div>` : ''}
-<div class="admin-item-detail">📅 ${date}</div>
-</div>
-<div class="admin-item-actions">
-<button class="admin-btn-delete" onclick="deleteUser('${username}')">🗑️</button>
-</div>
-</div>
-<div style="width: 100%; margin-top: 10px;">
-<div style="color: #ffd700; margin-bottom: 10px; font-size: 0.9em;">📚 ДОСТУПНЫЕ ТЕСТЫ:</div>
-<div class="test-row">
-<div class="test-info">
-<span class="test-code">Б.2.11</span>
-<span class="test-name">Ремонтные работы</span>
-</div>
-<label class="switch">
-<input type="checkbox" ${tests.includes('b211') ? 'checked' : ''}
-onchange="toggleUserTest('${username}', 'b211', this.checked)">
-<span class="slider"></span>
-</label>
-</div>
-<div class="test-row">
-<div class="test-info">
-<span class="test-code">Б.2.6</span>
-<span class="test-name">Морские месторождения</span>
-</div>
-<label class="switch">
-<input type="checkbox" ${tests.includes('b26-marine') ? 'checked' : ''}
-onchange="toggleUserTest('${username}', 'b26-marine', this.checked)">
-<span class="slider"></span>
-</label>
-</div>
-</div>
-</div>
-`;
-});
-}
-}
-function approveUser(username) {
-const userData = PENDING_USERS[username];
-USERS[username] = {
-password: userData.password,
-name: userData.name || username,
-registeredAt: userData.registeredAt,
-availableTests: ['b211']
-};
-delete PENDING_USERS[username];
-saveUsers();
-savePendingUsers();
-loadAdminPanel();
-}
-function rejectUser(username) {
-delete PENDING_USERS[username];
-savePendingUsers();
-loadAdminPanel();
-}
-function deleteUser(username) {
-delete USERS[username];
-saveUsers();
-loadAdminPanel();
-}
-// ========== ФУНКЦИИ ЭКЗАМЕНА ==========
+
+// ========== EXAM ==========
 function startExam() {
-if (fullBase.length === 0) {
-alert('База вопросов загружается...');
-return;
+  if (!state.questions.length) return notify('Загрузите тест');
+  state.exam.q = shuffle(state.questions).slice(0, 20).map(shuffleQ);
+  state.exam.idx = 0; state.exam.errors = 0; state.exam.time = 1200;
+  state.exam.answers = new Array(20).fill(null);
+  state.exam.results = new Array(20).fill(null);
+  showScreen('exam'); renderExam(); startTimer();
 }
-if (examTimer) clearInterval(examTimer);
-examQuestions = [...fullBase].sort(() => Math.random() - 0.5).slice(0, 20).map(q => shuffleQuestionOptions(q));
-examCurrentIdx = 0;
-examErrors = 0;
-examTimeLeft = 1200;
-examAnswers = new Array(20).fill(null);
-examResults = new Array(20).fill(null);
-answeredQuestionsCount = 0;
-document.getElementById('menu-screen').style.display = 'none';
-document.getElementById('exam-screen').style.display = 'block';
-document.getElementById('exam-result').style.display = 'none';
-document.getElementById('exam-next-btn').style.display = 'none';
-document.getElementById('exam-question-container').style.display = 'block';
-document.getElementById('exam-options-box').style.display = 'flex';
-document.querySelector('.timer-container').style.display = 'inline-flex';
-document.querySelector('.stats').style.display = 'flex';
-document.querySelector('.progress-container').style.display = 'block';
-startExamTimer();
-loadExamQuestion();
+
+function startTimer() {
+  state.exam.timer = setInterval(() => {
+    state.exam.time--;
+    const m = Math.floor(state.exam.time / 60), s = state.exam.time % 60;
+    document.getElementById('timer-display').textContent = `${m}:${s.toString().padStart(2,'0')}`;
+    if (state.exam.time <= 60) document.getElementById('timer-box').classList.add('warning');
+    if (state.exam.time <= 0) finishExam(false);
+  }, 1000);
 }
-function restartExam() {
-startExam();
+
+function renderExam() {
+  const q = state.exam.q[state.exam.idx];
+  document.getElementById('exam-q-text').textContent = q.q;
+  document.getElementById('e-counter').textContent = `${state.exam.idx+1}/20`;
+  document.getElementById('e-errors').textContent = state.exam.errors;
+  document.getElementById('e-progress').style.width = `${((state.exam.idx+1)/20)*100}%`;
+  
+  const box = document.getElementById('exam-options'); box.innerHTML = '';
+  const saved = state.exam.answers[state.exam.idx];
+  q.o.forEach((opt, i) => {
+    const btn = document.createElement('button'); btn.className = 'option-btn'; btn.textContent = opt;
+    if (saved !== null) {
+      if (Array.isArray(saved) ? saved.includes(i) : saved === i) btn.classList.add('selected');
+    }
+    btn.onclick = () => selectExamOpt(i, btn);
+    box.appendChild(btn);
+  });
+  document.getElementById('exam-next').style.display = saved !== null ? 'block' : 'none';
 }
-function startExamTimer() {
-examTimer = setInterval(() => {
-if (examTimeLeft > 0) {
-examTimeLeft--;
-const mins = Math.floor(examTimeLeft / 60);
-const secs = examTimeLeft % 60;
-document.getElementById('timer-display').textContent =
-`${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
-if (examTimeLeft <= 60) document.getElementById('timer').classList.add('timer-warning');
-if (examTimeLeft <= 0) finishExam(false);
+
+function selectExamOpt(i, btn) {
+  const q = state.exam.q[state.exam.idx];
+  const isMulti = q.c.length > 1;
+  let ans = state.exam.answers[state.exam.idx];
+  
+  if (isMulti) {
+    ans = ans || [];
+    ans = ans.includes(i) ? ans.filter(x => x !== i) : [...ans, i];
+  } else {
+    document.querySelectorAll('#exam-options .option-btn').forEach(b => b.classList.remove('selected'));
+    ans = i;
+  }
+  state.exam.answers[state.exam.idx] = ans;
+  btn.classList.add('selected');
+  document.getElementById('exam-next').style.display = 'block';
 }
-}, 1000);
+
+function nextExam() {
+  const q = state.exam.q[state.exam.idx];
+  const ans = state.exam.answers[state.exam.idx];
+  if (ans === null || (Array.isArray(ans) && ans.length === 0)) return notify('Выберите ответ');
+  
+  const isCorrect = Array.isArray(ans) ? q.c.length === ans.length && q.c.every(c => ans.includes(c)) : q.c.includes(ans);
+  state.exam.results[state.exam.idx] = { q, ans, correct: isCorrect };
+  
+  if (!isCorrect) {
+    state.exam.errors++;
+    document.getElementById('e-errors').textContent = state.exam.errors;
+    addToWrong(q.id);
+    if (state.exam.errors > 2) return finishExam(false);
+  }
+  
+  state.exam.idx++;
+  if (state.exam.idx < 20) renderExam();
+  else finishExam(true);
 }
-function loadExamQuestion() {
-if (examCurrentIdx >= 20) {
-finishExam(true);
-return;
-}
-const q = examQuestions[examCurrentIdx];
-document.getElementById('exam-q-text').innerText = q.q;
-document.getElementById('exam-counter').innerText = `${examCurrentIdx + 1}/20`;
-document.getElementById('exam-errors').innerText = examErrors;
-const box = document.getElementById('exam-options-box');
-box.innerHTML = '';
-const savedAnswer = examAnswers[examCurrentIdx];
-const isMultiple = q.c.length > 1;
-q.o.forEach((opt, i) => {
-const btn = document.createElement('button');
-btn.className = 'option-btn';
-btn.innerText = opt;
-if (savedAnswer !== null) {
-if (isMultiple && Array.isArray(savedAnswer) && savedAnswer.includes(i)) btn.classList.add('selected');
-else if (!isMultiple && savedAnswer === i) btn.classList.add('selected');
-}
-btn.onclick = () => selectExamOption(i, btn);
-box.appendChild(btn);
-});
-document.getElementById('exam-next-btn').style.display = savedAnswer !== null ? 'block' : 'none';
-updateExamProgress();
-}
-function selectExamOption(idx, btn) {
-const q = examQuestions[examCurrentIdx];
-const isMultiple = q.c.length > 1;
-let currentAnswer = examAnswers[examCurrentIdx];
-if (isMultiple) {
-if (!currentAnswer || !Array.isArray(currentAnswer)) currentAnswer = [];
-if (currentAnswer.includes(idx)) {
-currentAnswer = currentAnswer.filter(i => i !== idx);
-btn.classList.remove('selected');
-} else {
-currentAnswer.push(idx);
-btn.classList.add('selected');
-}
-examAnswers[examCurrentIdx] = currentAnswer;
-} else {
-document.querySelectorAll('#exam-options-box .option-btn').forEach(b => b.classList.remove('selected'));
-btn.classList.add('selected');
-examAnswers[examCurrentIdx] = idx;
-}
-document.getElementById('exam-next-btn').style.display = 'block';
-}
-function nextExamQuestion() {
-const selectedAnswer = examAnswers[examCurrentIdx];
-const q = examQuestions[examCurrentIdx];
-if (selectedAnswer === null || (Array.isArray(selectedAnswer) && selectedAnswer.length === 0)) {
-alert('Выберите ответ!');
-return;
-}
-const isCorrect = Array.isArray(selectedAnswer)
-? q.c.length === selectedAnswer.length && q.c.every(v => selectedAnswer.includes(v))
-: q.c.includes(selectedAnswer);
-examResults[examCurrentIdx] = { question: q, selectedAnswer, isCorrect };
-answeredQuestionsCount++;
-if (!isCorrect) {
-examErrors++;
-document.getElementById('exam-errors').innerText = examErrors;
-if (examErrors > 2) {
-finishExam(false);
-return;
-}
-}
-examCurrentIdx++;
-if (examCurrentIdx < 20) {
-loadExamQuestion();
-} else {
-finishExam(true);
-}
-}
+
 function finishExam(completed) {
-if (examTimer) clearInterval(examTimer);
-const correct = 20 - examErrors;
-const passed = completed && examErrors <= 2 && examTimeLeft > 0;
-document.getElementById('exam-question-container').style.display = 'none';
-document.getElementById('exam-options-box').style.display = 'none';
-document.getElementById('exam-next-btn').style.display = 'none';
-document.querySelector('.timer-container').style.display = 'none';
-document.querySelector('.stats').style.display = 'none';
-document.querySelector('.progress-container').style.display = 'none';
-document.getElementById('exam-result').style.display = 'block';
-document.getElementById('exam-result-title').innerHTML = passed ? 'РЕЗУЛЬТАТ: СДАНО' : 'РЕЗУЛЬТАТ: НЕ СДАНО';
-document.getElementById('exam-result-title').className = passed ? 'result-title result-pass' : 'result-title result-fail';
-document.getElementById('exam-result-score').innerHTML = `${correct}/20`;
-let reason = '';
-if (examErrors > 2) reason = `Ошибок: ${examErrors} (максимум 2)`;
-else if (examTimeLeft <= 0) reason = 'Истекло время';
-document.getElementById('exam-result-details').innerHTML = `
-Правильных: ${correct} из 20<br>
-Ошибок: ${examErrors}<br>
-Процент: ${((correct/20)*100).toFixed(1)}%<br>
-${reason ? '<br>Причина: ' + reason : ''}
-`;
-renderExamResultQuestions();
+  clearInterval(state.exam.timer);
+  const correct = 20 - state.exam.errors;
+  const passed = completed && state.exam.errors <= 2;
+  showResult(passed, `${correct}/20`, passed ? 'Экзамен сдан!' : `Ошибок: ${state.exam.errors}`, 'exam');
 }
-function renderExamResultQuestions() {
-const container = document.getElementById('exam-result-questions');
-container.innerHTML = '';
-for (let i = 0; i < 20; i++) {
-const result = examResults[i];
-if (result?.question) {
-const isHard = hardQuestions.includes(result.question.id);
-container.innerHTML += `
-<div class="result-question-item" onclick="jumpToReview(${i})">
-<span class="result-question-number">Вопрос ${i + 1}</span>
-<span class="result-question-text">${result.question.q.substring(0, 50)}...</span>
-<span class="result-question-status ${result.isCorrect ? 'status-correct' : 'status-wrong'}"></span>
-<button class="result-star-btn ${isHard ? 'active' : ''}" onclick="toggleExamHard(${result.question.id}, event)">★</button>
-</div>
-`;
+
+// ========== MODES (HARD / WRONG) ==========
+function startMode(type) {
+  const list = type === 'hard' ? state.hard : state.wrong;
+  if (!list.length) return notify(`Список "${type}" пуст`);
+  state.modeQ = state.questions.filter(q => list.includes(q.id)).map(shuffleQ);
+  state.modeIdx = 0; state.modeScore = 0; state.mode = type;
+  document.getElementById('menu-screen').classList.remove('active');
+  document.getElementById('quiz-screen').classList.add('active');
+  renderQuiz();
 }
+
+function toggleStar() {
+  const id = state.activeQ?.[state.idx]?.id || state.testQ?.[state.idx]?.id || state.modeQ?.[state.modeIdx]?.id;
+  if (!id) return;
+  if (state.hard.includes(id)) state.hard = state.hard.filter(x => x !== id);
+  else state.hard.push(id);
+  localStorage.setItem('hard', JSON.stringify(state.hard));
+  document.querySelectorAll('.star-btn').forEach(b => b.classList.toggle('active', state.hard.includes(id)));
+  updateCounts();
 }
+
+function addToWrong(id) {
+  if (!state.wrong.includes(id)) { state.wrong.push(id); localStorage.setItem('wrong', JSON.stringify(state.wrong)); updateCounts(); }
 }
-function startReview() {
-reviewCurrentIdx = 0;
-document.getElementById('exam-screen').style.display = 'none';
-document.getElementById('exam-review-screen').style.display = 'block';
-loadReviewQuestion();
+
+function resetList(type, e) {
+  e.preventDefault(); e.stopPropagation();
+  if (confirm(`Очистить список "${type}"?`)) {
+    state[type] = []; localStorage.setItem(type, '[]'); updateCounts(); notify(`✅ Список очищен`);
+  }
 }
-function showExamResults() {
-document.getElementById('exam-review-screen').style.display = 'none';
-document.getElementById('exam-screen').style.display = 'block';
+
+function updateCounts() {
+  document.getElementById('hard-count').textContent = state.hard.length;
+  document.getElementById('wrong-count').textContent = state.wrong.length;
 }
-function jumpToReview(index) {
-reviewCurrentIdx = index;
-document.getElementById('exam-screen').style.display = 'none';
-document.getElementById('exam-review-screen').style.display = 'block';
-loadReviewQuestion();
+
+// ========== RESULT OVERLAY (FIXED) ==========
+function showResult(passed, score, details, ctx) {
+  const box = document.getElementById('result-content');
+  box.innerHTML = `
+    <div class="result-title ${passed ? 'result-pass' : 'result-fail'}">${passed ? '✅ РЕЗУЛЬТАТ: СДАНО' : '❌ РЕЗУЛЬТАТ: НЕ СДАНО'}</div>
+    <div class="result-score">${score}</div>
+    <p style="color:#666; margin-bottom:15px;">${details}</p>
+    <div class="result-actions">
+      <button class="nav-btn" onclick="closeResult()">ГЛАВНОЕ МЕНЮ</button>
+      ${ctx === 'test' ? '<button class="nav-btn secondary" onclick="closeResult(); startMode(\'wrong\')">ОШИБКИ</button>' : ''}
+    </div>
+  `;
+  document.getElementById('result-overlay').classList.add('active');
 }
-function loadReviewQuestion() {
-const result = examResults[reviewCurrentIdx];
-if (!result) return;
-const q = result.question;
-document.getElementById('review-q-text').innerText = q.q;
-document.getElementById('review-counter').innerText = `${reviewCurrentIdx + 1}/20`;
-document.getElementById('review-hard-count').innerText = hardQuestions.length;
-document.getElementById('review-star-btn').classList.toggle('active', hardQuestions.includes(q.id));
-const box = document.getElementById('review-options-box');
-box.innerHTML = '';
-q.o.forEach((opt, i) => {
-const btn = document.createElement('button');
-btn.className = 'option-btn';
-btn.innerText = opt;
-btn.disabled = true;
-if (q.c.includes(i)) btn.classList.add('review-correct');
-if (result.selectedAnswer !== null) {
-if (Array.isArray(result.selectedAnswer)) {
-if (result.selectedAnswer.includes(i)) {
-btn.classList.add('review-selected');
-if (!q.c.includes(i)) btn.classList.add('review-wrong');
+
+function closeResult() {
+  document.getElementById('result-overlay').classList.remove('active');
+  showScreen('menu');
 }
-} else {
-if (result.selectedAnswer === i) {
-btn.classList.add('review-selected');
-if (!q.c.includes(i)) btn.classList.add('review-wrong');
+
+// ========== UI TOGGLES ==========
+function toggleDropdown() {
+  document.getElementById('test-dropdown').classList.toggle('show');
 }
-}
-}
-box.appendChild(btn);
+document.addEventListener('click', e => {
+  if (!e.target.closest('.test-selector')) document.getElementById('test-dropdown').classList.remove('show');
 });
-document.getElementById('review-exp-box').innerHTML = formatExplanation(q.e);
-updateReviewProgress();
+
+function openAdmin() { document.getElementById('admin-panel').classList.add('active'); renderAdmin(); }
+function closeAdmin() { document.getElementById('admin-panel').classList.remove('active'); }
+function renderAdmin() {
+  document.getElementById('stat-users').textContent = Object.keys(USERS).length;
+  const list = document.getElementById('admin-users-list'); list.innerHTML = '';
+  Object.entries(USERS).forEach(([u, d]) => {
+    list.innerHTML += `<div class="admin-item"><span>${d.name} (${u})</span><span style="color:${d.admin ? 'var(--accent)' : 'var(--text-muted)'}">${d.admin ? 'Админ' : 'Пользователь'}</span></div>`;
+  });
 }
-function updateReviewProgress() {
-const answeredCount = examResults.filter(r => r && r.question).length;
-const progress = answeredCount > 0 ? ((reviewCurrentIdx + 1) / answeredCount) * 100 : 0;
-document.getElementById('review-progress-fill').style.width = progress + '%';
-}
-function prevReviewQuestion() {
-if (reviewCurrentIdx > 0) {
-reviewCurrentIdx--;
-loadReviewQuestion();
-}
-}
-function nextReviewQuestion() {
-if (reviewCurrentIdx < 19 && examResults[reviewCurrentIdx + 1]) {
-reviewCurrentIdx++;
-loadReviewQuestion();
-}
-}
-function toggleReviewHard() {
-const id = examResults[reviewCurrentIdx]?.question.id;
-if (!id) return;
-if (hardQuestions.includes(id)) {
-hardQuestions = hardQuestions.filter(h => h !== id);
-} else {
-hardQuestions.push(id);
-}
-saveHardQuestions();
-document.getElementById('review-star-btn').classList.toggle('active');
-document.getElementById('review-hard-count').innerText = hardQuestions.length;
-updateHardCount();
-}
-function toggleExamHard(questionId, event) {
-event.stopPropagation();
-if (hardQuestions.includes(questionId)) {
-hardQuestions = hardQuestions.filter(h => h !== questionId);
-} else {
-hardQuestions.push(questionId);
-}
-saveHardQuestions();
-updateHardCount();
-event.target.classList.toggle('active');
-renderExamResultQuestions();
-}
-window.addEventListener('beforeunload', function() {
-if (activeQuestions.length > 0 && currentIdx < activeQuestions.length) {
-saveTrainingState();
-}
-});
-document.addEventListener('DOMContentLoaded', function() {
-checkAuth();
-loadQuestions('b211');
-updateHardCount();
-updateWrongCount();
-});
-// 🔥 БЕЗОПАСНЫЙ MOCK (не перезапишет реальные данные)
-setTimeout(() => {
-if (fullBase.length === 0 && !window.__DEV_MOCKS_LOADED) {
-window.__DEV_MOCKS_LOADED = true;
-console.log('⚠️ Загружаю тестовые данные (DEV mode)');
-fullBase = Array(160).fill().map((_, i) => ({
-id: i + 1,
-q: `Тестовый вопрос ${i + 1}?`,
-o: ['Вариант 1', 'Вариант 2', 'Вариант 3', 'Вариант 4'],
-c: [0],
-e: 'Пояснение к вопросу'
-}));
-showNotification('⚠️ Используются тестовые данные');
-const menuGrid = document.querySelector('.menu-grid');
-if (menuGrid && menuGrid.children.length === 0) {
-const config = TEST_CONFIGS?.['b211'];
-if (config && config.blocks) {
-config.blocks.forEach(block => {
-const blockCard = document.createElement('div');
-blockCard.className = 'block-card';
-blockCard.innerHTML = `
-<h3>БЛОК ${block.num}</h3>
-<p>${block.desc}</p>
-<div style="margin-top: 10px; display: flex; gap: 10px; justify-content: center;">
-<button class="train-btn" style="padding: 8px 15px; font-size: 0.9em; background: #4caf50; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;"
-onclick="event.stopPropagation(); startBlock('b211', ${block.num}, ${block.start}, ${block.end})">
-ТРЕНИРОВКА
-</button>
-<button class="test-btn" style="padding: 8px 15px; font-size: 0.9em; background: #2196f3; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;"
-onclick="event.stopPropagation(); startTestMode('b211', ${block.num}, ${block.start}, ${block.end})">
-ТЕСТ
-</button>
-</div>
-`;
-menuGrid.appendChild(blockCard);
-});
-}
-}
-}
-}, 1000);
+
+// ========== INIT ==========
+window.onload = () => {
+  state.hard = JSON.parse(localStorage.getItem('hard') || '[]');
+  state.wrong = JSON.parse(localStorage.getItem('wrong') || '[]');
+  checkAuth(); updateCounts();
+};
 </script>
 </body>
 </html>
