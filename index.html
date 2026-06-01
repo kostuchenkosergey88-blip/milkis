@@ -662,7 +662,7 @@ function selectTest(tid){
   loadQuestions(tid);
 }
 async function loadQuestions(tid){const cfg=TEST_CONFIGS[tid];if(!cfg)return;try{const r=await fetch(`${cfg.jsonFile}?t=${Date.now()}`);if(!r.ok)throw new Error('HTTP');const d=await r.json();fullBase=(tid==='b26-marine'?d.b26:d[tid])||[];if(!fullBase.length)throw new Error('Пусто');loadHardQuestions();loadWrongQuestions();updateHardCount();updateWrongCount();const g=document.querySelector('.menu-grid');g.innerHTML='';if(cfg?.blocks)cfg.blocks.forEach(b=>{const c=document.createElement('div');c.className='block-card';c.innerHTML=`<h3>БЛОК ${b.num}</h3><p>${b.desc}</p><div style="margin-top:10px;display:flex;gap:10px;justify-content:center;"><button class="train-btn" style="padding:8px 15px;font-size:0.9em;background:#4caf50;color:white;border:none;border-radius:4px;cursor:pointer;font-weight:600;" onclick="event.stopPropagation();startBlock('${tid}',${b.num},${b.start},${b.end})">ТРЕНИРОВКА</button><button class="test-btn" style="padding:8px 15px;font-size:0.9em;background:#2196f3;color:white;border:none;border-radius:4px;cursor:pointer;font-weight:600;" onclick="event.stopPropagation();startTestMode('${tid}',${b.num},${b.start},${b.end})">ТЕСТ</button></div>`;g.appendChild(c);});document.getElementById('menu-screen').style.display='block';showNotification(`✅ Загружено ${fullBase.length} вопросов`);}catch(e){console.error(e);showNotification(`❌ Ошибка загрузки "${cfg.name}"`);fullBase=[];}}
-function showMenu(){if(examTimer)clearInterval(examTimer);if(activeQuestions.length&&currentIdx<activeQuestions.length&&!confirm('Сохранить прогресс?'))return;saveTrainingState();['menu','quiz','test','exam','exam-review','hard-mode','wrong-mode'].forEach(s=>document.getElementById(`${s}-screen`).style.display=s==='menu'?'block':'none');updateHardCount();updateWrongCount();}
+function showMenu(){saveTrainingState();if (examTimer) clearInterval(examTimer);if(activeQuestions.length&&currentIdx<activeQuestions.length&&!confirm('Сохранить прогресс?'))return;saveTrainingState();['menu','quiz','test','exam','exam-review','hard-mode','wrong-mode'].forEach(s=>document.getElementById(`${s}-screen`).style.display=s==='menu'?'block':'none');updateHardCount();updateWrongCount();}
 
 // ✅ АВТОРИЗАЦИЯ С ЗАЩИТОЙ ОТ ПРОСТОГО ОБОХОДА
 function login(){
@@ -692,7 +692,7 @@ function toggleUserTest(u,t,ch){if(!USERS[u])return;if(!USERS[u].availableTests)
 
 // ========== ИНИЦИАЛИЗАЦИЯ ==========
 document.addEventListener('DOMContentLoaded',()=>{checkAuth();updateHardCount();updateWrongCount();});
-window.addEventListener('beforeunload',()=>{if(activeQuestions.length&&currentIdx<activeQuestions.length)saveTrainingState();});
+window.addEventListener('beforeunload',function(){saveTrainingState();});
 if('serviceWorker'in navigator)window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});
 </script>
 </body>
