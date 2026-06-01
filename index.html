@@ -440,6 +440,7 @@ input:checked + .slider:before { transform: translateX(24px); }
 
 <script>
 // ========== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ==========
+let currentBlockNum = null;
 let fullBase = []; let activeQuestions = []; let currentIdx = 0; let score = 0; let selectedOptions = [];
 let hardQuestions = []; let wrongQuestions = []; let examQuestions = []; let examCurrentIdx = 0; let examErrors = 0;
 let examTimer = null; let examTimeLeft = 1200; let examAnswers = []; let examResults = []; let reviewCurrentIdx = 0;
@@ -530,21 +531,84 @@ function finishTest() {
 function closeTestResult(){document.getElementById('test-result-modal').classList.remove('show');}
 
 // ========== ТРЕНИРОВКА ==========
-function loadTrainingState(){const s=localStorage.getItem(`trainingState_${currentTest}_${localStorage.getItem('username')||'guest'}`);if(s){try{const d=JSON.parse(s);if(d.activeQuestions?.length)return d;}catch{}}return null;}
-function saveTrainingState(){if(activeQuestions.length&&document.getElementById('quiz-screen').style.display==='block'){trainingState={activeQuestions:[...activeQuestions],currentIdx,score,blockNum:trainingState.blockNum,questionStates:activeQuestions.map(q=>({id:q.id,isHard:hardQuestions.includes(q.id),answerState:answerStates.get(q.id)}))};localStorage.setItem(`trainingState_${currentTest}_${localStorage.getItem('username')||'guest'}`,JSON.stringify(trainingState));}}
-function clearTrainingState(){localStorage.removeItem(`trainingState_${currentTest}_${localStorage.getItem('username')||'guest'}`);trainingState={activeQuestions:[],currentIdx:0,score:0,blockNum:null,questionStates:[]};}
-function startBlock(testId,num,start,end){
-  currentTest=testId;if(!fullBase.length){alert('База обновляется...');return;}
-  const sv=loadTrainingState();
-  if(sv&&sv.blockNum===num&&sv.activeQuestions.length){
-    if(confirm('Продолжить сохранённый блок?')){
-      activeQuestions=sv.activeQuestions.map(shuffleQuestionOptions);currentIdx=sv.currentIdx;score=sv.score;answerStates.clear();
-      sv.questionStates.forEach(s=>{if(s.answerState)answerStates.set(s.id,s.answerState);if(s.isHard&&!hardQuestions.includes(s.id))hardQuestions.push(s.id);});
-      saveHardQuestions();initQuiz();return;
-    }else clearTrainingState();
+function getTrainingKey() {
+const username = localStorage.getItem('username') || 'guest';
+  return `trainingState_${currentTest}_${username}_block${currentBlockNum}`;
+}
+function loadTrainingState(blockNum) {
+  currentBlockNum = blockNum;
+  const saved = localStorage.getItem(getTrainingKey());
+  if (saved) {
+    try {
+      const state = JSON.parse(saved);
+      if (state.activeQuestions && state.activeQuestions.length > 0) {
+        trainingState = state;
+        return trainingState;
+      }
+    } catch (e) {}
   }
-  activeQuestions=fullBase.slice(start,end).map(q=>({...q,c:[...q.c]})).map(shuffleQuestionOptions).sort(()=>Math.random()-0.5);
-  answerStates.clear();trainingState.blockNum=num;clearTrainingState();initQuiz();
+  trainingState = { activeQuestions: [], currentIdx: 0, score: 0, blockNum, questionStates: [] };
+  return null;
+}
+function saveTrainingState() {
+  if (!currentBlockNum || activeQuestions.length === 0) return;
+  if (document.getElementById('quiz-screen').style.display !== 'block') return;
+
+  const questionStates = activeQuestions.map(q => ({
+    id: q.id,
+    isHard: hardQuestions.includes(q.id),
+    answerState: answerStates.get(q.id) || null
+  }));
+
+  trainingState = {
+    activeQuestions: activeQuestions.map(q => ({...q})),
+    currentIdx, score,
+    blockNum: currentBlockNum,
+    questionStates
+  };
+
+  localStorage.setItem(getTrainingKey(), JSON.stringify(trainingState));
+}
+function clearTrainingState(blockNum) {
+  const username = localStorage.getItem('username') || 'guest';
+  localStorage.removeItem(`trainingState_${currentTest}_${username}_block${blockNum}`);
+  trainingState = { activeQuestions: [], currentIdx: 0, score: 0, blockNum: null, questionStates: [] };
+}
+function startBlock(testId, num, start, end) {
+  currentTest = testId;
+  if (fullBase.length === 0) { alert('База вопросов обновляется. Пожалуйста, подождите.'); return; }
+
+  if (currentBlockNum && activeQuestions.length > 0) {
+    saveTrainingState();
+  }
+
+  currentBlockNum = num; 
+  const savedState = loadTrainingState(num);
+
+  if (savedState && savedState.activeQuestions.length > 0) {
+    if (confirm('Обнаружено сохраненное состояние блока. Продолжить с того же места?')) {
+      activeQuestions = savedState.activeQuestions.map(q => shuffleQuestionOptions(q));
+      currentIdx = savedState.currentIdx;
+      score = savedState.score;
+      answerStates.clear();
+      savedState.questionStates.forEach(state => {
+        if (state.answerState) answerStates.set(state.id, state.answerState);
+        if (state.isHard && !hardQuestions.includes(state.id)) hardQuestions.push(state.id);
+      });
+      saveHardQuestions();
+      initQuiz();
+      return;
+    } else {
+      clearTrainingState(num);
+    }
+  }
+  activeQuestions = fullBase.slice(start, end)
+    .map(q => shuffleQuestionOptions({...q, c: [...q.c]}))
+    .sort(() => Math.random() - 0.5);
+  answerStates.clear();
+  currentIdx = 0;
+  score = 0;
+  initQuiz();
 }
 function initQuiz(){if(!activeQuestions.length)return;document.getElementById('menu-screen').style.display='none';document.getElementById('quiz-screen').style.display='block';['test','exam','exam-review','hard-mode','wrong-mode'].forEach(s=>document.getElementById(`${s}-screen`).style.display='none');currentMode='';renderPagination();loadQuestion();updateNavigationButtons();}
 function renderPagination(){const p=document.getElementById('pagination');if(!p)return;p.innerHTML='';activeQuestions.forEach((q,i)=>{const b=document.createElement('button');b.className='page-btn';b.innerText=i+1;const st=answerStates.get(q.id);if(st?.isChecked)b.classList.add(st.isCorrect?'correct':'wrong');else if(st?.selected?.length)b.classList.add('answered');if(i===currentIdx)b.classList.add('active');b.onclick=()=>jumpToQuestion(i);p.appendChild(b);});}
