@@ -22,6 +22,7 @@
 <link rel="mask-icon" href="icons/safari-pinned-tab.svg" color="#1e3c5c">
 <meta name="theme-color" content="#1e3c5c">
 <meta name="msapplication-TileColor" content="#1e3c5c">
+<!-- Подключаем конфиг, он должен лежать рядом -->
 <script src="tests-config.js"></script>
 <style>
 /* ===== ВСЕ ОРИГИНАЛЬНЫЕ СТИЛИ СОХРАНЕНЫ ===== */
@@ -158,7 +159,7 @@ h2 { font-size: 1.8em; font-weight: 600; color: #1e3c5c; margin-bottom: 25px; te
 #next-btn:hover:not(:disabled), #prev-btn:hover:not(:disabled), #review-next-btn:hover:not(:disabled), #review-prev-btn:hover:not(:disabled), #hard-next-btn:hover:not(:disabled), #hard-prev-btn:hover:not(:disabled), #wrong-next-btn:hover:not(:disabled), #wrong-prev-btn:hover:not(:disabled) { background: #3c8c40; transform: translateY(-2px); box-shadow: 0 5px 10px rgba(46, 125, 50, 0.4); }
 .train-btn, .test-btn { box-shadow: 0 2px 4px rgba(0,0,0,0.2); font-weight: 600; transition: all 0.2s; }
 .train-btn:hover, .test-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
-.result-box { text-align: center; padding: 40px 30px; background: #f8f8f8; border: 2px solid #c0c0c0; border-radius: 4px; }
+.result-box { text-align: center; padding: 40px 30px; background: #f8f8f8; border: 2px solid #c0c0c0; }
 .result-title { font-size: 2.2em; font-weight: 700; margin-bottom: 20px; text-transform: uppercase; }
 .result-pass { color: #2e7d32; }
 .result-fail { color: #b22222; }
@@ -242,33 +243,8 @@ input:checked + .slider:before { transform: translateX(24px); }
 .test-row:hover { background: #222835; }
 .test-info { display: flex; align-items: center; gap: 12px; }
 .test-code { color: #ffd700; font-weight: 700; min-width: 60px; font-size: 0.9em; }
-
-/* ✅ ДОБАВЛЕН МОДАЛЬНЫЙ ОКНО ДЛЯ РЕЗУЛЬТАТОВ ТЕСТА (ЧТОБЫ НЕ ЛОМАТЬ DOM) */
-#test-result-modal {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 9000; padding: 20px;
-}
-#test-result-modal.show { display: flex; }
-
-@media (max-width: 768px) {
-  .top-panel { flex-direction: column; align-items: stretch; padding: 12px; }
-  .panel-left { flex-direction: column; align-items: stretch; gap: 10px; }
-  .panel-left h3 { border-right: none; border-bottom: 2px solid #2a4a70; padding-right: 0; padding-bottom: 10px; text-align: center; width: 100%; }
-  .nav-buttons-panel { margin: 5px 0; width: 100%; justify-content: center; flex-wrap: wrap; }
-  .nav-square { padding: 8px 12px; min-width: 60px; font-size: 0.85em; }
-  .test-selector { min-width: auto; width: 100%; }
-  .test-selector-btn { padding: 10px 12px; font-size: 0.9em; min-height: 44px; width: 100%; }
-  .test-dropdown { position: fixed; top: 70px; left: 10px; right: 10px; width: auto; max-height: 70vh; z-index: 9999; }
-  .test-item { padding: 12px 10px; }
-  #menu-screen { padding: 20px; } h2 { font-size: 1.4em; }
-  .menu-grid { grid-template-columns: 1fr; } .exam-card { grid-column: span 1; }
-  .special-grid { grid-template-columns: 1fr; gap: 10px; }
-  .quiz-header, .test-header { flex-direction: column; align-items: flex-start; }
-  #q-text, #test-q-text, #exam-q-text, #review-q-text, #hard-q-text, #wrong-q-text { font-size: 1.1em; padding-right: 60px; }
-  .stats { width: 100%; justify-content: space-between; } .timer-container { width: 100%; justify-content: center; }
-  .nav-buttons { flex-direction: column; } .block-card, .special-card { padding: 20px 10px; }
-  .block-card h3, .special-card h3 { font-size: 1.2em; } .star-btn { font-size: 24px; top: 10px; right: 10px; }
-}
-@media (max-width: 480px) { .test-selector-btn { font-size: 0.85em; padding: 8px 10px; } .test-code { min-width: 35px; } .test-dropdown { top: 65px; } .login-box { max-width: 100%; } .login-header { padding: 25px 15px; } .login-header h2 { font-size: 1.8em; } .login-form { padding: 25px 20px; } .input-group input { padding: 10px 12px; } .admin-item { flex-direction: column; align-items: flex-start; gap: 10px; } .admin-item-actions { margin-left: 0; width: 100%; } .admin-btn-approve, .admin-btn-reject { flex: 1; } .nav-square { padding: 6px 10px; font-size: 0.8em; min-width: 50px; } }
+@media (max-width: 768px) { .top-panel { flex-direction: column; align-items: stretch; padding: 12px; } .panel-left { flex-direction: column; align-items: stretch; gap: 10px; } .panel-left h3 { border-right: none; border-bottom: 2px solid #2a4a70; padding-right: 0; padding-bottom: 10px; text-align: center; width: 100%; } .nav-buttons-panel { margin: 5px 0; width: 100%; justify-content: center; flex-wrap: wrap; } .nav-square { padding: 8px 12px; min-width: 60px; font-size: 0.85em; } .test-selector { min-width: auto; width: 100%; } .test-selector-btn { padding: 10px 12px; font-size: 0.9em; min-height: 44px; width: 100%; } .test-dropdown { position: fixed; top: 70px; left: 10px; right: 10px; width: auto; max-height: 70vh; z-index: 9999; } .test-item { padding: 12px 10px; } #menu-screen { padding: 20px; } h2 { font-size: 1.4em; } .menu-grid { grid-template-columns: 1fr; } .exam-card { grid-column: span 1; } .special-grid { grid-template-columns: 1fr; gap: 10px; } .quiz-header, .test-header { flex-direction: column; align-items: flex-start; } #q-text, #test-q-text, #exam-q-text, #review-q-text, #hard-q-text, #wrong-q-text { font-size: 1.1em; padding-right: 60px; } .stats { width: 100%; justify-content: space-between; } .timer-container { width: 100%; justify-content: center; } .nav-buttons { flex-direction: column; } .block-card, .special-card { padding: 20px 10px; } .block-card h3, .special-card h3 { font-size: 1.2em; } .star-btn { font-size: 24px; top: 10px; right: 10px; } }
+@media (max-width: 480px) { .test-selector-btn { font-size: 0.85em; padding: 8px 10px; } .test-code { min-width: 35px; } .test-dropdown { top: 65px; } .login-box { max-width: 100%; } .login-header { padding: 25px 15px; } .login-header h2 { font-size: 1.8em; } .login-form { padding: 25px 20px; } .input-group input, .input-group textarea { padding: 10px 12px; } .admin-item { flex-direction: column; align-items: flex-start; gap: 10px; } .admin-item-actions { margin-left: 0; width: 100%; } .admin-btn-approve, .admin-btn-reject { flex: 1; } .nav-square { padding: 6px 10px; font-size: 0.8em; min-width: 50px; } }
 @media (max-width: 375px) { .panel-left h3 { font-size: 0.95em; } .test-selector-btn { padding: 8px 8px; font-size: 0.8em; } }
 @supports (padding-top: constant(safe-area-inset-top)) or (padding-top: env(safe-area-inset-top)) { .top-panel { padding-top: max(12px, constant(safe-area-inset-top)); padding-top: max(12px, env(safe-area-inset-top)); padding-left: max(12px, constant(safe-area-inset-left)); padding-left: max(12px, env(safe-area-inset-left)); padding-right: max(12px, constant(safe-area-inset-right)); padding-right: max(12px, env(safe-area-inset-right)); } .login-container { padding-top: constant(safe-area-inset-top); padding-top: env(safe-area-inset-top); } }
 </style>
@@ -277,23 +253,12 @@ input:checked + .slider:before { transform: translateX(24px); }
 <div id="login-screen" class="login-container">
   <div class="login-box">
     <div class="login-header"><h2>PRO100 TEST</h2><p>SiLовская система тестирования по промышленной безопасности</p></div>
-    <div id="login-form" class="active">
-      <div class="login-form">
-        <div class="input-group"><label for="username">Логин</label><input type="text" id="username" placeholder="Введите логин" autocomplete="off"></div>
-        <div class="input-group"><label for="password">Пароль</label><input type="password" id="password" placeholder="Введите пароль"></div>
-        <button class="login-btn" onclick="login()">Войти</button>
-        <div id="login-error" class="login-message"></div>
-      </div>
-    </div>
+    <div id="login-form" class="active"><div class="login-form"><div class="input-group"><label for="username">Логин</label><input type="text" id="username" placeholder="Введите логин" autocomplete="off"></div><div class="input-group"><label for="password">Пароль</label><input type="password" id="password" placeholder="Введите пароль"></div><button class="login-btn" onclick="login()">Войти</button><div id="login-error" class="login-message"></div></div></div>
     <div class="login-footer"><p>Вход только для авторизованных пользователей</p></div>
   </div>
   <div id="admin-panel" class="admin-panel" style="display: none;">
     <div class="admin-header"><h2>⚡ ПАНЕЛЬ УПРАВЛЕНИЯ</h2><button class="admin-back-btn" onclick="adminBack()">← НАЗАД</button></div>
-    <div class="admin-stats-grid">
-      <div class="admin-stat-card"><div class="admin-stat-number" id="stat-users">0</div><div class="admin-stat-label">ПОЛЬЗОВАТЕЛЕЙ</div></div>
-      <div class="admin-stat-card"><div class="admin-stat-number" id="stat-pending">0</div><div class="admin-stat-label">ЗАЯВОК</div></div>
-      <div class="admin-stat-card"><div class="admin-stat-number" id="stat-tests">2</div><div class="admin-stat-label">ТЕСТОВ</div></div>
-    </div>
+    <div class="admin-stats-grid"><div class="admin-stat-card"><div class="admin-stat-number" id="stat-users">0</div><div class="admin-stat-label">ПОЛЬЗОВАТЕЛЕЙ</div></div><div class="admin-stat-card"><div class="admin-stat-number" id="stat-pending">0</div><div class="admin-stat-label">ЗАЯВОК</div></div><div class="admin-stat-card"><div class="admin-stat-number" id="stat-tests">2</div><div class="admin-stat-label">ТЕСТОВ</div></div></div>
     <div class="admin-section"><div class="admin-section-header"><h3>📋 НОВЫЕ ЗАЯВКИ</h3><span class="badge" id="pending-badge">0</span></div><div class="admin-list" id="pending-list"></div></div>
     <div class="admin-section"><div class="admin-section-header"><h3>👥 ПОДТВЕРЖДЕННЫЕ ПОЛЬЗОВАТЕЛИ</h3><span class="badge" id="users-badge">0</span></div><div class="admin-list" id="users-list"></div></div>
   </div>
@@ -301,150 +266,41 @@ input:checked + .slider:before { transform: translateX(24px); }
 
 <div class="container" id="main-app">
   <div class="top-panel">
-    <div class="panel-left">
-      <h3>PRO100 TEST</h3>
-      <div class="test-selector">
-        <div class="test-selector-btn" id="testSelectorBtn" onclick="toggleTestDropdown()">
-          <span id="selectedTestDisplay">Б.2.11 Ремонтные, монтажные и пусконаладочные работы</span>
-          <span class="arrow">▼</span>
-        </div>
-        <div class="test-dropdown" id="testDropdown">
-          <div class="test-group">Промышленная безопасность</div>
-          <div class="test-item disabled" data-test="a1" onclick="selectTest('a1'); event.stopPropagation();"><span class="test-code">А.1</span><span class="test-name">Основы промышленной безопасности</span><div class="test-desc">211 вопросов</div></div>
-          <div class="test-item disabled" data-test="b21" onclick="selectTest('b21'); event.stopPropagation();"><span class="test-code">Б.2.1</span><span class="test-name">Эксплуатация объектов нефтяной и газовой промышленности</span><div class="test-desc">405 вопросов</div></div>
-          <div class="test-item disabled" data-test="b23" onclick="selectTest('b23'); event.stopPropagation();"><span class="test-code">Б.2.3</span><span class="test-name">Проектирование, строительство, реконструкция</span><div class="test-desc">228 вопросов</div></div>
-          <div class="test-item" data-test="b26-marine" onclick="selectTest('b26-marine'); event.stopPropagation();"><span class="test-code">Б.2.6</span><span class="test-name">Разведка и разработка морских месторождений</span><div class="test-desc">187 вопросов</div></div>
-          <div class="test-item disabled" data-test="b27" onclick="selectTest('b27'); event.stopPropagation();"><span class="test-code">Б.2.7</span><span class="test-name">Магистральные нефтепроводы</span><div class="test-desc">155 вопросов</div></div>
-          <div class="test-item" data-test="b28" onclick="selectTest('b28'); event.stopPropagation();"><span class="test-code">Б.2.8</span><span class="test-name">Магистральные газопроводы</span><div class="test-desc">132 вопроса</div></div>
-          <div class="test-item" data-test="b211" onclick="selectTest('b211'); event.stopPropagation();"><span class="test-code">Б.2.11</span><span class="test-name">Ремонтные, монтажные и пусконаладочные работы</span><div class="test-desc">160 вопросов</div></div>
-          <div class="test-group">Электробезопасность</div>
-          <div class="test-item disabled" data-test="electro2" onclick="selectTest('electro2'); event.stopPropagation();"><span class="test-code">2 гр.</span><span class="test-name">До и выше 1000В</span><div class="test-desc">100 вопросов</div></div>
-          <div class="test-item disabled" data-test="electro3" onclick="selectTest('electro3'); event.stopPropagation();"><span class="test-code">3 гр.</span><span class="test-name">До и выше 1000В</span><div class="test-desc">120 вопросов</div></div>
-          <div class="test-item disabled" data-test="electro4" onclick="selectTest('electro4'); event.stopPropagation();"><span class="test-code">4 гр.</span><span class="test-name">До и выше 1000В</span><div class="test-desc">140 вопросов</div></div>
-          <div class="test-item disabled" data-test="electro5" onclick="selectTest('electro5'); event.stopPropagation();"><span class="test-code">5 гр.</span><span class="test-name">До и выше 1000В</span><div class="test-desc">160 вопросов</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="nav-buttons-panel">
-      <div id="admin-icon" class="nav-square admin" onclick="openAdminPanel()" style="display: none;">АДМИН</div>
-      <div class="nav-square logout" onclick="logout()">ВЫЙТИ</div>
-    </div>
+    <div class="panel-left"><h3>PRO100 TEST</h3><div class="test-selector"><div class="test-selector-btn" id="testSelectorBtn" onclick="toggleTestDropdown()"><span id="selectedTestDisplay">Б.2.11 Ремонтные, монтажные и пусконаладочные работы</span><span class="arrow">▼</span></div><div class="test-dropdown" id="testDropdown"><div class="test-group">Промышленная безопасность</div><div class="test-item disabled" data-test="a1" onclick="selectTest('a1'); event.stopPropagation();"><span class="test-code">А.1</span><span class="test-name">Основы промышленной безопасности</span><div class="test-desc">211 вопросов</div></div><div class="test-item disabled" data-test="b21" onclick="selectTest('b21'); event.stopPropagation();"><span class="test-code">Б.2.1</span><span class="test-name">Эксплуатация объектов нефтяной и газовой промышленности</span><div class="test-desc">405 вопросов</div></div><div class="test-item disabled" data-test="b23" onclick="selectTest('b23'); event.stopPropagation();"><span class="test-code">Б.2.3</span><span class="test-name">Проектирование, строительство, реконструкция</span><div class="test-desc">228 вопросов</div></div><div class="test-item" data-test="b26-marine" onclick="selectTest('b26-marine'); event.stopPropagation();"><span class="test-code">Б.2.6</span><span class="test-name">Разведка и разработка морских месторождений</span><div class="test-desc">187 вопросов</div></div><div class="test-item disabled" data-test="b27" onclick="selectTest('b27'); event.stopPropagation();"><span class="test-code">Б.2.7</span><span class="test-name">Магистральные нефтепроводы</span><div class="test-desc">155 вопросов</div></div><div class="test-item" data-test="b28" onclick="selectTest('b28'); event.stopPropagation();"><span class="test-code">Б.2.8</span><span class="test-name">Магистральные газопроводы</span><div class="test-desc">132 вопроса</div></div><div class="test-item" data-test="b211" onclick="selectTest('b211'); event.stopPropagation();"><span class="test-code">Б.2.11</span><span class="test-name">Ремонтные, монтажные и пусконаладочные работы</span><div class="test-desc">160 вопросов</div></div><div class="test-group">Электробезопасность</div><div class="test-item disabled" data-test="electro2" onclick="selectTest('electro2'); event.stopPropagation();"><span class="test-code">2 гр.</span><span class="test-name">До и выше 1000В</span><div class="test-desc">100 вопросов</div></div><div class="test-item disabled" data-test="electro3" onclick="selectTest('electro3'); event.stopPropagation();"><span class="test-code">3 гр.</span><span class="test-name">До и выше 1000В</span><div class="test-desc">120 вопросов</div></div><div class="test-item disabled" data-test="electro4" onclick="selectTest('electro4'); event.stopPropagation();"><span class="test-code">4 гр.</span><span class="test-name">До и выше 1000В</span><div class="test-desc">140 вопросов</div></div><div class="test-item disabled" data-test="electro5" onclick="selectTest('electro5'); event.stopPropagation();"><span class="test-code">5 гр.</span><span class="test-name">До и выше 1000В</span><div class="test-desc">160 вопросов</div></div></div></div></div>
+    <div class="nav-buttons-panel"><div id="admin-icon" class="nav-square admin" onclick="openAdminPanel()" style="display: none;">АДМИН</div><div class="nav-square logout" onclick="logout()">ВЫЙТИ</div></div>
   </div>
-
   <div id="notificationContainer"></div>
-
-  <div id="menu-screen">
-    <h2 id="testTitle">Б.2.11 Промышленная безопасность<br>"Ремонтные, монтажные и пусконаладочные работы на опасных производственных объектах нефтегазодобычи"</h2>
-    <div class="menu-grid" id="blocksContainer"></div>
-    <div class="exam-card block-card" onclick="startExam()">
-      <h3>ИТОГОВОЕ ТЕСТИРОВАНИЕ</h3>
-      <p>20 вопросов | 20 минут | допуск: 2 ошибки</p>
+  <div id="menu-screen"><h2 id="testTitle">Б.2.11 Промышленная безопасность<br>"Ремонтные, монтажные и пусконаладочные работы на опасных производственных объектах нефтегазодобычи"</h2><div class="menu-grid" id="blocksContainer"></div><div class="exam-card block-card" onclick="startExam()"><h3>ИТОГОВОЕ ТЕСТИРОВАНИЕ</h3><p>20 вопросов | 20 минут | допуск: 2 ошибки</p></div><div class="special-grid"><div class="special-card hard" onclick="startHardMode()"><h3>⭐ ТРУДНЫЕ ВОПРОСЫ</h3><p><span class="special-count" id="hard-count">0</span></p><button class="reset-special-btn" onclick="resetHardQuestions(event)" title="Очистить">✕</button></div><div class="special-card wrong" onclick="startWrongMode()"><h3>❌ ОШИБОЧНЫЕ</h3><p><span class="special-count" id="wrong-count">0</span></p><button class="reset-special-btn" onclick="resetWrongQuestions(event)" title="Очистить">✕</button></div></div><div class="footer-note">МилиSiLовская система тестирования | Версия 5.0</div></div>
+  
+  <div id="quiz-screen" style="display: none;"><div class="quiz-header"><button class="back-btn" onclick="showMenu()">← НАЗАД</button><div class="stats"><div class="stat-item"><span class="stat-icon">📄</span><span id="q-counter">0/0</span></div><div class="stat-item"><span class="stat-icon">✓</span><span id="score-display">0</span></div></div></div><div class="progress-container"><div class="progress-fill" id="progress-fill"></div></div><div class="question-container"><button class="star-btn" id="star-btn" onclick="toggleHard()">★</button><div id="q-text"></div></div><div class="options-box" id="options-box"></div><div class="explanation-box" id="exp-box" style="display: none;"></div><div class="pagination" id="pagination"></div><div class="nav-buttons"><button class="nav-btn" id="prev-btn" onclick="prevQuestion()" disabled>← ПРЕД</button><button class="nav-btn" id="check-btn" onclick="checkAnswer()" disabled>ОТВЕТИТЬ</button><button class="nav-btn" id="next-btn" onclick="nextQuestion()" disabled>СЛЕД →</button></div></div>
+  
+  <div id="test-screen" style="display: none;"><div class="test-header"><button class="back-btn" onclick="showMenu()">← НАЗАД</button><div class="stats"><div class="stat-item"><span class="stat-icon">📄</span><span id="test-counter">0/0</span></div><div class="stat-item"><span class="stat-icon">✓</span><span id="test-score">0</span></div></div></div><div class="progress-container"><div class="progress-fill test-progress" id="test-progress-fill"></div></div><div class="question-container test-question"><button class="star-btn" id="test-star-btn" onclick="toggleHard()">★</button><div id="test-q-text"></div></div><div class="options-box" id="test-options-box"></div><div class="nav-buttons"><button class="nav-btn" id="test-confirm-btn" onclick="confirmTestAnswer()" disabled>ПОДТВЕРДИТЬ</button><button class="nav-btn" id="finish-test-btn" onclick="finishTest()">ЗАВЕРШИТЬ</button></div></div>
+  
+  <div id="hard-mode-screen" style="display: none;"><div class="quiz-header"><button class="back-btn" onclick="showMenu()">← НАЗАД</button><div class="stats"><div class="stat-item"><span class="stat-icon">📄</span><span id="hard-counter">0/0</span></div><div class="stat-item"><span class="stat-icon">✓</span><span id="hard-score">0</span></div></div><button class="reset-hard-btn" onclick="resetHardQuestions(event)">СБРОСИТЬ</button></div><div class="progress-container"><div class="progress-fill hard-progress" id="hard-progress-fill"></div></div><div class="question-container hard-question"><button class="star-btn" id="hard-star-btn" onclick="toggleHardFromMode()">★</button><div id="hard-q-text"></div></div><div class="options-box" id="hard-options-box"></div><div class="explanation-box" id="hard-exp-box" style="display: none;"></div><div class="pagination" id="hard-pagination"></div><div class="nav-buttons"><button class="nav-btn" id="hard-prev-btn" onclick="prevModeQuestion()" disabled>← ПРЕД</button><button class="nav-btn" id="hard-check-btn" onclick="checkModeAnswer()" disabled>ОТВЕТИТЬ</button><button class="nav-btn" id="hard-next-btn" onclick="nextModeQuestion()" disabled>СЛЕД →</button></div></div>
+  
+  <!-- ✅ ОБНОВЛЁННЫЙ БЛОК ОШИБОЧНЫЕ (2 КНОПКИ) -->
+  <div id="wrong-mode-screen" style="display: none;">
+    <div class="quiz-header">
+      <button class="back-btn" onclick="showMenu()">← НАЗАД</button>
+      <div class="stats"><div class="stat-item"><span class="stat-icon">📄</span><span id="wrong-counter">0/0</span></div><div class="stat-item"><span class="stat-icon">✓</span><span id="wrong-score">0</span></div></div>
+      <button class="reset-hard-btn" style="background:#f4b400;color:#1e3c5c;margin-right:5px;" onclick="resetModeAnswers()">🔄 ОТВЕТЫ</button>
+      <button class="reset-hard-btn" onclick="resetWrongQuestions(event)">🗑 СПИСОК</button>
     </div>
-    <div class="special-grid">
-      <div class="special-card hard" onclick="startHardMode()">
-        <h3>⭐ ТРУДНЫЕ ВОПРОСЫ</h3><p><span class="special-count" id="hard-count">0</span></p>
-        <button class="reset-special-btn" onclick="resetHardQuestions(event)" title="Очистить">✕</button>
-      </div>
-      <div class="special-card wrong" onclick="startWrongMode()">
-        <h3>❌ ОШИБОЧНЫЕ</h3><p><span class="special-count" id="wrong-count">0</span></p>
-        <button class="reset-special-btn" onclick="resetWrongQuestions(event)" title="Очистить">✕</button>
-      </div>
-    </div>
-    <div class="footer-note">МилиSiLовская система тестирования | Версия 5.0</div>
+    <div class="progress-container"><div class="progress-fill wrong-progress" id="wrong-progress-fill"></div></div>
+    <div class="question-container wrong-question"><button class="star-btn" id="wrong-star-btn" onclick="toggleHardFromMode()">★</button><div id="wrong-q-text"></div></div>
+    <div class="options-box" id="wrong-options-box"></div>
+    <div class="explanation-box" id="wrong-exp-box" style="display: none;"></div>
+    <div class="pagination" id="wrong-pagination"></div>
+    <div class="nav-buttons"><button class="nav-btn" id="wrong-prev-btn" onclick="prevModeQuestion()" disabled>← ПРЕД</button><button class="nav-btn" id="wrong-check-btn" onclick="checkModeAnswer()" disabled>ОТВЕТИТЬ</button><button class="nav-btn" id="wrong-next-btn" onclick="nextModeQuestion()" disabled>СЛЕД →</button></div>
   </div>
 
-  <div id="quiz-screen">
-    <div class="quiz-header"><button class="back-btn" onclick="showMenu()">← НАЗАД</button><div class="stats"><div class="stat-item"><span class="stat-icon">📄</span><span id="q-counter">0/0</span></div><div class="stat-item"><span class="stat-icon">✓</span><span id="score-display">0</span></div></div></div>
-    <div class="progress-container"><div class="progress-fill" id="progress-fill"></div></div>
-    <div class="question-container"><button class="star-btn" id="star-btn" onclick="toggleHard()">★</button><div id="q-text"></div></div>
-    <div class="options-box" id="options-box"></div>
-    <div class="explanation-box" id="exp-box" style="display: none;"></div>
-    <div class="pagination" id="pagination"></div>
-    <div class="nav-buttons">
-      <button class="nav-btn" id="prev-btn" onclick="prevQuestion()" disabled>← ПРЕД</button>
-      <button class="nav-btn" id="check-btn" onclick="checkAnswer()" disabled>ОТВЕТИТЬ</button>
-      <button class="nav-btn" id="next-btn" onclick="nextQuestion()" disabled>СЛЕД →</button>
-    </div>
-  </div>
-
-  <div id="test-screen">
-    <div class="test-header"><button class="back-btn" onclick="showMenu()">← НАЗАД</button><div class="stats"><div class="stat-item"><span class="stat-icon">📄</span><span id="test-counter">0/0</span></div><div class="stat-item"><span class="stat-icon">✓</span><span id="test-score">0</span></div></div></div>
-    <div class="progress-container"><div class="progress-fill test-progress" id="test-progress-fill"></div></div>
-    <div class="question-container test-question"><button class="star-btn" id="test-star-btn" onclick="toggleHard()">★</button><div id="test-q-text"></div></div>
-    <div class="options-box" id="test-options-box"></div>
-    <div class="nav-buttons">
-      <button class="nav-btn" id="test-confirm-btn" onclick="confirmTestAnswer()" disabled>ПОДТВЕРДИТЬ</button>
-      <button class="nav-btn" id="finish-test-btn" onclick="finishTest()">ЗАВЕРШИТЬ</button>
-    </div>
-  </div>
-
-  <div id="hard-mode-screen">
-    <div class="quiz-header"><button class="back-btn" onclick="showMenu()">← НАЗАД</button><div class="stats"><div class="stat-item"><span class="stat-icon">📄</span><span id="hard-counter">0/0</span></div><div class="stat-item"><span class="stat-icon">✓</span><span id="hard-score">0</span></div></div><button class="reset-hard-btn" onclick="resetHardQuestions(event)">СБРОСИТЬ</button></div>
-    <div class="progress-container"><div class="progress-fill hard-progress" id="hard-progress-fill"></div></div>
-    <div class="question-container hard-question"><button class="star-btn" id="hard-star-btn" onclick="toggleHardFromMode()">★</button><div id="hard-q-text"></div></div>
-    <div class="options-box" id="hard-options-box"></div>
-    <div class="explanation-box" id="hard-exp-box" style="display: none;"></div>
-    <div class="pagination" id="hard-pagination"></div>
-    <div class="nav-buttons">
-      <button class="nav-btn" id="hard-prev-btn" onclick="prevModeQuestion()" disabled>← ПРЕД</button>
-      <button class="nav-btn" id="hard-check-btn" onclick="checkModeAnswer()" disabled>ОТВЕТИТЬ</button>
-      <button class="nav-btn" id="hard-next-btn" onclick="nextModeQuestion()" disabled>СЛЕД →</button>
-    </div>
-  </div>
-<div id="wrong-mode-screen" style="display: none;">
-  <div class="quiz-header">
-    <button class="back-btn" onclick="showMenu()">← НАЗАД</button>
-    <div class="stats">
-      <div class="stat-item"><span class="stat-icon">📄</span><span id="wrong-counter">0/0</span></div>
-      <div class="stat-item"><span class="stat-icon">✓</span><span id="wrong-score">0</span></div>
-    </div>
-    <button class="reset-hard-btn" style="background:#f4b400; color:#1e3c5c; margin-right:5px;" onclick="resetModeAnswers()">🔄 ОТВЕТЫ</button>
-    <button class="reset-hard-btn" onclick="resetWrongQuestions(event)">🗑 СПИСОК</button>
-  </div>
-  <div class="progress-container"><div class="progress-fill wrong-progress" id="wrong-progress-fill"></div></div>
-  <div class="question-container wrong-question"><button class="star-btn" id="wrong-star-btn" onclick="toggleHardFromMode()">★</button><div id="wrong-q-text"></div></div>
-  <div class="options-box" id="wrong-options-box"></div>
-  <div class="explanation-box" id="wrong-exp-box" style="display: none;"></div>
-  <div class="pagination" id="wrong-pagination"></div>
-  <div class="nav-buttons">
-    <button class="nav-btn" id="wrong-prev-btn" onclick="prevModeQuestion()" disabled>← ПРЕД</button>
-    <button class="nav-btn" id="wrong-check-btn" onclick="checkModeAnswer()" disabled>ОТВЕТИТЬ</button>
-    <button class="nav-btn" id="wrong-next-btn" onclick="nextModeQuestion()" disabled>СЛЕД →</button>
-  </div>
-</div>
-<div id="exam-screen">
-    <div class="quiz-header"><button class="back-btn" onclick="showMenu()">← В МЕНЮ</button><div class="timer-container" id="timer" aria-live="polite"><span class="timer-icon">⏱</span><span id="timer-display">20:00</span></div><div class="stats"><div class="stat-item"><span class="stat-icon">📄</span><span id="exam-counter">0/20</span></div><div class="stat-item"><span class="stat-icon">✗</span><span id="exam-errors">0</span>/2</div></div></div>
-    <div class="progress-container"><div class="progress-fill exam-progress" id="exam-progress-fill"></div></div>
-    <div class="question-container exam-question" id="exam-question-container"><div id="exam-q-text"></div></div>
-    <div class="options-box" id="exam-options-box"></div>
-    <div id="exam-result" style="display: none;" class="result-box">
-      <div class="result-title" id="exam-result-title"></div><div class="result-score" id="exam-result-score"></div><div class="result-details" id="exam-result-details"></div>
-      <div class="result-nav"><h4 style="margin-bottom: 10px; color: #1e3c5c;">Навигация по вопросам:</h4><div id="exam-result-questions"></div></div>
-      <div><button class="review-btn" onclick="startReview()">ПРОСМОТР ВОПРОСОВ</button><button class="restart-exam-btn" onclick="restartExam()">НАЧАТЬ ЗАНОВО</button><button class="restart-exam-btn" onclick="showMenu()">ГЛАВНОЕ МЕНЮ</button></div>
-    </div>
-    <button class="nav-btn" id="exam-next-btn" onclick="nextExamQuestion()" style="display: none;">ПОДТВЕРДИТЬ И ДАЛЕЕ →</button>
-  </div>
-
-  <div id="exam-review-screen">
-    <div class="review-header"><button class="back-btn" onclick="showExamResults()">← К РЕЗУЛЬТАТАМ</button><div class="stats"><div class="stat-item"><span class="stat-icon">📄</span><span id="review-counter">0/20</span></div><div class="stat-item"><span class="stat-icon">★</span><span id="review-hard-count">0</span></div></div></div>
-    <div class="progress-container"><div class="progress-fill" id="review-progress-fill"></div></div>
-    <div class="question-container review-question"><button class="star-btn" id="review-star-btn" onclick="toggleReviewHard()">★</button><div id="review-q-text"></div></div>
-    <div class="options-box" id="review-options-box"></div>
-    <div class="explanation-box" id="review-exp-box"></div>
-    <div class="pagination" id="review-pagination"></div>
-    <div class="nav-buttons">
-      <button class="nav-btn" id="review-prev-btn" onclick="prevReviewQuestion()" disabled>← ПРЕД</button>
-      <button class="nav-btn" id="review-next-btn" onclick="nextReviewQuestion()" disabled>СЛЕД →</button>
-    </div>
-  </div>
-</div>
-<div id="test-result-modal">
-  <div class="result-box" id="test-result-content"></div>
+  <div id="exam-screen" style="display: none;"><div class="quiz-header"><button class="back-btn" onclick="showMenu()">← В МЕНЮ</button><div class="timer-container" id="timer"><span class="timer-icon">⏱</span><span id="timer-display">20:00</span></div><div class="stats"><div class="stat-item"><span class="stat-icon">📄</span><span id="exam-counter">0/20</span></div><div class="stat-item"><span class="stat-icon">✗</span><span id="exam-errors">0</span>/2</div></div></div><div class="progress-container"><div class="progress-fill exam-progress" id="exam-progress-fill"></div></div><div class="question-container exam-question" id="exam-question-container"><div id="exam-q-text"></div></div><div class="options-box" id="exam-options-box"></div><div id="exam-result" style="display: none;" class="result-box"><div class="result-title" id="exam-result-title"></div><div class="result-score" id="exam-result-score"></div><div class="result-details" id="exam-result-details"></div><div class="result-nav"><h4 style="margin-bottom: 10px; color: #1e3c5c;">Навигация по вопросам:</h4><div id="exam-result-questions"></div></div><div><button class="review-btn" onclick="startReview()">ПРОСМОТР ВОПРОСОВ</button><button class="restart-exam-btn" onclick="restartExam()">НАЧАТЬ ЗАНОВО</button><button class="restart-exam-btn" onclick="showMenu()">ГЛАВНОЕ МЕНЮ</button></div></div><button class="nav-btn" id="exam-next-btn" onclick="nextExamQuestion()" style="display: none;">ПОДТВЕРДИТЬ И ДАЛЕЕ →</button></div>
+  
+  <div id="exam-review-screen" style="display: none;"><div class="review-header"><button class="back-btn" onclick="showExamResults()">← К РЕЗУЛЬТАТАМ</button><div class="stats"><div class="stat-item"><span class="stat-icon">📄</span><span id="review-counter">0/20</span></div><div class="stat-item"><span class="stat-icon">★</span><span id="review-hard-count">0</span></div></div></div><div class="progress-container"><div class="progress-fill" id="review-progress-fill"></div></div><div class="question-container review-question"><button class="star-btn" id="review-star-btn" onclick="toggleReviewHard()">★</button><div id="review-q-text"></div></div><div class="options-box" id="review-options-box"></div><div class="explanation-box" id="review-exp-box"></div><div class="pagination" id="review-pagination"></div><div class="nav-buttons"><button class="nav-btn" id="review-prev-btn" onclick="prevReviewQuestion()" disabled>← ПРЕД</button><button class="nav-btn" id="review-next-btn" onclick="nextReviewQuestion()" disabled>СЛЕД →</button></div></div>
 </div>
 
 <script>
 // ========== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ==========
-let currentBlockNum = null;
 let fullBase = []; let activeQuestions = []; let currentIdx = 0; let score = 0; let selectedOptions = [];
 let hardQuestions = []; let wrongQuestions = []; let examQuestions = []; let examCurrentIdx = 0; let examErrors = 0;
 let examTimer = null; let examTimeLeft = 1200; let examAnswers = []; let examResults = []; let reviewCurrentIdx = 0;
@@ -462,259 +318,178 @@ const USERS = {
 const PENDING_USERS = {};
 
 // ========== ХРАНЕНИЕ ДАННЫХ ==========
-function getHardKey() { return `hardQuestions_${localStorage.getItem('username') || 'guest'}_${currentTest}`; }
-function loadHardQuestions() { try { hardQuestions = JSON.parse(localStorage.getItem(getHardKey()) || '[]') || []; } catch { hardQuestions = []; } updateHardCount(); }
-function saveHardQuestions() { localStorage.setItem(getHardKey(), JSON.stringify(hardQuestions)); }
-function updateHardCount() { const c = document.getElementById('hard-count'); const r = document.getElementById('review-hard-count'); if(c) c.innerText = hardQuestions.length; if(r) r.innerText = hardQuestions.length; }
-function resetHardQuestions(e) { if(e){e.preventDefault();e.stopPropagation();} if(confirm('Очистить список трудных вопросов?')){ hardQuestions=[]; saveHardQuestions(); updateHardCount(); if(document.getElementById('hard-mode-screen').style.display==='block')showMenu(); showNotification('✅ Список трудных вопросов очищен'); } return false; }
+function getHardKey() { const username = localStorage.getItem('username') || 'guest'; return `hardQuestions_${username}_${currentTest}`; }
+function loadHardQuestions() { const key = getHardKey(); const saved = localStorage.getItem(key); try { hardQuestions = saved ? JSON.parse(saved) : []; if (!Array.isArray(hardQuestions)) hardQuestions = []; } catch (e) { hardQuestions = []; } updateHardCount(); }
+function saveHardQuestions() { const key = getHardKey(); localStorage.setItem(key, JSON.stringify(hardQuestions)); }
+function updateHardCount() { const count = hardQuestions.length; const hardCountElement = document.getElementById('hard-count'); const reviewHardCountElement = document.getElementById('review-hard-count'); if (hardCountElement) hardCountElement.innerText = count; if (reviewHardCountElement) reviewHardCountElement.innerText = count; }
+function resetHardQuestions(event) { if (event) { event.preventDefault(); event.stopPropagation(); } if (confirm('Очистить список трудных вопросов?')) { hardQuestions = []; saveHardQuestions(); updateHardCount(); if (document.getElementById('hard-mode-screen').style.display === 'block') showMenu(); showNotification('✅ Список трудных вопросов очищен'); } return false; }
+function getWrongKey() { const username = localStorage.getItem('username') || 'guest'; return `wrongQuestions_${username}_${currentTest}`; }
+function loadWrongQuestions() { const key = getWrongKey(); const saved = localStorage.getItem(key); try { wrongQuestions = saved ? JSON.parse(saved) : []; if (!Array.isArray(wrongQuestions)) wrongQuestions = []; } catch (e) { wrongQuestions = []; } updateWrongCount(); }
+function saveWrongQuestions() { const key = getWrongKey(); localStorage.setItem(key, JSON.stringify(wrongQuestions)); }
+function updateWrongCount() { const count = wrongQuestions.length; const wrongCountElement = document.getElementById('wrong-count'); if (wrongCountElement) wrongCountElement.innerText = count; }
+function resetWrongQuestions(event) { if (event) { event.preventDefault(); event.stopPropagation(); } if (confirm('Очистить список ошибочных вопросов?')) { wrongQuestions = []; saveWrongQuestions(); updateWrongCount(); if (document.getElementById('wrong-mode-screen').style.display === 'block') showMenu(); showNotification('✅ Список ошибочных вопросов очищен'); } return false; }
+function addToWrongQuestions(questionId) { if (!wrongQuestions.includes(questionId)) { wrongQuestions.push(questionId); saveWrongQuestions(); updateWrongCount(); } }
 
-function getWrongKey() { return `wrongQuestions_${localStorage.getItem('username') || 'guest'}_${currentTest}`; }
-function loadWrongQuestions() { try { wrongQuestions = JSON.parse(localStorage.getItem(getWrongKey()) || '[]') || []; } catch { wrongQuestions = []; } updateWrongCount(); }
-function saveWrongQuestions() { localStorage.setItem(getWrongKey(), JSON.stringify(wrongQuestions)); }
-function updateWrongCount() { const c = document.getElementById('wrong-count'); if(c) c.innerText = wrongQuestions.length; }
-function resetWrongQuestions(e) { if(e){e.preventDefault();e.stopPropagation();} if(confirm('Очистить список ошибочных вопросов?')){ wrongQuestions=[]; saveWrongQuestions(); updateWrongCount(); if(document.getElementById('wrong-mode-screen').style.display==='block')showMenu(); showNotification('✅ Список ошибочных вопросов очищен'); } return false; }
+// ✅ СБРОС ОТВЕТОВ В РЕЖИМАХ (НЕ УДАЛЯЕТ ВОПРОСЫ)
 function resetModeAnswers() {
   if (!modeQuestions.length) return showNotification('⚠️ Список пуст');
-  
-  modeAnswerStates.clear();
-  modeScore = 0;
-  modeCurrentIdx = 0;
-  
+  modeAnswerStates.clear(); modeScore = 0; modeCurrentIdx = 0;
   const scoreEl = document.getElementById(`${currentMode}-score`);
   const counterEl = document.getElementById(`${currentMode}-counter`);
   if (scoreEl) scoreEl.innerText = '0';
   if (counterEl) counterEl.innerText = `1/${modeQuestions.length}`;
-  
-  loadModeQuestion();
-  updateModeNavigationButtons();
-  renderModePagination();
+  loadModeQuestion(); updateModeNavigationButtons(); renderModePagination();
   showNotification('✅ Ответы сброшены! Можно решать заново');
 }
-function addToWrongQuestions(id) { if(!wrongQuestions.includes(id)){ wrongQuestions.push(id); saveWrongQuestions(); updateWrongCount(); } }
 
-// ========== РЕЖИМЫ ==========
-function startMode(mode, ids) {
-  if(!fullBase.length){alert('База загружается...');return;}
-  modeQuestions=fullBase.filter(q=>ids.includes(q.id)).map(q=>shuffleQuestionOptions({...q,c:[...q.c]}));
-  currentMode=mode; modeCurrentIdx=0; modeScore=0; modeAnswerStates.clear();
-  document.getElementById('menu-screen').style.display='none';
-  document.getElementById(`${mode}-mode-screen`).style.display='block';
-  updateModeDisplay(); renderModePagination(); loadModeQuestion(); updateModeNavigationButtons();
+// ========== ФУНКЦИИ ДЛЯ РЕЖИМОВ ==========
+function startMode(mode, questionIds) {
+  if (fullBase.length === 0) { alert('База вопросов загружается...'); return; }
+  const questions = fullBase.filter(q => questionIds.includes(q.id));
+  if (questions.length === 0) { showNotification(`Нет ${mode === 'hard' ? 'отмеченных' : 'ошибочных'} вопросов`); return; }
+  modeQuestions = questions.map(q => shuffleQuestionOptions({...q, c: [...q.c]})); currentMode = mode; modeCurrentIdx = 0; modeScore = 0; modeAnswerStates.clear();
+  document.getElementById('menu-screen').style.display = 'none'; document.getElementById(`${mode}-mode-screen`).style.display = 'block'; updateModeDisplay(); renderModePagination(); loadModeQuestion(); updateModeNavigationButtons();
 }
-function startHardMode(){startMode('hard',hardQuestions);}
-function startWrongMode(){startMode('wrong',wrongQuestions);}
-function updateModeDisplay(){const s=currentMode;document.getElementById(`${s}-counter`).innerText=`${modeCurrentIdx+1}/${modeQuestions.length}`;document.getElementById(`${s}-score`).innerText=modeScore;}
-function renderModePagination(){const p=document.getElementById(`${currentMode}-pagination`);if(!p)return;p.innerHTML='';modeQuestions.forEach((q,i)=>{const b=document.createElement('button');b.className='page-btn';b.innerText=i+1;const st=modeAnswerStates.get(q.id);if(st?.isChecked)b.classList.add(st.isCorrect?'correct':'wrong');else if(st?.selected?.length)b.classList.add('answered');if(i===modeCurrentIdx)b.classList.add('active');b.onclick=()=>jumpToModeQuestion(i);p.appendChild(b);});}
-function updateModePaginationActive(){document.querySelectorAll(`#${currentMode}-pagination .page-btn`).forEach((b,i)=>b.classList.toggle('active',i===modeCurrentIdx));}
-function jumpToModeQuestion(i){if(i<0||i>=modeQuestions.length)return;modeCurrentIdx=i;loadModeQuestion();updateModePaginationActive();updateModeNavigationButtons();}
-function loadModeQuestion(){const q=modeQuestions[modeCurrentIdx];const sv=modeAnswerStates.get(q.id);const sel=sv?.selected?[...sv.selected]:[];const s=currentMode;document.getElementById(`${s}-q-text`).innerText=q.q;document.getElementById(`${s}-counter`).innerText=`${modeCurrentIdx+1}/${modeQuestions.length}`;document.getElementById(`${s}-score`).innerText=modeScore;const st=document.getElementById(`${s}-star-btn`);if(st)st.classList.toggle('active',hardQuestions.includes(q.id));const box=document.getElementById(`${s}-options-box`);box.innerHTML='';q.o.forEach((opt,i)=>{const b=document.createElement('button');b.className='option-btn';b.innerText=opt;if(sv?.isChecked){b.disabled=true;if(q.c.includes(i))b.classList.add('correct');else if(sv.selected.includes(i))b.classList.add('wrong');}else{if(sel.includes(i))b.classList.add('selected');b.onclick=()=>selectModeOption(i,b);}box.appendChild(b);});const exp=document.getElementById(`${s}-exp-box`);if(sv?.isChecked){exp.innerHTML=formatExplanation(q.e);exp.style.display='block';}else{exp.style.display='none';}updateModeProgress();}
-function selectModeOption(i,b){const q=modeQuestions[modeCurrentIdx];const m=q.c.length>1;const sv=modeAnswerStates.get(q.id);let sel=sv?.selected?[...sv.selected]:[];if(m){if(sel.includes(i)){sel=sel.filter(x=>x!==i);b.classList.remove('selected');}else if(sel.length<q.c.length){sel.push(i);b.classList.add('selected');}}else{document.querySelectorAll(`#${currentMode}-options-box .option-btn`).forEach(x=>x.classList.remove('selected'));sel=[i];b.classList.add('selected');}modeAnswerStates.set(q.id,{selected:sel,isChecked:false});document.getElementById(`${currentMode}-check-btn`).disabled=sel.length!==q.c.length;renderModePagination();}
-function checkModeAnswer(){const q=modeQuestions[modeCurrentIdx];const sv=modeAnswerStates.get(q.id);if(!sv)return;const ok=q.c.length===sv.selected.length&&q.c.every(v=>sv.selected.includes(v));const s=currentMode;document.querySelectorAll(`#${s}-options-box .option-btn`).forEach((b,i)=>{b.disabled=true;if(q.c.includes(i))b.classList.add('correct');else if(sv.selected.includes(i))b.classList.add('wrong');});modeAnswerStates.set(q.id,{...sv,isChecked:true,isCorrect:ok});if(ok){modeScore++;document.getElementById(`${s}-score`).innerText=modeScore;}document.getElementById(`${s}-exp-box`).innerHTML=formatExplanation(q.e);document.getElementById(`${s}-exp-box`).style.display='block';updateModeNavigationButtons();renderModePagination();}
-function toggleHardFromMode(){const q=modeQuestions[modeCurrentIdx];if(!q)return;if(hardQuestions.includes(q.id))hardQuestions=hardQuestions.filter(h=>h!==q.id);else hardQuestions.push(q.id);saveHardQuestions();document.getElementById(`${currentMode}-star-btn`).classList.toggle('active');updateHardCount();}
-function updateModeNavigationButtons(){const s=currentMode;document.getElementById(`${s}-prev-btn`).disabled=modeCurrentIdx<=0;document.getElementById(`${s}-next-btn`).disabled=modeCurrentIdx>=modeQuestions.length-1;const q=modeQuestions[modeCurrentIdx];const sv=modeAnswerStates.get(q?.id);const c=document.getElementById(`${s}-check-btn`);if(sv?.isChecked)c.style.display='none';else{c.style.display='block';c.disabled=!sv||sv.selected.length!==q.c.length;}}
-function prevModeQuestion(){if(modeCurrentIdx>0){modeCurrentIdx--;loadModeQuestion();updateModePaginationActive();updateModeNavigationButtons();}}
-function nextModeQuestion(){if(modeCurrentIdx<modeQuestions.length-1){modeCurrentIdx++;loadModeQuestion();updateModePaginationActive();updateModeNavigationButtons();}}
-function updateModeProgress(){document.getElementById(`${currentMode}-progress-fill`).style.width=((modeCurrentIdx+1)/modeQuestions.length)*100+'%';}
+function startHardMode() { startMode('hard', hardQuestions); }
+function startWrongMode() { startMode('wrong', wrongQuestions); }
+function updateModeDisplay() { const screen = currentMode; document.getElementById(`${screen}-counter`).innerText = `${modeCurrentIdx + 1}/${modeQuestions.length}`; document.getElementById(`${screen}-score`).innerText = modeScore; }
+function renderModePagination() { const paginationId = `${currentMode}-pagination`; const pagination = document.getElementById(paginationId); if (!pagination) return; pagination.innerHTML = ''; modeQuestions.forEach((q, index) => { const btn = document.createElement('button'); btn.className = 'page-btn'; btn.innerText = index + 1; const state = modeAnswerStates.get(q.id); if (state?.isChecked) btn.classList.add(state.isCorrect ? 'correct' : 'wrong'); else if (state?.selected?.length) btn.classList.add('answered'); if (index === modeCurrentIdx) btn.classList.add('active'); btn.onclick = () => jumpToModeQuestion(index); pagination.appendChild(btn); }); }
+function updateModePaginationActive() { document.querySelectorAll(`#${currentMode}-pagination .page-btn`).forEach((btn, i) => { btn.classList.toggle('active', i === modeCurrentIdx); }); }
+function jumpToModeQuestion(index) { if (index < 0 || index >= modeQuestions.length) return; modeCurrentIdx = index; loadModeQuestion(); updateModePaginationActive(); updateModeNavigationButtons(); }
+function loadModeQuestion() { const q = modeQuestions[modeCurrentIdx]; const savedState = modeAnswerStates.get(q.id); const selectedOpts = savedState?.selected ? [...savedState.selected] : []; const screen = currentMode; document.getElementById(`${screen}-q-text`).innerText = q.q; document.getElementById(`${screen}-counter`).innerText = `${modeCurrentIdx + 1}/${modeQuestions.length}`; document.getElementById(`${screen}-score`).innerText = modeScore; const starBtn = document.getElementById(`${screen}-star-btn`); if (starBtn) starBtn.classList.toggle('active', hardQuestions.includes(q.id)); const box = document.getElementById(`${screen}-options-box`); box.innerHTML = ''; q.o.forEach((opt, i) => { const btn = document.createElement('button'); btn.className = 'option-btn'; btn.innerText = opt; if (savedState?.isChecked) { btn.disabled = true; if (q.c.includes(i)) btn.classList.add('correct'); else if (savedState.selected.includes(i)) btn.classList.add('wrong'); } else { if (selectedOpts.includes(i)) btn.classList.add('selected'); btn.onclick = () => selectModeOption(i, btn); } box.appendChild(btn); }); const expBox = document.getElementById(`${screen}-exp-box`); if (savedState?.isChecked) { expBox.innerHTML = formatExplanation(q.e); expBox.style.display = 'block'; } else { expBox.style.display = 'none'; } updateModeProgress(); }
+function selectModeOption(idx, btn) { const q = modeQuestions[modeCurrentIdx]; const isMultiple = q.c.length > 1; const savedState = modeAnswerStates.get(q.id); let selectedOpts = savedState?.selected ? [...savedState.selected] : []; if (isMultiple) { if (selectedOpts.includes(idx)) { selectedOpts = selectedOpts.filter(i => i !== idx); btn.classList.remove('selected'); } else if (selectedOpts.length < q.c.length) { selectedOpts.push(idx); btn.classList.add('selected'); } } else { const container = `${currentMode}-options-box`; document.querySelectorAll(`#${container} .option-btn`).forEach(b => b.classList.remove('selected')); selectedOpts = [idx]; btn.classList.add('selected'); } modeAnswerStates.set(q.id, { selected: selectedOpts, isChecked: false }); const checkBtnId = `${currentMode}-check-btn`; document.getElementById(checkBtnId).disabled = selectedOpts.length !== q.c.length; renderModePagination(); }
+function checkModeAnswer() { const q = modeQuestions[modeCurrentIdx]; const savedState = modeAnswerStates.get(q.id); if (!savedState) return; const isCorrect = q.c.length === savedState.selected.length && q.c.every(v => savedState.selected.includes(v)); const screen = currentMode; document.querySelectorAll(`#${screen}-options-box .option-btn`).forEach((btn, i) => { btn.disabled = true; if (q.c.includes(i)) btn.classList.add('correct'); else if (savedState.selected.includes(i)) btn.classList.add('wrong'); }); modeAnswerStates.set(q.id, { selected: savedState.selected, isChecked: true, isCorrect: isCorrect }); if (isCorrect) { modeScore++; document.getElementById(`${screen}-score`).innerText = modeScore; } document.getElementById(`${screen}-exp-box`).innerHTML = formatExplanation(q.e); document.getElementById(`${screen}-exp-box`).style.display = 'block'; updateModeNavigationButtons(); renderModePagination(); }
+function toggleHardFromMode() { const q = modeQuestions[modeCurrentIdx]; if (!q) return; if (hardQuestions.includes(q.id)) hardQuestions = hardQuestions.filter(h => h !== q.id); else hardQuestions.push(q.id); saveHardQuestions(); const screen = currentMode; document.getElementById(`${screen}-star-btn`).classList.toggle('active'); updateHardCount(); }
+function updateModeNavigationButtons() { const prevBtn = document.getElementById(`${currentMode}-prev-btn`); const nextBtn = document.getElementById(`${currentMode}-next-btn`); const checkBtn = document.getElementById(`${currentMode}-check-btn`); if (prevBtn) prevBtn.disabled = modeCurrentIdx <= 0; if (nextBtn) nextBtn.disabled = modeCurrentIdx >= modeQuestions.length - 1; const q = modeQuestions[modeCurrentIdx]; const savedState = modeAnswerStates.get(q?.id); if (savedState?.isChecked) checkBtn.style.display = 'none'; else { checkBtn.style.display = 'block'; checkBtn.disabled = !savedState || savedState.selected.length !== q.c.length; } }
+function prevModeQuestion() { if (modeCurrentIdx > 0) { modeCurrentIdx--; loadModeQuestion(); updateModePaginationActive(); updateModeNavigationButtons(); } }
+function nextModeQuestion() { if (modeCurrentIdx < modeQuestions.length - 1) { modeCurrentIdx++; loadModeQuestion(); updateModePaginationActive(); updateModeNavigationButtons(); } }
+function updateModeProgress() { const progress = ((modeCurrentIdx + 1) / modeQuestions.length) * 100; const fillId = `${currentMode}-progress-fill`; document.getElementById(fillId).style.width = progress + '%'; }
 
-// ========== ТЕСТЫ ==========
-function startTestMode(testId, blockNum, start, end) {
-  currentTest=testId; if(!fullBase.length){alert('База загружается...');return;}
-  testQuestions=fullBase.slice(start,end).map(q=>({...q,c:[...q.c]})).map(shuffleQuestionOptions).sort(()=>Math.random()-0.5);
-  testCurrentIdx=0;testScore=0;testAnswers=new Array(testQuestions.length).fill(null);
-  document.getElementById('menu-screen').style.display='none';document.getElementById('test-screen').style.display='block';
-  updateTestDisplay();loadTestQuestion();updateTestConfirmButton();
-}
-function updateTestDisplay(){document.getElementById('test-counter').innerText=`${testCurrentIdx+1}/${testQuestions.length}`;document.getElementById('test-score').innerText=testScore;}
-function loadTestQuestion(){const q=testQuestions[testCurrentIdx];const sv=testAnswers[testCurrentIdx];document.getElementById('test-q-text').innerText=q.q;updateTestDisplay();const st=document.getElementById('test-star-btn');if(st){st.classList.toggle('active',hardQuestions.includes(q.id));st.disabled=false;}const box=document.getElementById('test-options-box');box.innerHTML='';const m=q.c.length>1;q.o.forEach((opt,i)=>{const b=document.createElement('button');b.className='option-btn';b.innerText=opt;if(sv&&sv.confirmed){b.disabled=true;if(q.c.includes(i))b.classList.add('correct');else if((sv.selected===i)||(Array.isArray(sv.selected)&&sv.selected.includes(i)))b.classList.add('wrong');}else{if(sv){if(m){if(Array.isArray(sv.selected)&&sv.selected.includes(i))b.classList.add('selected');}else{if(sv.selected===i)b.classList.add('selected');}}b.onclick=()=>selectTestOption(i,b);}box.appendChild(b);});updateTestProgress();}
-function selectTestOption(i,b){const q=testQuestions[testCurrentIdx];const m=q.c.length>1;let a=testAnswers[testCurrentIdx];if(a&&a.confirmed)return;if(m){if(!a||!Array.isArray(a.selected))a={selected:[]};if(a.selected.includes(i)){a.selected=a.selected.filter(x=>x!==i);b.classList.remove('selected');}else if(a.selected.length<q.c.length){a.selected.push(i);b.classList.add('selected');}testAnswers[testCurrentIdx]=a;}else{document.querySelectorAll('#test-options-box .option-btn').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');testAnswers[testCurrentIdx]={selected:i};}updateTestConfirmButton();}
-function confirmTestAnswer(){const q=testQuestions[testCurrentIdx];const a=testAnswers[testCurrentIdx];if(!a)return;const m=q.c.length>1;const ok=m?(q.c.length===a.selected.length&&q.c.every(v=>a.selected.includes(v))):q.c.includes(a.selected);a.confirmed=true;a.isCorrect=ok;testAnswers[testCurrentIdx]=a;if(ok){testScore++;document.getElementById('test-score').innerText=testScore;}else addToWrongQuestions(q.id);document.querySelectorAll('#test-options-box .option-btn').forEach((b,i)=>{b.disabled=true;if(q.c.includes(i))b.classList.add('correct');else if(m?a.selected.includes(i):a.selected===i)b.classList.add('wrong');});if(testCurrentIdx<testQuestions.length-1){testCurrentIdx++;loadTestQuestion();updateTestConfirmButton();}else finishTest();}
-function updateTestConfirmButton(){const a=testAnswers[testCurrentIdx];document.getElementById('test-confirm-btn').disabled=!(a&&!a.confirmed);}
-function updateTestProgress(){document.getElementById('test-progress-fill').style.width=((testCurrentIdx+1)/testQuestions.length)*100+'%';}
+// ========== ФУНКЦИИ ДЛЯ ТЕСТОВ ==========
+function startTestMode(testId, blockNum, start, end) { currentTest = testId; if (fullBase.length === 0) { alert('База вопросов загружается...'); return; } testQuestions = fullBase.slice(start, end).map(q => ({...q, c: [...q.c]})).map(q => shuffleQuestionOptions(q)).sort(() => Math.random() - 0.5); testCurrentIdx = 0; testScore = 0; testAnswers = new Array(testQuestions.length).fill(null); document.getElementById('menu-screen').style.display = 'none'; document.getElementById('test-screen').style.display = 'block'; updateTestDisplay(); loadTestQuestion(); updateTestConfirmButton(); }
+function updateTestDisplay() { document.getElementById('test-counter').innerText = `${testCurrentIdx + 1}/${testQuestions.length}`; document.getElementById('test-score').innerText = testScore; }
+function loadTestQuestion() { const q = testQuestions[testCurrentIdx]; const savedAnswer = testAnswers[testCurrentIdx]; document.getElementById('test-q-text').innerText = q.q; document.getElementById('test-counter').innerText = `${testCurrentIdx + 1}/${testQuestions.length}`; document.getElementById('test-score').innerText = testScore; const starBtn = document.getElementById('test-star-btn'); if (starBtn) { const isHard = hardQuestions.includes(q.id); starBtn.classList.toggle('active', isHard); starBtn.disabled = false; } const box = document.getElementById('test-options-box'); box.innerHTML = ''; const isMultiple = q.c.length > 1; q.o.forEach((opt, i) => { const btn = document.createElement('button'); btn.className = 'option-btn'; btn.innerText = opt; if (savedAnswer && savedAnswer.confirmed) { btn.disabled = true; if (q.c.includes(i)) btn.classList.add('correct'); else if (savedAnswer.selected === i || (Array.isArray(savedAnswer.selected) && savedAnswer.selected.includes(i))) btn.classList.add('wrong'); } else { if (savedAnswer) { if (isMultiple) { if (Array.isArray(savedAnswer.selected) && savedAnswer.selected.includes(i)) btn.classList.add('selected'); } else { if (savedAnswer.selected === i) btn.classList.add('selected'); } } btn.onclick = () => selectTestOption(i, btn); } box.appendChild(btn); }); updateTestProgress(); }
+function selectTestOption(idx, btn) { const q = testQuestions[testCurrentIdx]; const isMultiple = q.c.length > 1; let currentAnswer = testAnswers[testCurrentIdx]; if (currentAnswer && currentAnswer.confirmed) return; if (isMultiple) { if (!currentAnswer || !Array.isArray(currentAnswer.selected)) currentAnswer = { selected: [] }; if (currentAnswer.selected.includes(idx)) { currentAnswer.selected = currentAnswer.selected.filter(i => i !== idx); btn.classList.remove('selected'); } else if (currentAnswer.selected.length < q.c.length) { currentAnswer.selected.push(idx); btn.classList.add('selected'); } testAnswers[testCurrentIdx] = currentAnswer; } else { document.querySelectorAll('#test-options-box .option-btn').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); testAnswers[testCurrentIdx] = { selected: idx }; } updateTestConfirmButton(); }
+function confirmTestAnswer() { const q = testQuestions[testCurrentIdx]; const answer = testAnswers[testCurrentIdx]; if (!answer) { alert('Выберите вариант ответа!'); return; } const isMultiple = q.c.length > 1; let isCorrect; if (isMultiple) isCorrect = q.c.length === answer.selected.length && q.c.every(v => answer.selected.includes(v)); else isCorrect = q.c.includes(answer.selected); answer.confirmed = true; answer.isCorrect = isCorrect; testAnswers[testCurrentIdx] = answer; if (isCorrect) { testScore++; document.getElementById('test-score').innerText = testScore; } else addToWrongQuestions(q.id); document.querySelectorAll('#test-options-box .option-btn').forEach((btn, i) => { btn.disabled = true; if (q.c.includes(i)) btn.classList.add('correct'); else if (isMultiple) { if (answer.selected.includes(i)) btn.classList.add('wrong'); } else { if (answer.selected === i) btn.classList.add('wrong'); } }); if (testCurrentIdx < testQuestions.length - 1) { testCurrentIdx++; loadTestQuestion(); updateTestConfirmButton(); } else finishTest(); }
+function updateTestConfirmButton() { const answer = testAnswers[testCurrentIdx]; const confirmBtn = document.getElementById('test-confirm-btn'); confirmBtn.disabled = !(answer && !answer.confirmed); }
+function finishTest() { let correctCount = 0; let totalAnswered = 0; testAnswers.forEach((answer, index) => { if (answer && answer.confirmed) { totalAnswered++; if (answer.isCorrect) correctCount++; } }); const totalQuestions = testQuestions.length; const percentage = totalAnswered > 0 ? (correctCount / totalQuestions) * 100 : 0; const resultHtml = `<div class="result-box"><div class="result-title ${percentage >= 70 ? 'result-pass' : 'result-fail'}">ТЕСТИРОВАНИЕ ЗАВЕРШЕНО</div><div class="result-score">${correctCount}/${totalQuestions}</div><div class="result-details">Правильных ответов: ${correctCount} из ${totalQuestions}<br>${totalAnswered < totalQuestions ? `Пропущено: ${totalQuestions - totalAnswered}<br>` : ''}Ошибок: ${totalQuestions - correctCount}<br>Процент правильных: ${percentage.toFixed(1)}%<br>${(totalQuestions - correctCount) > 0 ? '<br>❌ Неправильные вопросы добавлены в блок ошибок' : '<br>✅ Отлично! Ошибок нет!'}</div><div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px; flex-wrap: wrap;"><button class="restart-exam-btn" onclick="showMenu()">ГЛАВНОЕ МЕНЮ</button><button class="back-btn" onclick="location.reload()">← НАЗАД</button>${(totalQuestions - correctCount) > 0 ? '<button class="review-btn" onclick="startWrongMode()">ПРОРАБОТАТЬ ОШИБКИ</button>' : ''}</div></div>`; document.getElementById('test-screen').innerHTML = resultHtml; }
+function updateTestProgress() { const progress = ((testCurrentIdx + 1) / testQuestions.length) * 100; document.getElementById('test-progress-fill').style.width = progress + '%'; }
 
-// ✅ ИСПРАВЛЕН БАГ: finishTest() больше не ломает DOM
-function finishTest() {
-  let ok=0,tot=0;
-  testAnswers.forEach(a=>{if(a&&a.confirmed){tot++;if(a.isCorrect)ok++;}});
-  const pct=tot>0?(ok/testQuestions.length)*100:0;
-  const pass=pct>=70;
-  const modal=document.getElementById('test-result-modal');
-  const box=document.getElementById('test-result-content');
-  box.innerHTML=`
-    <div class="result-title ${pass?'result-pass':'result-fail'}">ТЕСТИРОВАНИЕ ЗАВЕРШЕНО</div>
-    <div class="result-score">${ok}/${testQuestions.length}</div>
-    <div class="result-details">Правильных: ${ok} | Пропущено: ${testQuestions.length-tot}<br>Процент: ${pct.toFixed(1)}%<br>${tot-ok>0?'<br>❌ Ошибки добавлены в блок "Ошибочные"':'<br>✅ Отлично!'}</div>
-    <div style="display:flex;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap;">
-      <button class="restart-exam-btn" onclick="closeTestResult();showMenu()">ГЛАВНОЕ МЕНЮ</button>
-      ${tot-ok>0?'<button class="review-btn" onclick="closeTestResult();startWrongMode()">ПРОРАБОТАТЬ ОШИБКИ</button>':''}
-    </div>`;
-  modal.classList.add('show');
-}
-function closeTestResult(){document.getElementById('test-result-modal').classList.remove('show');}
+// ========== ФУНКЦИИ ДЛЯ ТРЕНИРОВКИ ==========
+function loadTrainingState() { const username = localStorage.getItem('username') || 'guest'; const saved = localStorage.getItem(`trainingState_${currentTest}_${username}`); if (saved) { try { trainingState = JSON.parse(saved); if (trainingState.activeQuestions && trainingState.activeQuestions.length > 0) return trainingState; } catch (e) {} } return null; }
+function saveTrainingState() { if (activeQuestions.length > 0 && document.getElementById('quiz-screen').style.display === 'block') { const questionStates = activeQuestions.map(q => ({ id: q.id, isHard: hardQuestions.includes(q.id), answerState: answerStates.get(q.id) || null })); trainingState = { activeQuestions: activeQuestions.map(q => ({...q})), currentIdx, score, blockNum: trainingState.blockNum, questionStates }; const username = localStorage.getItem('username') || 'guest'; localStorage.setItem(`trainingState_${currentTest}_${username}`, JSON.stringify(trainingState)); } }
+function clearTrainingState() { const username = localStorage.getItem('username') || 'guest'; localStorage.removeItem(`trainingState_${currentTest}_${username}`); trainingState = { activeQuestions: [], currentIdx: 0, score: 0, blockNum: null, questionStates: [] }; }
+function startBlock(testId, num, start, end) { currentTest = testId; if (fullBase.length === 0) { alert('База вопросов обновляется. Пожалуйста, подождите.'); return; } const savedState = loadTrainingState(); if (savedState && savedState.blockNum === num && savedState.activeQuestions.length > 0) { if (confirm('Обнаружено сохраненное состояние блока. Продолжить с того же места?')) { activeQuestions = savedState.activeQuestions.map(q => shuffleQuestionOptions(q)); currentIdx = savedState.currentIdx; score = savedState.score; answerStates.clear(); savedState.questionStates.forEach(state => { if (state.answerState) answerStates.set(state.id, state.answerState); if (state.isHard && !hardQuestions.includes(state.id)) hardQuestions.push(state.id); }); saveHardQuestions(); initQuiz(); return; } else clearTrainingState(); } activeQuestions = fullBase.slice(start, end).map(q => shuffleQuestionOptions({...q, c: [...q.c]})).sort(() => Math.random() - 0.5); answerStates.clear(); trainingState.blockNum = num; clearTrainingState(); initQuiz(); }
+function initQuiz() { if (!activeQuestions.length) return; document.getElementById('menu-screen').style.display = 'none'; document.getElementById('quiz-screen').style.display = 'block'; document.getElementById('test-screen').style.display = 'none'; document.getElementById('hard-mode-screen').style.display = 'none'; document.getElementById('wrong-mode-screen').style.display = 'none'; currentMode = ''; renderPagination(); loadQuestion(); updateNavigationButtons(); }
+function renderPagination() { const pagination = document.getElementById('pagination'); if (!pagination) return; pagination.innerHTML = ''; activeQuestions.forEach((q, index) => { const btn = document.createElement('button'); btn.className = 'page-btn'; btn.innerText = index + 1; const state = answerStates.get(q.id); if (state?.isChecked) btn.classList.add(state.isCorrect ? 'correct' : 'wrong'); else if (state?.selected?.length) btn.classList.add('answered'); if (index === currentIdx) btn.classList.add('active'); btn.onclick = () => jumpToQuestion(index); pagination.appendChild(btn); }); }
+function updatePaginationActive() { document.querySelectorAll('#pagination .page-btn').forEach((btn, i) => { btn.classList.toggle('active', i === currentIdx); }); }
+function jumpToQuestion(index) { if (index < 0 || index >= activeQuestions.length) return; currentIdx = index; loadQuestion(); updatePaginationActive(); updateNavigationButtons(); saveTrainingState(); }
+function updateNavigationButtons() { const prevBtn = document.getElementById('prev-btn'); const nextBtn = document.getElementById('next-btn'); const checkBtn = document.getElementById('check-btn'); const q = activeQuestions[currentIdx]; const savedState = answerStates.get(q?.id); prevBtn.disabled = currentIdx <= 0; nextBtn.disabled = currentIdx >= activeQuestions.length - 1; if (savedState?.isChecked) checkBtn.style.display = 'none'; else { checkBtn.style.display = 'block'; checkBtn.disabled = selectedOptions.length !== q.c.length; } }
+function prevQuestion() { if (currentIdx > 0) jumpToQuestion(currentIdx - 1); }
+function loadQuestion() { const q = activeQuestions[currentIdx]; const savedState = answerStates.get(q.id); selectedOptions = savedState?.selected ? [...savedState.selected] : []; document.getElementById('q-text').innerText = q.q; document.getElementById('q-counter').innerText = `${currentIdx + 1}/${activeQuestions.length}`; document.getElementById('score-display').innerText = score; document.getElementById('star-btn').classList.toggle('active', hardQuestions.includes(q.id)); const box = document.getElementById('options-box'); box.innerHTML = ''; q.o.forEach((opt, i) => { const btn = document.createElement('button'); btn.className = 'option-btn'; btn.innerText = opt; if (savedState?.isChecked) { btn.disabled = true; if (q.c.includes(i)) btn.classList.add('correct'); else if (savedState.selected.includes(i)) btn.classList.add('wrong'); } else { if (selectedOptions.includes(i)) btn.classList.add('selected'); btn.onclick = () => selectOption(i, btn); } box.appendChild(btn); }); const expBox = document.getElementById('exp-box'); if (savedState?.isChecked) { expBox.innerHTML = formatExplanation(q.e); expBox.style.display = 'block'; } else { expBox.style.display = 'none'; } updateProgress(); }
+function selectOption(idx, btn) { const q = activeQuestions[currentIdx]; const isMultiple = q.c.length > 1; if (isMultiple) { if (selectedOptions.includes(idx)) { selectedOptions = selectedOptions.filter(i => i !== idx); btn.classList.remove('selected'); } else if (selectedOptions.length < q.c.length) { selectedOptions.push(idx); btn.classList.add('selected'); } } else { document.querySelectorAll('#options-box .option-btn').forEach(b => b.classList.remove('selected')); selectedOptions = [idx]; btn.classList.add('selected'); } answerStates.set(q.id, { selected: [...selectedOptions], isChecked: false }); document.getElementById('check-btn').disabled = selectedOptions.length !== q.c.length; renderPagination(); }
+function checkAnswer() { const q = activeQuestions[currentIdx]; const isCorrect = q.c.length === selectedOptions.length && q.c.every(v => selectedOptions.includes(v)); document.querySelectorAll('#options-box .option-btn').forEach((btn, i) => { btn.disabled = true; if (q.c.includes(i)) btn.classList.add('correct'); else if (selectedOptions.includes(i)) btn.classList.add('wrong'); }); answerStates.set(q.id, { selected: [...selectedOptions], isChecked: true, isCorrect }); if (isCorrect) { score++; document.getElementById('score-display').innerText = score; } else addToWrongQuestions(q.id); document.getElementById('exp-box').innerHTML = formatExplanation(q.e); document.getElementById('exp-box').style.display = 'block'; updateNavigationButtons(); renderPagination(); saveTrainingState(); }
+function toggleHard() { const id = activeQuestions[currentIdx]?.id || testQuestions[testCurrentIdx]?.id; if (!id) return; if (hardQuestions.includes(id)) hardQuestions = hardQuestions.filter(h => h !== id); else hardQuestions.push(id); saveHardQuestions(); const starBtn = document.getElementById('star-btn'); if (starBtn && activeQuestions[currentIdx]?.id === id) starBtn.classList.toggle('active', hardQuestions.includes(id)); const testStarBtn = document.getElementById('test-star-btn'); if (testStarBtn && testQuestions[testCurrentIdx]?.id === id) testStarBtn.classList.toggle('active', hardQuestions.includes(id)); const modeStarBtn = document.getElementById(`${currentMode}-star-btn`); if (modeStarBtn && modeQuestions[modeCurrentIdx]?.id === id) modeStarBtn.classList.toggle('active', hardQuestions.includes(id)); updateHardCount(); saveTrainingState(); }
+function nextQuestion() { if (currentIdx < activeQuestions.length - 1) jumpToQuestion(currentIdx + 1); }
+function updateProgress() { const progress = ((currentIdx + 1) / activeQuestions.length) * 100; document.getElementById('progress-fill').style.width = progress + '%'; }
 
-// ========== ТРЕНИРОВКА ==========
-function getTrainingKey() {
-const username = localStorage.getItem('username') || 'guest';
-  return `trainingState_${currentTest}_${username}_block${currentBlockNum}`;
-}
-function loadTrainingState(blockNum) {
-  currentBlockNum = blockNum;
-  const saved = localStorage.getItem(getTrainingKey());
-  if (saved) {
-    try {
-      const state = JSON.parse(saved);
-      if (state.activeQuestions && state.activeQuestions.length > 0) {
-        trainingState = state;
-        return trainingState;
-      }
-    } catch (e) {}
-  }
-  trainingState = { activeQuestions: [], currentIdx: 0, score: 0, blockNum, questionStates: [] };
-  return null;
-}
-function saveTrainingState() {
-  if (!currentBlockNum || activeQuestions.length === 0) return;
-  if (document.getElementById('quiz-screen').style.display !== 'block') return;
+// ========== ФУНКЦИИ ДЛЯ ЭКЗАМЕНА ==========
+function startExam() { if (fullBase.length === 0) { alert('База вопросов загружается...'); return; } if (examTimer) clearInterval(examTimer); examQuestions = [...fullBase].sort(() => Math.random() - 0.5).slice(0, 20).map(q => shuffleQuestionOptions(q)); examCurrentIdx = 0; examErrors = 0; examTimeLeft = 1200; examAnswers = new Array(20).fill(null); examResults = new Array(20).fill(null); answeredQuestionsCount = 0; document.getElementById('menu-screen').style.display = 'none'; document.getElementById('exam-screen').style.display = 'block'; document.getElementById('exam-result').style.display = 'none'; document.getElementById('exam-next-btn').style.display = 'none'; document.getElementById('exam-question-container').style.display = 'block'; document.getElementById('exam-options-box').style.display = 'flex'; document.querySelector('.timer-container').style.display = 'inline-flex'; document.querySelector('.stats').style.display = 'flex'; document.querySelector('.progress-container').style.display = 'block'; startExamTimer(); loadExamQuestion(); }
+function restartExam() { startExam(); }
+function startExamTimer() { examTimer = setInterval(() => { if (examTimeLeft > 0) { examTimeLeft--; const mins = Math.floor(examTimeLeft / 60); const secs = examTimeLeft % 60; document.getElementById('timer-display').textContent = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`; if (examTimeLeft <= 60) document.getElementById('timer').classList.add('timer-warning'); if (examTimeLeft <= 0) finishExam(false); } }, 1000); }
+function loadExamQuestion() { if (examCurrentIdx >= 20) { finishExam(true); return; } const q = examQuestions[examCurrentIdx]; document.getElementById('exam-q-text').innerText = q.q; document.getElementById('exam-counter').innerText = `${examCurrentIdx + 1}/20`; document.getElementById('exam-errors').innerText = examErrors; const box = document.getElementById('exam-options-box'); box.innerHTML = ''; const savedAnswer = examAnswers[examCurrentIdx]; const isMultiple = q.c.length > 1; q.o.forEach((opt, i) => { const btn = document.createElement('button'); btn.className = 'option-btn'; btn.innerText = opt; if (savedAnswer !== null) { if (isMultiple && Array.isArray(savedAnswer) && savedAnswer.includes(i)) btn.classList.add('selected'); else if (!isMultiple && savedAnswer === i) btn.classList.add('selected'); } btn.onclick = () => selectExamOption(i, btn); box.appendChild(btn); }); document.getElementById('exam-next-btn').style.display = savedAnswer !== null ? 'block' : 'none'; updateExamProgress(); }
+function selectExamOption(idx, btn) { const q = examQuestions[examCurrentIdx]; const isMultiple = q.c.length > 1; let currentAnswer = examAnswers[examCurrentIdx]; if (isMultiple) { if (!currentAnswer || !Array.isArray(currentAnswer)) currentAnswer = []; if (currentAnswer.includes(idx)) { currentAnswer = currentAnswer.filter(i => i !== idx); btn.classList.remove('selected'); } else { currentAnswer.push(idx); btn.classList.add('selected'); } examAnswers[examCurrentIdx] = currentAnswer; } else { document.querySelectorAll('#exam-options-box .option-btn').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); examAnswers[examCurrentIdx] = idx; } document.getElementById('exam-next-btn').style.display = 'block'; }
+function nextExamQuestion() { const selectedAnswer = examAnswers[examCurrentIdx]; const q = examQuestions[examCurrentIdx]; if (selectedAnswer === null || (Array.isArray(selectedAnswer) && selectedAnswer.length === 0)) { alert('Выберите ответ!'); return; } const isCorrect = Array.isArray(selectedAnswer) ? q.c.length === selectedAnswer.length && q.c.every(v => selectedAnswer.includes(v)) : q.c.includes(selectedAnswer); examResults[examCurrentIdx] = { question: q, selectedAnswer, isCorrect }; answeredQuestionsCount++; if (!isCorrect) { examErrors++; document.getElementById('exam-errors').innerText = examErrors; addToWrongQuestions(q.id); if (examErrors > 2) { finishExam(false); return; } } examCurrentIdx++; if (examCurrentIdx < 20) loadExamQuestion(); else finishExam(true); }
+function finishExam(completed) { if (examTimer) clearInterval(examTimer); const correct = 20 - examErrors; const passed = completed && examErrors <= 2 && examTimeLeft > 0; document.getElementById('exam-question-container').style.display = 'none'; document.getElementById('exam-options-box').style.display = 'none'; document.getElementById('exam-next-btn').style.display = 'none'; document.querySelector('.timer-container').style.display = 'none'; document.querySelector('.stats').style.display = 'none'; document.querySelector('.progress-container').style.display = 'none'; document.getElementById('exam-result').style.display = 'block'; document.getElementById('exam-result-title').innerHTML = passed ? 'РЕЗУЛЬТАТ: СДАНО' : 'РЕЗУЛЬТАТ: НЕ СДАНО'; document.getElementById('exam-result-title').className = passed ? 'result-title result-pass' : 'result-title result-fail'; document.getElementById('exam-result-score').innerHTML = `${correct}/20`; let reason = ''; if (examErrors > 2) reason = `Ошибок: ${examErrors} (максимум 2)`; else if (examTimeLeft <= 0) reason = 'Истекло время'; document.getElementById('exam-result-details').innerHTML = `Правильных: ${correct} из 20<br>Ошибок: ${examErrors}<br>Процент: ${((correct/20)*100).toFixed(1)}%<br>${reason ? '<br>Причина: ' + reason : ''}`; renderExamResultQuestions(); }
+function renderExamResultQuestions() { const container = document.getElementById('exam-result-questions'); container.innerHTML = ''; for (let i = 0; i < 20; i++) { const result = examResults[i]; if (result?.question) { const isHard = hardQuestions.includes(result.question.id); container.innerHTML += `<div class="result-question-item" onclick="jumpToReview(${i})"><span class="result-question-number">Вопрос ${i + 1}</span><span class="result-question-text">${result.question.q.substring(0, 50)}...</span><span class="result-question-status ${result.isCorrect ? 'status-correct' : 'status-wrong'}"></span><button class="result-star-btn ${isHard ? 'active' : ''}" onclick="toggleExamHard('${result.question.id}', event)">★</button></div>`; } } }
+function startReview() { reviewCurrentIdx = 0; document.getElementById('exam-screen').style.display = 'none'; document.getElementById('exam-review-screen').style.display = 'block'; loadReviewQuestion(); }
+function showExamResults() { document.getElementById('exam-review-screen').style.display = 'none'; document.getElementById('exam-screen').style.display = 'block'; }
+function jumpToReview(index) { reviewCurrentIdx = index; document.getElementById('exam-screen').style.display = 'none'; document.getElementById('exam-review-screen').style.display = 'block'; loadReviewQuestion(); }
+function loadReviewQuestion() { const result = examResults[reviewCurrentIdx]; if (!result) return; const q = result.question; document.getElementById('review-q-text').innerText = q.q; document.getElementById('review-counter').innerText = `${reviewCurrentIdx + 1}/20`; document.getElementById('review-hard-count').innerText = hardQuestions.length; document.getElementById('review-star-btn').classList.toggle('active', hardQuestions.includes(q.id)); const box = document.getElementById('review-options-box'); box.innerHTML = ''; q.o.forEach((opt, i) => { const btn = document.createElement('button'); btn.className = 'option-btn'; btn.innerText = opt; btn.disabled = true; if (q.c.includes(i)) btn.classList.add('review-correct'); if (result.selectedAnswer !== null) { if (Array.isArray(result.selectedAnswer)) { if (result.selectedAnswer.includes(i)) { btn.classList.add('review-selected'); if (!q.c.includes(i)) btn.classList.add('review-wrong'); } } else { if (result.selectedAnswer === i) { btn.classList.add('review-selected'); if (!q.c.includes(i)) btn.classList.add('review-wrong'); } } } box.appendChild(btn); }); document.getElementById('review-exp-box').innerHTML = formatExplanation(q.e); updateReviewProgress(); }
+function updateReviewProgress() { const answeredCount = examResults.filter(r => r && r.question).length; const progress = answeredCount > 0 ? ((reviewCurrentIdx + 1) / answeredCount) * 100 : 0; document.getElementById('review-progress-fill').style.width = progress + '%'; }
+function prevReviewQuestion() { if (reviewCurrentIdx > 0) { reviewCurrentIdx--; loadReviewQuestion(); } }
+function nextReviewQuestion() { if (reviewCurrentIdx < 19 && examResults[reviewCurrentIdx + 1]) { reviewCurrentIdx++; loadReviewQuestion(); } }
+function toggleReviewHard() { const id = examResults[reviewCurrentIdx]?.question.id; if (!id) return; if (hardQuestions.includes(id)) hardQuestions = hardQuestions.filter(h => h !== id); else hardQuestions.push(id); saveHardQuestions(); document.getElementById('review-star-btn').classList.toggle('active'); document.getElementById('review-hard-count').innerText = hardQuestions.length; updateHardCount(); }
+function toggleExamHard(questionId, event) { event.stopPropagation(); if (hardQuestions.includes(questionId)) hardQuestions = hardQuestions.filter(h => h !== questionId); else hardQuestions.push(questionId); saveHardQuestions(); updateHardCount(); event.target.classList.toggle('active'); renderExamResultQuestions(); }
 
-  const questionStates = activeQuestions.map(q => ({
-    id: q.id,
-    isHard: hardQuestions.includes(q.id),
-    answerState: answerStates.get(q.id) || null
-  }));
+// ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==========
+function formatExplanation(text) { if (!text) return text; return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); }
+function showNotification(message) { const container = document.getElementById('notificationContainer'); const notification = document.createElement('div'); notification.className = 'notification'; notification.innerHTML = `<div class="notification-content"><div class="notification-title">⚡ Информация</div><div class="notification-message">${message}</div></div><button class="notification-close" onclick="this.parentElement.remove()">×</button>`; container.appendChild(notification); setTimeout(() => notification.remove(), 3000); }
+function toggleTestDropdown() { document.getElementById('testDropdown').classList.toggle('show'); document.getElementById('testSelectorBtn').classList.toggle('active'); }
+document.addEventListener('click', function(event) { const selector = document.querySelector('.test-selector'); if (selector && !selector.contains(event.target)) { document.getElementById('testDropdown').classList.remove('show'); document.getElementById('testSelectorBtn').classList.remove('active'); } });
+function resetAllScreens() { document.getElementById('menu-screen').style.display = 'none'; document.getElementById('quiz-screen').style.display = 'none'; document.getElementById('test-screen').style.display = 'none'; document.getElementById('exam-screen').style.display = 'none'; document.getElementById('exam-review-screen').style.display = 'none'; document.getElementById('hard-mode-screen').style.display = 'none'; document.getElementById('wrong-mode-screen').style.display = 'none'; const examQuestionContainer = document.getElementById('exam-question-container'); const examOptionsBox = document.getElementById('exam-options-box'); const examNextBtn = document.getElementById('exam-next-btn'); const examResult = document.getElementById('exam-result'); if (examQuestionContainer) examQuestionContainer.style.display = 'block'; if (examOptionsBox) examOptionsBox.style.display = 'flex'; if (examNextBtn) examNextBtn.style.display = 'none'; if (examResult) examResult.style.display = 'none'; const timerDisplay = document.getElementById('timer-display'); if (timerDisplay) timerDisplay.innerText = '20:00'; const timerContainer = document.querySelector('.timer-container'); if (timerContainer) timerContainer.classList.remove('timer-warning'); }
+function shuffleArray(array) { for (let i = array.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; } return array; }
+function shuffleQuestionOptions(question) { if (question.originalOptions) return question; const options = [...question.o]; const correctIndices = [...question.c]; const optionsWithIndex = options.map((text, index) => ({ text, originalIndex: index })); const shuffled = shuffleArray([...optionsWithIndex]); const newCorrectIndices = []; shuffled.forEach((item, newIndex) => { if (correctIndices.includes(item.originalIndex)) newCorrectIndices.push(newIndex); }); return { ...question, originalOptions: options, originalCorrect: correctIndices, o: shuffled.map(item => item.text), c: newCorrectIndices.sort((a, b) => a - b) }; }
+function selectTest(testId) { const username = localStorage.getItem('username'); const userType = localStorage.getItem('userType'); if (userType !== 'super') { const user = USERS[username]; const availableTests = user?.availableTests || ['b211']; if (!availableTests.includes(testId)) { showNotification('❌ У вас нет доступа к этому тесту'); return; } } if (!TEST_CONFIGS[testId]) { showNotification('Тест появится в скором времени'); return; } resetAllScreens(); fullBase = []; activeQuestions = []; hardQuestions = []; wrongQuestions = []; examQuestions = []; examAnswers = []; examResults = []; currentIdx = 0; score = 0; examCurrentIdx = 0; examErrors = 0; examTimeLeft = 1200; answeredQuestionsCount = 0; reviewCurrentIdx = 0; answerStates.clear(); selectedOptions = []; if (examTimer) { clearInterval(examTimer); examTimer = null; } clearTrainingState(); currentTest = testId; const config = TEST_CONFIGS[testId]; let displayName = `${config.code} ${config.name}`; if (window.innerWidth <= 480) { const shortNames = { 'b211': 'Б.2.11 Ремонтные работы', 'b26-marine': 'Б.2.6 Морские' }; displayName = shortNames[testId] || `${config.code} ${config.name}`; } document.getElementById('selectedTestDisplay').innerText = displayName; document.getElementById('testTitle').innerHTML = config.fullName; document.querySelectorAll('.test-item').forEach(item => { item.classList.remove('selected'); if (item.dataset.test === testId) item.classList.add('selected'); }); document.getElementById('testDropdown').classList.remove('show'); document.getElementById('testSelectorBtn').classList.remove('active'); loadQuestions(testId); }
 
-  trainingState = {
-    activeQuestions: activeQuestions.map(q => ({...q})),
-    currentIdx, score,
-    blockNum: currentBlockNum,
-    questionStates
-  };
-
-  localStorage.setItem(getTrainingKey(), JSON.stringify(trainingState));
-}
-function clearTrainingState(blockNum) {
-  const username = localStorage.getItem('username') || 'guest';
-  localStorage.removeItem(`trainingState_${currentTest}_${username}_block${blockNum}`);
-  trainingState = { activeQuestions: [], currentIdx: 0, score: 0, blockNum: null, questionStates: [] };
-}
-function startBlock(testId, num, start, end) {
-  currentTest = testId;
-  if (fullBase.length === 0) { alert('База вопросов обновляется. Пожалуйста, подождите.'); return; }
-
-  if (currentBlockNum && activeQuestions.length > 0) {
-    saveTrainingState();
-  }
-
-  currentBlockNum = num; 
-  const savedState = loadTrainingState(num);
-
-  if (savedState && savedState.activeQuestions.length > 0) {
-    if (confirm('Обнаружено сохраненное состояние блока. Продолжить с того же места?')) {
-      activeQuestions = savedState.activeQuestions.map(q => shuffleQuestionOptions(q));
-      currentIdx = savedState.currentIdx;
-      score = savedState.score;
-      answerStates.clear();
-      savedState.questionStates.forEach(state => {
-        if (state.answerState) answerStates.set(state.id, state.answerState);
-        if (state.isHard && !hardQuestions.includes(state.id)) hardQuestions.push(state.id);
-      });
-      saveHardQuestions();
-      initQuiz();
-      return;
+// ✅ ИСПРАВЛЕНА ФУНКЦИЯ ЗАГРУЗКИ ВОПРОСОВ
+async function loadQuestions(testId) {
+  const config = TEST_CONFIGS[testId];
+  if (!config) return;
+  
+  try {
+    console.log(`📥 Загрузка вопросов: ${config.jsonFile}`);
+    const response = await fetch(`${config.jsonFile}?t=${Date.now()}`);
+    if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    
+    const data = await response.json();
+    
+    // Универсальная логика извлечения вопросов
+    if (Array.isArray(data)) {
+      fullBase = data;
+    } else if (testId === 'b26-marine' && data.b26) {
+      fullBase = data.b26;
     } else {
-      clearTrainingState(num);
+      fullBase = data[testId] || [];
     }
+
+    if (!fullBase || fullBase.length === 0) {
+      throw new Error('Файл загружен, но массив вопросов пуст или ключ не найден');
+    }
+    
+    console.log(`✅ Успешно загружено: ${fullBase.length} вопросов`);
+    loadHardQuestions();
+    loadWrongQuestions();
+    updateHardCount();
+    updateWrongCount();
+    
+    const menuGrid = document.querySelector('.menu-grid');
+    if (menuGrid) {
+      menuGrid.innerHTML = '';
+      if (config.blocks) {
+        config.blocks.forEach(block => {
+          const blockCard = document.createElement('div');
+          blockCard.className = 'block-card';
+          blockCard.innerHTML = `<h3>БЛОК ${block.num}</h3><p>${block.desc}</p>
+          <div style="margin-top: 10px; display: flex; gap: 10px; justify-content: center;">
+            <button class="train-btn" style="padding: 8px 15px; font-size: 0.9em; background: #4caf50; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;" onclick="event.stopPropagation(); startBlock('${testId}', ${block.num}, ${block.start}, ${block.end})">ТРЕНИРОВКА</button>
+            <button class="test-btn" style="padding: 8px 15px; font-size: 0.9em; background: #2196f3; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;" onclick="event.stopPropagation(); startTestMode('${testId}', ${block.num}, ${block.start}, ${block.end})">ТЕСТ</button>
+          </div>`;
+          menuGrid.appendChild(blockCard);
+        });
+      }
+    }
+    document.getElementById('menu-screen').style.display = 'block';
+    showNotification(`✅ Загружено ${fullBase.length} вопросов`);
+  } catch (error) {
+    console.error('❌ Ошибка загрузки:', error);
+    showNotification(`❌ Ошибка загрузки: ${error.message}`);
+    fullBase = [];
   }
-  activeQuestions = fullBase.slice(start, end)
-    .map(q => shuffleQuestionOptions({...q, c: [...q.c]}))
-    .sort(() => Math.random() - 0.5);
-  answerStates.clear();
-  currentIdx = 0;
-  score = 0;
-  initQuiz();
 }
-function initQuiz(){if(!activeQuestions.length)return;document.getElementById('menu-screen').style.display='none';document.getElementById('quiz-screen').style.display='block';['test','exam','exam-review','hard-mode','wrong-mode'].forEach(s=>document.getElementById(`${s}-screen`).style.display='none');currentMode='';renderPagination();loadQuestion();updateNavigationButtons();}
-function renderPagination(){const p=document.getElementById('pagination');if(!p)return;p.innerHTML='';activeQuestions.forEach((q,i)=>{const b=document.createElement('button');b.className='page-btn';b.innerText=i+1;const st=answerStates.get(q.id);if(st?.isChecked)b.classList.add(st.isCorrect?'correct':'wrong');else if(st?.selected?.length)b.classList.add('answered');if(i===currentIdx)b.classList.add('active');b.onclick=()=>jumpToQuestion(i);p.appendChild(b);});}
-function updatePaginationActive(){document.querySelectorAll('#pagination .page-btn').forEach((b,i)=>b.classList.toggle('active',i===currentIdx));}
-function jumpToQuestion(i){if(i<0||i>=activeQuestions.length)return;currentIdx=i;loadQuestion();updatePaginationActive();updateNavigationButtons();saveTrainingState();}
-function updateNavigationButtons(){const p=document.getElementById('prev-btn');const n=document.getElementById('next-btn');const c=document.getElementById('check-btn');const q=activeQuestions[currentIdx];const sv=answerStates.get(q?.id);p.disabled=currentIdx<=0;n.disabled=currentIdx>=activeQuestions.length-1;if(sv?.isChecked)c.style.display='none';else{c.style.display='block';c.disabled=!sv||sv.selected.length!==q.c.length;}}
-function prevQuestion(){if(currentIdx>0)jumpToQuestion(currentIdx-1);}
-function loadQuestion(){const q=activeQuestions[currentIdx];const sv=answerStates.get(q.id);selectedOptions=sv?.selected?[...sv.selected]:[];document.getElementById('q-text').innerText=q.q;document.getElementById('q-counter').innerText=`${currentIdx+1}/${activeQuestions.length}`;document.getElementById('score-display').innerText=score;document.getElementById('star-btn').classList.toggle('active',hardQuestions.includes(q.id));const box=document.getElementById('options-box');box.innerHTML='';q.o.forEach((opt,i)=>{const b=document.createElement('button');b.className='option-btn';b.innerText=opt;if(sv?.isChecked){b.disabled=true;if(q.c.includes(i))b.classList.add('correct');else if(sv.selected.includes(i))b.classList.add('wrong');}else{if(selectedOptions.includes(i))b.classList.add('selected');b.onclick=()=>selectOption(i,b);}box.appendChild(b);});const exp=document.getElementById('exp-box');if(sv?.isChecked){exp.innerHTML=formatExplanation(q.e);exp.style.display='block';}else{exp.style.display='none';}updateProgress();}
-function selectOption(i,b){const q=activeQuestions[currentIdx];const m=q.c.length>1;if(m){if(selectedOptions.includes(i)){selectedOptions=selectedOptions.filter(x=>x!==i);b.classList.remove('selected');}else if(selectedOptions.length<q.c.length){selectedOptions.push(i);b.classList.add('selected');}}else{document.querySelectorAll('#options-box .option-btn').forEach(x=>x.classList.remove('selected'));selectedOptions=[i];b.classList.add('selected');}answerStates.set(q.id,{selected:[...selectedOptions],isChecked:false});document.getElementById('check-btn').disabled=selectedOptions.length!==q.c.length;renderPagination();}
-function checkAnswer(){const q=activeQuestions[currentIdx];const ok=q.c.length===selectedOptions.length&&q.c.every(v=>selectedOptions.includes(v));document.querySelectorAll('#options-box .option-btn').forEach((b,i)=>{b.disabled=true;if(q.c.includes(i))b.classList.add('correct');else if(selectedOptions.includes(i))b.classList.add('wrong');});answerStates.set(q.id,{selected:[...selectedOptions],isChecked:true,isCorrect:ok});if(ok){score++;document.getElementById('score-display').innerText=score;}else addToWrongQuestions(q.id);document.getElementById('exp-box').innerHTML=formatExplanation(q.e);document.getElementById('exp-box').style.display='block';updateNavigationButtons();renderPagination();saveTrainingState();}
-function toggleHard(){const id=activeQuestions[currentIdx]?.id||testQuestions[testCurrentIdx]?.id;if(!id)return;if(hardQuestions.includes(id))hardQuestions=hardQuestions.filter(h=>h!==id);else hardQuestions.push(id);saveHardQuestions();document.querySelectorAll('.star-btn').forEach(b=>{const q=activeQuestions[currentIdx]||testQuestions[testCurrentIdx];if(q?.id===id)b.classList.toggle('active');});updateHardCount();saveTrainingState();}
-function nextQuestion(){if(currentIdx<activeQuestions.length-1)jumpToQuestion(currentIdx+1);}
-function updateProgress(){document.getElementById('progress-fill').style.width=((currentIdx+1)/activeQuestions.length)*100+'%';}
 
-// ========== ЭКЗАМЕН ==========
-function startExam(){if(!fullBase.length){alert('База загружается...');return;}if(examTimer)clearInterval(examTimer);examQuestions=[...fullBase].sort(()=>Math.random()-0.5).slice(0,20).map(shuffleQuestionOptions);examCurrentIdx=0;examErrors=0;examTimeLeft=1200;examAnswers=new Array(20).fill(null);examResults=new Array(20).fill(null);answeredQuestionsCount=0;document.getElementById('menu-screen').style.display='none';document.getElementById('exam-screen').style.display='block';document.getElementById('exam-result').style.display='none';document.getElementById('exam-next-btn').style.display='none';document.getElementById('exam-question-container').style.display='block';document.getElementById('exam-options-box').style.display='flex';document.querySelector('.timer-container').style.display='inline-flex';document.querySelector('.stats').style.display='flex';document.querySelector('.progress-container').style.display='block';startExamTimer();loadExamQuestion();}
-function restartExam(){startExam();}
-function startExamTimer(){examTimer=setInterval(()=>{if(examTimeLeft>0){examTimeLeft--;const m=Math.floor(examTimeLeft/60);const s=examTimeLeft%60;document.getElementById('timer-display').textContent=`${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;if(examTimeLeft<=60)document.getElementById('timer').classList.add('timer-warning');if(examTimeLeft<=0)finishExam(false);}},1000);}
-function loadExamQuestion(){if(examCurrentIdx>=20){finishExam(true);return;}const q=examQuestions[examCurrentIdx];document.getElementById('exam-q-text').innerText=q.q;document.getElementById('exam-counter').innerText=`${examCurrentIdx+1}/20`;document.getElementById('exam-errors').innerText=examErrors;const box=document.getElementById('exam-options-box');box.innerHTML='';const sv=examAnswers[examCurrentIdx];const m=q.c.length>1;q.o.forEach((opt,i)=>{const b=document.createElement('button');b.className='option-btn';b.innerText=opt;if(sv!==null){if(m&&Array.isArray(sv)&&sv.includes(i))b.classList.add('selected');else if(!m&&sv===i)b.classList.add('selected');}b.onclick=()=>selectExamOption(i,b);box.appendChild(b);});document.getElementById('exam-next-btn').style.display=sv!==null?'block':'none';updateExamProgress();}
-function selectExamOption(i,b){const q=examQuestions[examCurrentIdx];const m=q.c.length>1;let a=examAnswers[examCurrentIdx];if(m){if(!a||!Array.isArray(a))a=[];if(a.includes(i)){a=a.filter(x=>x!==i);b.classList.remove('selected');}else{a.push(i);b.classList.add('selected');}examAnswers[examCurrentIdx]=a;}else{document.querySelectorAll('#exam-options-box .option-btn').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');examAnswers[examCurrentIdx]=i;}document.getElementById('exam-next-btn').style.display='block';}
-function nextExamQuestion(){const sel=examAnswers[examCurrentIdx];const q=examQuestions[examCurrentIdx];if(sel===null||(Array.isArray(sel)&&sel.length===0)){alert('Выберите ответ!');return;}const ok=Array.isArray(sel)?(q.c.length===sel.length&&q.c.every(v=>sel.includes(v))):q.c.includes(sel);examResults[examCurrentIdx]={question:q,selectedAnswer:sel,isCorrect:ok};answeredQuestionsCount++;if(!ok){examErrors++;document.getElementById('exam-errors').innerText=examErrors;addToWrongQuestions(q.id);if(examErrors>2){finishExam(false);return;}}examCurrentIdx++;if(examCurrentIdx<20)loadExamQuestion();else finishExam(true);}
-function finishExam(comp){if(examTimer)clearInterval(examTimer);const ok=20-examErrors;const pass=comp&&examErrors<=2&&examTimeLeft>0;document.getElementById('exam-question-container').style.display='none';document.getElementById('exam-options-box').style.display='none';document.getElementById('exam-next-btn').style.display='none';document.querySelector('.timer-container').style.display='none';document.querySelector('.stats').style.display='none';document.querySelector('.progress-container').style.display='none';document.getElementById('exam-result').style.display='block';document.getElementById('exam-result-title').innerHTML=pass?'РЕЗУЛЬТАТ: СДАНО':'РЕЗУЛЬТАТ: НЕ СДАНО';document.getElementById('exam-result-title').className=pass?'result-title result-pass':'result-title result-fail';document.getElementById('exam-result-score').innerHTML=`${ok}/20`;let r='';if(examErrors>2)r=`Ошибок: ${examErrors} (максимум 2)`;else if(examTimeLeft<=0)r='Истекло время';document.getElementById('exam-result-details').innerHTML=`Правильных: ${ok} из 20<br>Ошибок: ${examErrors}<br>Процент: ${((ok/20)*100).toFixed(1)}%<br>${r?'<br>Причина: '+r:''}`;renderExamResultQuestions();}
-function renderExamResultQuestions(){const c=document.getElementById('exam-result-questions');c.innerHTML='';for(let i=0;i<20;i++){const r=examResults[i];if(r?.question){const h=hardQuestions.includes(r.question.id);c.innerHTML+=`<div class="result-question-item" onclick="jumpToReview(${i})"><span class="result-question-number">Вопрос ${i+1}</span><span class="result-question-text">${r.question.q.substring(0,50)}...</span><span class="result-question-status ${r.isCorrect?'status-correct':'status-wrong'}"></span><button class="result-star-btn ${h?'active':''}" onclick="toggleExamHard('${r.question.id}',event)">★</button></div>`;}}}
-function startReview(){reviewCurrentIdx=0;document.getElementById('exam-screen').style.display='none';document.getElementById('exam-review-screen').style.display='block';loadReviewQuestion();}
-function showExamResults(){document.getElementById('exam-review-screen').style.display='none';document.getElementById('exam-screen').style.display='block';}
-function jumpToReview(i){reviewCurrentIdx=i;document.getElementById('exam-screen').style.display='none';document.getElementById('exam-review-screen').style.display='block';loadReviewQuestion();}
-function loadReviewQuestion(){const r=examResults[reviewCurrentIdx];if(!r)return;const q=r.question;document.getElementById('review-q-text').innerText=q.q;document.getElementById('review-counter').innerText=`${reviewCurrentIdx+1}/20`;document.getElementById('review-hard-count').innerText=hardQuestions.length;document.getElementById('review-star-btn').classList.toggle('active',hardQuestions.includes(q.id));const box=document.getElementById('review-options-box');box.innerHTML='';q.o.forEach((opt,i)=>{const b=document.createElement('button');b.className='option-btn';b.innerText=opt;b.disabled=true;if(q.c.includes(i))b.classList.add('review-correct');if(r.selectedAnswer!==null){if(Array.isArray(r.selectedAnswer)){if(r.selectedAnswer.includes(i)){b.classList.add('review-selected');if(!q.c.includes(i))b.classList.add('review-wrong');}}else{if(r.selectedAnswer===i){b.classList.add('review-selected');if(!q.c.includes(i))b.classList.add('review-wrong');}}}box.appendChild(b);});document.getElementById('review-exp-box').innerHTML=formatExplanation(q.e);updateReviewProgress();}
-function updateReviewProgress(){const a=examResults.filter(r=>r&&r.question).length;document.getElementById('review-progress-fill').style.width=a>0?((reviewCurrentIdx+1)/a)*100+'%':'0%';}
-function prevReviewQuestion(){if(reviewCurrentIdx>0){reviewCurrentIdx--;loadReviewQuestion();}}
-function nextReviewQuestion(){if(reviewCurrentIdx<19&&examResults[reviewCurrentIdx+1]){reviewCurrentIdx++;loadReviewQuestion();}}
-function toggleReviewHard(){const id=examResults[reviewCurrentIdx]?.question.id;if(!id)return;if(hardQuestions.includes(id))hardQuestions=hardQuestions.filter(h=>h!==id);else hardQuestions.push(id);saveHardQuestions();document.getElementById('review-star-btn').classList.toggle('active');document.getElementById('review-hard-count').innerText=hardQuestions.length;updateHardCount();}
-function toggleExamHard(id,e){e.stopPropagation();if(hardQuestions.includes(id))hardQuestions=hardQuestions.filter(h=>h!==id);else hardQuestions.push(id);saveHardQuestions();updateHardCount();e.target.classList.toggle('active');renderExamResultQuestions();}
-
-// ========== ВСПОМОГАТЕЛЬНЫЕ ==========
-function formatExplanation(t){return t?t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>'):t;}
-function showNotification(msg){const c=document.getElementById('notificationContainer');const n=document.createElement('div');n.className='notification';n.innerHTML=`<div class="notification-content"><div class="notification-title">⚡ Информация</div><div class="notification-message">${msg}</div></div><button class="notification-close" onclick="this.parentElement.remove()">×</button>`;c.appendChild(n);setTimeout(()=>n.remove(),3000);}
-function toggleTestDropdown(){document.getElementById('testDropdown').classList.toggle('show');document.getElementById('testSelectorBtn').classList.toggle('active');}
-document.addEventListener('click',e=>{if(!document.querySelector('.test-selector')?.contains(e.target)){document.getElementById('testDropdown').classList.remove('show');document.getElementById('testSelectorBtn').classList.remove('active');}});
-function resetAllScreens(){['menu','quiz','test','exam','exam-review','hard-mode','wrong-mode'].forEach(s=>document.getElementById(`${s}-screen`).style.display='none');const c=document.getElementById('exam-question-container');const o=document.getElementById('exam-options-box');const n=document.getElementById('exam-next-btn');const r=document.getElementById('exam-result');if(c)c.style.display='block';if(o)o.style.display='flex';if(n)n.style.display='none';if(r)r.style.display='none';document.getElementById('timer-display').innerText='20:00';document.getElementById('timer').classList.remove('timer-warning');}
-function shuffleArray(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function shuffleQuestionOptions(q){if(q.originalOptions)return q;const o=[...q.o];const c=[...q.c];const m=o.map((t,i)=>({t,i}));shuffleArray(m);const nc=[];m.forEach((x,i)=>{if(c.includes(x.i))nc.push(i);});return{...q,originalOptions:o,originalCorrect:c,o:m.map(x=>x.t),c:nc.sort((a,b)=>a-b)};}
-function selectTest(tid){
-  const u=localStorage.getItem('username');const t=localStorage.getItem('userType');
-  if(t!=='super'){const us=USERS[u];if(!us?.availableTests?.includes(tid)){showNotification('❌ Нет доступа');return;}}
-  if(!TEST_CONFIGS[tid]){showNotification('Тест появится позже');return;}
-  resetAllScreens();fullBase=[];activeQuestions=[];hardQuestions=[];wrongQuestions=[];examQuestions=[];examAnswers=[];examResults=[];currentIdx=0;score=0;examCurrentIdx=0;examErrors=0;examTimeLeft=1200;answeredQuestionsCount=0;reviewCurrentIdx=0;answerStates.clear();selectedOptions=[];if(examTimer){clearInterval(examTimer);examTimer=null;}clearTrainingState();currentTest=tid;
-  const cfg=TEST_CONFIGS[tid];let d=`${cfg.code} ${cfg.name}`;if(window.innerWidth<=480)d={'b211':'Б.2.11 Ремонтные работы','b26-marine':'Б.2.6 Морские'}[tid]||d;
-  document.getElementById('selectedTestDisplay').innerText=d;document.getElementById('testTitle').innerHTML=cfg.fullName;
-  document.querySelectorAll('.test-item').forEach(i=>{i.classList.remove('selected');if(i.dataset.test===tid)i.classList.add('selected');});
-  document.getElementById('testDropdown').classList.remove('show');document.getElementById('testSelectorBtn').classList.remove('active');
-  loadQuestions(tid);
-}
-async function loadQuestions(tid){const cfg=TEST_CONFIGS[tid];if(!cfg)return;try{const r=await fetch(`${cfg.jsonFile}?t=${Date.now()}`);if(!r.ok)throw new Error('HTTP');const d=await r.json();fullBase=(tid==='b26-marine'?d.b26:d[tid])||[];if(!fullBase.length)throw new Error('Пусто');loadHardQuestions();loadWrongQuestions();updateHardCount();updateWrongCount();const g=document.querySelector('.menu-grid');g.innerHTML='';if(cfg?.blocks)cfg.blocks.forEach(b=>{const c=document.createElement('div');c.className='block-card';c.innerHTML=`<h3>БЛОК ${b.num}</h3><p>${b.desc}</p><div style="margin-top:10px;display:flex;gap:10px;justify-content:center;"><button class="train-btn" style="padding:8px 15px;font-size:0.9em;background:#4caf50;color:white;border:none;border-radius:4px;cursor:pointer;font-weight:600;" onclick="event.stopPropagation();startBlock('${tid}',${b.num},${b.start},${b.end})">ТРЕНИРОВКА</button><button class="test-btn" style="padding:8px 15px;font-size:0.9em;background:#2196f3;color:white;border:none;border-radius:4px;cursor:pointer;font-weight:600;" onclick="event.stopPropagation();startTestMode('${tid}',${b.num},${b.start},${b.end})">ТЕСТ</button></div>`;g.appendChild(c);});document.getElementById('menu-screen').style.display='block';showNotification(`✅ Загружено ${fullBase.length} вопросов`);}catch(e){console.error(e);showNotification(`❌ Ошибка загрузки "${cfg.name}"`);fullBase=[];}}
-function showMenu(){saveTrainingState();if (examTimer) clearInterval(examTimer);if(activeQuestions.length&&currentIdx<activeQuestions.length&&!confirm('Сохранить прогресс?'))return;saveTrainingState();['menu','quiz','test','exam','exam-review','hard-mode','wrong-mode'].forEach(s=>document.getElementById(`${s}-screen`).style.display=s==='menu'?'block':'none');updateHardCount();updateWrongCount();}
-
-// ✅ АВТОРИЗАЦИЯ С ЗАЩИТОЙ ОТ ПРОСТОГО ОБОХОДА
-function login(){
-  const u=document.getElementById('username').value.trim();const p=document.getElementById('password').value;const e=document.getElementById('login-error');e.textContent='';document.getElementById('username').classList.remove('error');document.getElementById('password').classList.remove('error');
-  if(!u){e.textContent='Введите логин';document.getElementById('username').classList.add('error');return;}
-  if(!p){e.textContent='Введите пароль';document.getElementById('password').classList.add('error');return;}
-  const session=localStorage.getItem('session');if(session){try{const d=JSON.parse(session);if(d.u===u&&Date.now()<d.exp){enterApp(d.role);return;}}catch{}}
-  if(u===SUPER_USER.username&&p===SUPER_USER.password){localStorage.setItem('session',JSON.stringify({u,role:'super',exp:Date.now()+86400000}));enterApp('super');return;}
-  const us=USERS[u];if(us&&us.password===p){localStorage.setItem('session',JSON.stringify({u,role:'user',exp:Date.now()+86400000}));enterApp('user');}
-  else{e.textContent='Неверный логин или пароль';document.getElementById('username').classList.add('error');document.getElementById('password').classList.add('error');document.getElementById('password').value='';}
-}
-function enterApp(role){
-  localStorage.setItem('authenticated','true');localStorage.setItem('username',role==='super'?'super':Object.keys(USERS).find(u=>u===localStorage.getItem('session')?JSON.parse(localStorage.getItem('session')).u:''));
-  document.getElementById('login-screen').style.display='none';document.querySelector('.container').classList.add('authenticated');
-  if(role==='super')document.getElementById('admin-icon').style.display='flex';
-  loadQuestions(currentTest);showNotification('✅ Вход выполнен');
-}
-function logout(){if(!confirm('Выйти?'))return;localStorage.removeItem('authenticated');localStorage.removeItem('session');localStorage.removeItem('username');hardQuestions=[];wrongQuestions=[];updateHardCount();updateWrongCount();document.getElementById('login-screen').style.display='flex';document.querySelector('.container').classList.remove('authenticated');document.getElementById('admin-icon').style.display='none';document.getElementById('username').value='';document.getElementById('password').value='';showNotification('Вы вышли');}
-function checkAuth(){const s=localStorage.getItem('session');if(s){try{const d=JSON.parse(s);if(Date.now()<d.exp){enterApp(d.role);return;}}catch{}}localStorage.removeItem('authenticated');localStorage.removeItem('session');}
-
-// ========== АДМИНКА ==========
-function openAdminPanel(){document.querySelector('.container').style.display='none';document.getElementById('login-screen').style.display='flex';document.querySelector('.login-box').style.display='none';const a=document.getElementById('admin-panel');a.style.display='block';a.classList.add('show');loadAdminPanel();}
-function adminBack(){document.getElementById('admin-panel').style.display='none';document.getElementById('admin-panel').classList.remove('show');document.querySelector('.login-box').style.display='block';document.querySelector('.container').style.display='block';document.getElementById('login-screen').style.display='none';}
-function loadAdminPanel(){document.getElementById('stat-users').textContent=Object.keys(USERS).length;document.getElementById('stat-pending').textContent=0;document.getElementById('pending-badge').textContent=0;document.getElementById('users-badge').textContent=Object.keys(USERS).length;document.getElementById('pending-list').innerHTML='<div class="admin-empty-message">Регистрация отключена</div>';const l=document.getElementById('users-list');l.innerHTML='';if(!Object.keys(USERS).length){l.innerHTML='<div class="admin-empty-message">Нет пользователей</div>';return;}Object.entries(USERS).forEach(([u,d])=>{const t=d.availableTests||['b211'];l.innerHTML+=`<div class="admin-item" style="flex-direction:column;align-items:flex-start;"><div style="display:flex;justify-content:space-between;width:100%;margin-bottom:10px;"><div><div class="admin-item-title">${u}</div><div class="admin-item-subtitle">👤 ${d.name||u}</div></div><div class="admin-item-actions"><button class="admin-btn-delete" onclick="deleteUser('${u}')">🗑️</button></div></div><div style="width:100%;margin-top:10px;"><div style="color:#ffd700;margin-bottom:10px;font-size:0.9em;">📚 ДОСТУПНЫЕ ТЕСТЫ:</div><div class="test-row"><div class="test-info"><span class="test-code">Б.2.11</span><span class="test-name">Ремонтные работы</span></div><label class="switch"><input type="checkbox" ${t.includes('b211')?'checked':''} onchange="toggleUserTest('${u}','b211',this.checked)"><span class="slider"></span></label></div><div class="test-row"><div class="test-info"><span class="test-code">Б.2.6</span><span class="test-name">Морские месторождения</span></div><label class="switch"><input type="checkbox" ${t.includes('b26-marine')?'checked':''} onchange="toggleUserTest('${u}','b26-marine',this.checked)"><span class="slider"></span></label></div></div></div>`;});}
-function deleteUser(u){if(u==='super')return;if(confirm(`Удалить ${u}?`)){delete USERS[u];loadAdminPanel();showNotification(`✅ ${u} удален`);}}
-function toggleUserTest(u,t,ch){if(!USERS[u])return;if(!USERS[u].availableTests)USERS[u].availableTests=['b211'];if(ch&&!USERS[u].availableTests.includes(t))USERS[u].availableTests.push(t);else if(!ch)USERS[u].availableTests=USERS[u].availableTests.filter(x=>x!==t);showNotification(`✅ Тест ${ch?'активирован':'отключен'} для ${u}`);}
-
-// ========== ИНИЦИАЛИЗАЦИЯ ==========
-document.addEventListener('DOMContentLoaded',()=>{checkAuth();updateHardCount();updateWrongCount();});
-window.addEventListener('beforeunload',function(){saveTrainingState();});
-if('serviceWorker'in navigator)window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});
+function showMenu() { if (examTimer) clearInterval(examTimer); if (activeQuestions.length > 0 && currentIdx < activeQuestions.length) { if (!confirm('Прогресс текущего блока будет сохранен. Вернуться в меню?')) return; saveTrainingState(); } document.getElementById('menu-screen').style.display = 'block'; document.getElementById('quiz-screen').style.display = 'none'; document.getElementById('test-screen').style.display = 'none'; document.getElementById('exam-screen').style.display = 'none'; document.getElementById('exam-review-screen').style.display = 'none'; document.getElementById('hard-mode-screen').style.display = 'none'; document.getElementById('wrong-mode-screen').style.display = 'none'; updateHardCount(); updateWrongCount(); }
+function login() { const username = document.getElementById('username').value.trim(); const password = document.getElementById('password').value; const errorElement = document.getElementById('login-error'); errorElement.textContent = ''; document.getElementById('username').classList.remove('error'); document.getElementById('password').classList.remove('error'); if (!username) { errorElement.textContent = 'Введите логин'; document.getElementById('username').classList.add('error'); return; } if (!password) { errorElement.textContent = 'Введите пароль'; document.getElementById('password').classList.add('error'); return; } if (username === SUPER_USER.username && password === SUPER_USER.password) { localStorage.setItem('authenticated', 'true'); localStorage.setItem('username', 'super'); localStorage.setItem('userType', 'super'); localStorage.setItem('loginTime', new Date().toISOString()); const loginScreen = document.getElementById('login-screen'); loginScreen.style.animation = 'fadeOut 0.3s ease forwards'; setTimeout(() => { loginScreen.style.display = 'none'; document.querySelector('.container').classList.add('authenticated'); document.getElementById('admin-icon').style.display = 'flex'; loadQuestions(currentTest); showNotification('Добро пожаловать, супер-пользователь!'); }, 300); return; } const user = USERS[username]; if (user && user.password === password) { localStorage.setItem('authenticated', 'true'); localStorage.setItem('username', username); localStorage.setItem('userType', 'regular'); localStorage.setItem('userName', user.name || username); localStorage.setItem('loginTime', new Date().toISOString()); const loginScreen = document.getElementById('login-screen'); loginScreen.style.animation = 'fadeOut 0.3s ease forwards'; setTimeout(() => { loginScreen.style.display = 'none'; document.querySelector('.container').classList.add('authenticated'); loadQuestions(currentTest); showNotification(`Добро пожаловать, ${user.name || username}!`); }, 300); } else { errorElement.textContent = 'Неверный логин или пароль'; document.getElementById('username').classList.add('error'); document.getElementById('password').classList.add('error'); document.getElementById('password').value = ''; } }
+function logout() { if (confirm('Вы действительно хотите выйти?')) { hardQuestions = []; wrongQuestions = []; updateHardCount(); updateWrongCount(); localStorage.removeItem('authenticated'); localStorage.removeItem('username'); localStorage.removeItem('userType'); localStorage.removeItem('userName'); localStorage.removeItem('loginTime'); document.getElementById('login-screen').style.display = 'flex'; document.getElementById('login-screen').style.animation = ''; document.querySelector('.container').classList.remove('authenticated'); document.getElementById('admin-icon').style.display = 'none'; document.getElementById('username').value = ''; document.getElementById('password').value = ''; showNotification('Вы вышли из системы'); } }
+function checkAuth() { const isAuthenticated = localStorage.getItem('authenticated') === 'true'; const username = localStorage.getItem('username'); const userType = localStorage.getItem('userType'); if (isAuthenticated && username) { document.getElementById('login-screen').style.display = 'none'; document.querySelector('.container').classList.add('authenticated'); if (userType === 'super') document.getElementById('admin-icon').style.display = 'flex'; loadQuestions(currentTest); } else { document.getElementById('login-screen').style.display = 'flex'; document.querySelector('.container').classList.remove('authenticated'); } }
+function openAdminPanel() { document.querySelector('.container').style.display = 'none'; document.getElementById('login-screen').style.display = 'flex'; document.querySelector('.login-box').style.display = 'none'; const adminPanel = document.getElementById('admin-panel'); adminPanel.style.display = 'block'; adminPanel.classList.add('show'); loadAdminPanel(); }
+function adminBack() { document.getElementById('admin-panel').style.display = 'none'; document.getElementById('admin-panel').classList.remove('show'); document.querySelector('.login-box').style.display = 'block'; document.querySelector('.container').style.display = 'block'; document.getElementById('login-screen').style.display = 'none'; }
+function loadAdminPanel() { document.getElementById('stat-users').textContent = Object.keys(USERS).length; document.getElementById('stat-pending').textContent = 0; document.getElementById('pending-badge').textContent = 0; document.getElementById('users-badge').textContent = Object.keys(USERS).length; const pendingList = document.getElementById('pending-list'); pendingList.innerHTML = '<div class="admin-empty-message">Регистрация отключена</div>'; const usersList = document.getElementById('users-list'); usersList.innerHTML = ''; if (Object.keys(USERS).length === 0) usersList.innerHTML = '<div class="admin-empty-message">Нет пользователей</div>'; else Object.entries(USERS).forEach(([username, data]) => { const tests = data.availableTests || ['b211']; usersList.innerHTML += `<div class="admin-item" style="flex-direction: column; align-items: flex-start;"><div style="display: flex; justify-content: space-between; width: 100%; margin-bottom: 10px;"><div><div class="admin-item-title">${username}</div><div class="admin-item-subtitle">👤 ${data.name || username}</div></div><div class="admin-item-actions"><button class="admin-btn-delete" onclick="deleteUser('${username}')">🗑️</button></div></div><div style="width: 100%; margin-top: 10px;"><div style="color: #ffd700; margin-bottom: 10px; font-size: 0.9em;">📚 ДОСТУПНЫЕ ТЕСТЫ:</div><div class="test-row"><div class="test-info"><span class="test-code">Б.2.11</span><span class="test-name">Ремонтные работы</span></div><label class="switch"><input type="checkbox" ${tests.includes('b211') ? 'checked' : ''} onchange="toggleUserTest('${username}', 'b211', this.checked)"><span class="slider"></span></label></div><div class="test-row"><div class="test-info"><span class="test-code">Б.2.6</span><span class="test-name">Морские месторождения</span></div><label class="switch"><input type="checkbox" ${tests.includes('b26-marine') ? 'checked' : ''} onchange="toggleUserTest('${username}', 'b26-marine', this.checked)"><span class="slider"></span></label></div></div></div>`; }); }
+function deleteUser(username) { if (username === 'super') { showNotification('❌ Нельзя удалить супер-пользователя'); return; } if (confirm(`Удалить пользователя ${username}?`)) { delete USERS[username]; loadAdminPanel(); showNotification(`✅ Пользователь ${username} удален`); } }
+function toggleUserTest(username, testId, checked) { if (!USERS[username]) return; if (!USERS[username].availableTests) USERS[username].availableTests = ['b211']; if (checked) { if (!USERS[username].availableTests.includes(testId)) USERS[username].availableTests.push(testId); } else { USERS[username].availableTests = USERS[username].availableTests.filter(t => t !== testId); } showNotification(`✅ Тест ${checked ? 'активирован' : 'деактивирован'} для ${username}`); }
+document.addEventListener('DOMContentLoaded', function() { checkAuth(); updateHardCount(); updateWrongCount(); });
+window.addEventListener('beforeunload', function() { if (activeQuestions.length > 0 && currentIdx < activeQuestions.length) saveTrainingState(); });
+if ('serviceWorker' in navigator) { window.addEventListener('load', function() { navigator.serviceWorker.register('sw.js').then(function(registration) { console.log('ServiceWorker успешно зарегистрирован'); }).catch(function(err) { console.log('Ошибка регистрации ServiceWorker: ', err); }); }); }
 </script>
 </body>
 </html>
