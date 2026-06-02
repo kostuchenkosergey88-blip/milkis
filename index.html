@@ -391,7 +391,6 @@ input:checked + .slider:before { transform: translateX(24px); }
       <button class="nav-btn" id="hard-next-btn" onclick="nextModeQuestion()" disabled>СЛЕД →</button>
     </div>
   </div>
-
 <div id="wrong-mode-screen" style="display: none;">
   <div class="quiz-header">
     <button class="back-btn" onclick="showMenu()">← НАЗАД</button>
@@ -399,7 +398,6 @@ input:checked + .slider:before { transform: translateX(24px); }
       <div class="stat-item"><span class="stat-icon">📄</span><span id="wrong-counter">0/0</span></div>
       <div class="stat-item"><span class="stat-icon">✓</span><span id="wrong-score">0</span></div>
     </div>
-    <!-- ✅ ДВЕ КНОПКИ: СБРОС ОТВЕТОВ И ОЧИСТКА СПИСКА -->
     <button class="reset-hard-btn" style="background:#f4b400; color:#1e3c5c; margin-right:5px;" onclick="resetModeAnswers()">🔄 ОТВЕТЫ</button>
     <button class="reset-hard-btn" onclick="resetWrongQuestions(event)">🗑 СПИСОК</button>
   </div>
@@ -414,8 +412,7 @@ input:checked + .slider:before { transform: translateX(24px); }
     <button class="nav-btn" id="wrong-next-btn" onclick="nextModeQuestion()" disabled>СЛЕД →</button>
   </div>
 </div>
-
-  <div id="exam-screen">
+<div id="exam-screen">
     <div class="quiz-header"><button class="back-btn" onclick="showMenu()">← В МЕНЮ</button><div class="timer-container" id="timer" aria-live="polite"><span class="timer-icon">⏱</span><span id="timer-display">20:00</span></div><div class="stats"><div class="stat-item"><span class="stat-icon">📄</span><span id="exam-counter">0/20</span></div><div class="stat-item"><span class="stat-icon">✗</span><span id="exam-errors">0</span>/2</div></div></div>
     <div class="progress-container"><div class="progress-fill exam-progress" id="exam-progress-fill"></div></div>
     <div class="question-container exam-question" id="exam-question-container"><div id="exam-q-text"></div></div>
@@ -441,8 +438,6 @@ input:checked + .slider:before { transform: translateX(24px); }
     </div>
   </div>
 </div>
-
-<!-- ✅ МОДАЛЬНОЕ ОКНО РЕЗУЛЬТАТОВ ТЕСТА (НЕ ЛОМАЕТ DOM) -->
 <div id="test-result-modal">
   <div class="result-box" id="test-result-content"></div>
 </div>
