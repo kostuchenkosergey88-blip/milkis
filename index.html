@@ -356,7 +356,7 @@ function updateModeDisplay() { const screen = currentMode; document.getElementBy
 function renderModePagination() { const paginationId = `${currentMode}-pagination`; const pagination = document.getElementById(paginationId); if (!pagination) return; pagination.innerHTML = ''; modeQuestions.forEach((q, index) => { const btn = document.createElement('button'); btn.className = 'page-btn'; btn.innerText = index + 1; const state = modeAnswerStates.get(q.id); if (state?.isChecked) btn.classList.add(state.isCorrect ? 'correct' : 'wrong'); else if (state?.selected?.length) btn.classList.add('answered'); if (index === modeCurrentIdx) btn.classList.add('active'); btn.onclick = () => jumpToModeQuestion(index); pagination.appendChild(btn); }); }
 function updateModePaginationActive() { document.querySelectorAll(`#${currentMode}-pagination .page-btn`).forEach((btn, i) => { btn.classList.toggle('active', i === modeCurrentIdx); }); }
 function jumpToModeQuestion(index) { if (index < 0 || index >= modeQuestions.length) return; modeCurrentIdx = index; loadModeQuestion(); updateModePaginationActive(); updateModeNavigationButtons(); }
-function loadModeQuestion() { const q = modeQuestions[modeCurrentIdx]; const savedState = modeAnswerStates.get(q.id); const selectedOpts = savedState?.selected ? [...savedState.selected] : []; const screen = currentMode; document.getElementById(`${screen}-q-text`).innerText = q.q; document.getElementById(`${screen}-counter`).innerText = `${modeCurrentIdx + 1}/${modeQuestions.length}`; document.getElementById(`${screen}-score`).innerText = modeScore; const starBtn = document.getElementById(`${screen}-star-btn`); if (starBtn) starBtn.classList.toggle('active', hardQuestions.includes(q.id)); const box = document.getElementById(`${screen}-options-box`); box.innerHTML = ''; q.o.forEach((opt, i) => { const btn = document.createElement('button'); btn.className = 'option-btn'; btn.innerText = opt; if (savedState?.isChecked) { btn.disabled = true; if (q.c.includes(i)) btn.classList.add('correct'); else if (savedState.selected.includes(i)) btn.classList.add('wrong'); } else { if (selectedOpts.includes(i)) btn.classList.add('selected'); btn.onclick = () => selectModeOption(i, btn); } box.appendChild(btn); }); const expBox = document.getElementById(`${screen}-exp-box`); if (savedState?.isChecked) { expBox.innerHTML = formatExplanation(q.e); expBox.style.display = 'block'; } else { expBox.style.display = 'none'; } updateModeProgress(); }
+function loadModeQuestion() { const q = modeQuestions[modeCurrentIdx]; const savedState = modeAnswerStates.get(q.id); const selectedOpts = savedState?.selected ? [...savedState.selected] : []; const screen = currentMode; document.getElementById(`${screen}-q-text`).innerText = q.q; document.getElementById(`${screen}-counter`).innerText = `${modeCurrentIdx + 1}/${modeQuestions.length}`; document.getElementById(`${screen}-score`).innerText = modeScore; const starBtn = document.getElementById(`${screen}-star-btn`); if (starBtn) starBtn.classList.toggle('active', hardQuestions.includes(q.id)); const box = document.getElementById(`${screen}-options-box`); box.innerHTML = ''; q.o.forEach((opt, i) => { const btn = document.createElement('button'); btn.className = 'option-btn'; btn.innerText = opt; if (savedState?.isChecked) { btn.disabled = true; if (q.c.includes(i)) btn.classList.add('correct'); else if (savedState.selected.includes(i)) btn.classList.add('wrong'); } else { if (selectedOpts.includes(i)) btn.classList.add('selected'); btn.onclick = () => selectModeOption(i, btn); } box.appendChild(btn); }); const expBox = document.getElementById(`${screen}-exp-box`); if (savedState?.isChecked) { expBox.innerHTML = formatExplanation(q.e); expBox.style.display = 'block'; } else { expBox.style.display = 'none'; } (); }
 function selectModeOption(idx, btn) { const q = modeQuestions[modeCurrentIdx]; const isMultiple = q.c.length > 1; const savedState = modeAnswerStates.get(q.id); let selectedOpts = savedState?.selected ? [...savedState.selected] : []; if (isMultiple) { if (selectedOpts.includes(idx)) { selectedOpts = selectedOpts.filter(i => i !== idx); btn.classList.remove('selected'); } else if (selectedOpts.length < q.c.length) { selectedOpts.push(idx); btn.classList.add('selected'); } } else { const container = `${currentMode}-options-box`; document.querySelectorAll(`#${container} .option-btn`).forEach(b => b.classList.remove('selected')); selectedOpts = [idx]; btn.classList.add('selected'); } modeAnswerStates.set(q.id, { selected: selectedOpts, isChecked: false }); const checkBtnId = `${currentMode}-check-btn`; document.getElementById(checkBtnId).disabled = selectedOpts.length !== q.c.length; renderModePagination(); }
 function checkModeAnswer() { const q = modeQuestions[modeCurrentIdx]; const savedState = modeAnswerStates.get(q.id); if (!savedState) return; const isCorrect = q.c.length === savedState.selected.length && q.c.every(v => savedState.selected.includes(v)); const screen = currentMode; document.querySelectorAll(`#${screen}-options-box .option-btn`).forEach((btn, i) => { btn.disabled = true; if (q.c.includes(i)) btn.classList.add('correct'); else if (savedState.selected.includes(i)) btn.classList.add('wrong'); }); modeAnswerStates.set(q.id, { selected: savedState.selected, isChecked: true, isCorrect: isCorrect }); if (isCorrect) { modeScore++; document.getElementById(`${screen}-score`).innerText = modeScore; } document.getElementById(`${screen}-exp-box`).innerHTML = formatExplanation(q.e); document.getElementById(`${screen}-exp-box`).style.display = 'block'; updateModeNavigationButtons(); renderModePagination(); }
 function toggleHardFromMode() { const q = modeQuestions[modeCurrentIdx]; if (!q) return; if (hardQuestions.includes(q.id)) hardQuestions = hardQuestions.filter(h => h !== q.id); else hardQuestions.push(q.id); saveHardQuestions(); const screen = currentMode; document.getElementById(`${screen}-star-btn`).classList.toggle('active'); updateHardCount(); }
@@ -364,6 +364,79 @@ function updateModeNavigationButtons() { const prevBtn = document.getElementById
 function prevModeQuestion() { if (modeCurrentIdx > 0) { modeCurrentIdx--; loadModeQuestion(); updateModePaginationActive(); updateModeNavigationButtons(); } }
 function nextModeQuestion() { if (modeCurrentIdx < modeQuestions.length - 1) { modeCurrentIdx++; loadModeQuestion(); updateModePaginationActive(); updateModeNavigationButtons(); } }
 function updateModeProgress() { const progress = ((modeCurrentIdx + 1) / modeQuestions.length) * 100; const fillId = `${currentMode}-progress-fill`; document.getElementById(fillId).style.width = progress + '%'; }
+// ✅ 1. Глобальный сброс ответов в режиме (не удаляет список вопросов)
+function resetModeAnswers() {
+  if (!modeQuestions.length) return showNotification('⚠️ Список пуст');
+  
+  modeAnswerStates.clear();
+  modeScore = 0;
+  modeCurrentIdx = 0;
+  
+  const scoreEl = document.getElementById(`${currentMode}-score`);
+  const counterEl = document.getElementById(`${currentMode}-counter`);
+  if (scoreEl) scoreEl.innerText = '0';
+  if (counterEl) counterEl.innerText = `1/${modeQuestions.length}`;
+  
+  loadModeQuestion();
+  updateModeNavigationButtons();
+  renderModePagination();
+  showNotification('✅ Все ответы в этом режиме обнулены');
+}
+
+// ✅ 2. Перемешивание и сброс ответа для ТЕКУЩЕГО вопроса (ОТВЕТИТЬ ЕЩЕ РАЗ)
+function retryModeQuestion() {
+  const q = modeQuestions[modeCurrentIdx];
+  if (!q) return;
+
+  // Создаем чистую копию вопроса, убирая originalOptions, чтобы shuffle сработал заново
+  const cleanQ = {
+    id: q.id,
+    q: q.q,
+    o: [...(q.originalOptions || q.o)], 
+    c: [...(q.originalCorrect || q.c)], 
+    e: q.e
+  };
+  
+  // Перемешиваем варианты ответов заново
+  modeQuestions[modeCurrentIdx] = shuffleQuestionOptions(cleanQ);
+  
+  // Удаляем сохраненное состояние ответа для этого вопроса
+  modeAnswerStates.delete(q.id);
+  
+  // Перерисовываем интерфейс
+  loadModeQuestion();
+  updateModeNavigationButtons();
+  renderModePagination();
+  
+  showNotification('🔄 Ответ сброшен, варианты перемешаны');
+}
+
+// ✅ 3. Обновленная функция управления кнопками (меняет текст и действие)
+function updateModeNavigationButtons() {
+  const prevBtn = document.getElementById(`${currentMode}-prev-btn`);
+  const nextBtn = document.getElementById(`${currentMode}-next-btn`);
+  const checkBtn = document.getElementById(`${currentMode}-check-btn`);
+  
+  if (prevBtn) prevBtn.disabled = modeCurrentIdx <= 0;
+  if (nextBtn) nextBtn.disabled = modeCurrentIdx >= modeQuestions.length - 1;
+  
+  const q = modeQuestions[modeCurrentIdx];
+  const savedState = modeAnswerStates.get(q?.id);
+  
+  if (savedState?.isChecked) {
+    // Если ответ уже подтвержден -> кнопка "ОТВЕТИТЬ ЕЩЕ РАЗ"
+    checkBtn.style.display = 'block';
+    checkBtn.innerText = 'ОТВЕТИТЬ ЕЩЕ РАЗ';
+    checkBtn.disabled = false;
+    checkBtn.onclick = retryModeQuestion; // Меняем действие на сброс и перемешивание
+  } else {
+    // Если ответ не дан -> кнопка "ОТВЕТИТЬ" (неактивна, пока не выбраны все варианты)
+    checkBtn.style.display = 'block';
+    checkBtn.innerText = 'ОТВЕТИТЬ';
+    checkBtn.disabled = !savedState || savedState.selected.length !== q.c.length;
+    checkBtn.onclick = checkModeAnswer; // Возвращаем стандартное действие
+  }
+}
 
 // ========== ФУНКЦИИ ДЛЯ ТЕСТОВ ==========
 function startTestMode(testId, blockNum, start, end) { currentTest = testId; if (fullBase.length === 0) { alert('База вопросов загружается...'); return; } testQuestions = fullBase.slice(start, end).map(q => ({...q, c: [...q.c]})).map(q => shuffleQuestionOptions(q)).sort(() => Math.random() - 0.5); testCurrentIdx = 0; testScore = 0; testAnswers = new Array(testQuestions.length).fill(null); document.getElementById('menu-screen').style.display = 'none'; document.getElementById('test-screen').style.display = 'block'; updateTestDisplay(); loadTestQuestion(); updateTestConfirmButton(); }
